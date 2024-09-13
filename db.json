@@ -1,0 +1,63 @@
+{
+    "doctors": [
+      {
+        "id": 1,
+        "firstName": "John",
+        "lastName": "Doe",
+        "dateOfBirth": "1975-06-15",
+        "email": "john.doe@example.com",
+        "gender": "Male",
+        "address": "123 Elm St",
+        "country": "USA",
+        "state": "New York",
+        "city": "New York",
+        "zipCode": "10001",
+        "description": "General Practitioner",
+        "phone": "555-1234",
+        "status": "Active",
+        "specialization": "General Medicine",
+        "experience": 15,
+        "qualification": "MBBS"
+      },
+      {
+        "id": 2,
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "dateOfBirth": "1980-11-22",
+        "email": "jane.smith@example.com",
+        "gender": "Female",
+        "address": "456 Maple Ave",
+        "country": "USA",
+        "state": "California",
+        "city": "Los Angeles",
+        "zipCode": "90001",
+        "description": "Cardiologist",
+        "phone": "555-5678",
+        "status": "Active",
+        "specialization": "Cardiology",
+        "experience": 12,
+        "qualification": "MD Cardiology"
+      },
+      {
+        "id": 3,
+        "firstName": "Mike",
+        "lastName": "Johnson",
+        "dateOfBirth": "1987-03-10",
+        "email": "mike.johnson@example.com",
+        "gender": "Male",
+        "address": "789 Oak Blvd",
+        "country": "USA",
+        "state": "Florida",
+        "city": "Miami",
+        "zipCode": "33101",
+        "description": "Pediatrician",
+        "phone": "555-9876",
+        "status": "Active",
+        "specialization": "Pediatrics",
+        "experience": 8,
+        "qualification": "MBBS, Pediatrics"
+      }
+ 
+    ]
+  }
+  
