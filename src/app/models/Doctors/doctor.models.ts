@@ -11,8 +11,11 @@ export interface IDoctor {
     zipCode:string,
     description:string,
     phone:string,
-    status:string,
+    status:boolean,
     specialization:string,
     experience:number,
-    qualification:string
+    qualification:string,
+    departmentId:number,
+    clinicId:number,
+    profilePicture:string
 }
