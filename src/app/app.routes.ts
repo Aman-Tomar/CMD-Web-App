@@ -7,9 +7,6 @@ import { EditDoctorScheduleComponent } from './edit-doctor-schedule/edit-doctor-
 import { AddDoctorScheduleComponent } from './add-doctor-schedule/add-doctor-schedule.component';
 
 export const routes: Routes = [
-    
-];
-export const routes: Routes = [
     {path:'doctor',component:ViewDoctorComponent,title:'doctors'},
     {path:'doctor/add',component:AddDoctorComponent,title:'add doctor'},
     {path:'doctor/edit',component:EditDoctorComponent,title:'edit doctor'},
