@@ -24,6 +24,23 @@ export class AppointmentService {
     return this.http.get<IAppointment[]>(`${this.apiUrl}/Appointment`, { params })
   }
 
+   // Fetch active appointments
+   getActiveAppointments(pageNumber: number = 1, pageSize: number = 20): Observable<IAppointment[]> {
+    let params = new HttpParams()
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+
+    return this.http.get<IAppointment[]>(`${this.apiUrl}/Appointment/Active`, { params });
+  }
+
+   // Fetch inactive appointments
+   getInactiveAppointments(pageNumber: number = 1, pageSize: number = 20): Observable<IAppointment[]> {
+    let params = new HttpParams()
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+
+    return this.http.get<IAppointment[]>(`${this.apiUrl}/Appointment/Inactive`, { params });
+  }
     // Fetch an appointment by its ID
     getAppointmentById(appointmentId: number): Observable<IAppointment> {
       return this.http.get<IAppointment>(`${this.apiUrl}/Appointment/${appointmentId}`)
