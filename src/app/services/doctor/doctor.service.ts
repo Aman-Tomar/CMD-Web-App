@@ -28,4 +28,18 @@ export class DoctorService {
 
     return this.http.post<any>(this.apiUrl, JSON.stringify(schedule), { headers });
   }
+      client:HttpClient = inject(HttpClient);
+      private apiUrl = "https://cmd-doctor-api.azurewebsites.net";
+  
+  // getDoctors():Observable<IDoctor[]> {
+  //    var doctors = this.client.get<any>(`${this.apiUrl}/api/Doctor`).pipe(
+  //     map(response => response.data)
+  //    );
+  //    console.log(doctors);
+  //    return doctors;
+  //}
+
+    addDoctors(){
+      
+    }
 }
