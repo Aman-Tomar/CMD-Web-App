@@ -1,1 +1,58 @@
-<p>patient-detail works!</p>
+<div class="container-fluid py-4" *ngIf="patient">
+    <div class="row mb-4">
+      <div class="col-md-8">
+        <h2 class="page-title">Patient Profile</h2>
+      </div>
+      <div class="col-md-4 text-md-end">
+        <a [routerLink]="['/patients', patient.patientId, 'edit']" class="btn btn-primary">
+          <i class="fas fa-edit me-2"></i>Edit Profile
+        </a>
+      </div>
+    </div>
+  
+    <div class="card shadow">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3 text-center mb-4 mb-md-0">
+            <img [src]="patient.image || 'assets/img/user.jpg'" alt="Patient Image" class="img-fluid rounded-circle mb-3" style="max-width: 150px;">
+            <h4 class="mb-1">{{ patient.patientName }}</h4>
+            <p class="text-muted">Patient ID: {{ patient.patientId }}</p>
+          </div>
+          <div class="col-md-9">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <h5 class="text-primary">Personal Information</h5>
+                <ul class="list-unstyled">
+                  <li><strong>Age:</strong> {{ patient.age }}</li>
+                  <li><strong>Gender:</strong> {{ patient.gender }}</li>
+                  <li><strong>Phone:</strong> {{ patient.phone }}</li>
+                  <li><strong>Email:</strong> {{ patient.email }}</li>
+                  <li><strong>Date of Birth:</strong> {{ patient.dob | date:'dd/MM/yyyy' }}</li>
+                  <li><strong>Preferred Start Time:</strong> {{ patient.preferredStartTime }}</li>
+                  <li><strong>Preferred End Time:</strong> {{ patient.preferredEndTime }}</li>
+                  <li><strong>Preferred Clinic:</strong> {{ patient.preferredClinicId }}</li>
+                  <li><strong>Preferred Doctor:</strong> {{ patient.preferredDoctorId }}</li>
+                </ul>
+              </div>
+              <div class="col-md-6 mb-3">
+                <h5 class="text-primary">Address</h5>
+                <p>
+                  {{ patient.streetAddress }}<br>
+                  {{ patient.city }}, {{ patient.state }}<br>
+                  {{ patient.country }} {{ patient.zipCode }}
+                </p>
+                <div *ngIf="patient.age < 18">
+                  <h5 class="text-primary mt-4">Guardian Information</h5>
+                  <ul class="list-unstyled">
+                    <li><strong>Guardian Name:</strong> {{ patient.patientGuardianName }}</li>
+                    <li><strong>Guardian Phone:</strong> {{ patient.patientGuardianPhoneNumber }}</li>
+                    <li><strong>Guardian Relationship:</strong> {{ patient.patientGuardianRelationship }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
