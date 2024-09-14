@@ -9,7 +9,6 @@ import { PatientDetailComponent } from './patient_feature/patient-detail/patient
 import { PatientFormComponent } from './patient_feature/patient-form/patient-form.component';
 import { PatientCardComponent } from './patient_feature/patient-card/patient-card.component';
 
-
 @Component({
   selector: 'app-root',
   standalone: true,
