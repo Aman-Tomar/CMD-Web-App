@@ -25,10 +25,10 @@
           <td>{{ appointment.time }}</td>
           <td> <span [ngClass]="{
             'custom-badge': true,
-            'status-red': appointment.status !== '0',
-            'status-green': appointment.status === '0'
+            'status-red': appointment.status !== AppointmentStatus.Scheduled,
+            'status-green': appointment.status === AppointmentStatus.Scheduled
           }">
-            {{ appointment.status === '0' ? 'Active' : 'Inactive' }}
+            {{ appointment.status === AppointmentStatus.Scheduled ? 'Active' : 'Inactive' }}
           </span></td>
           <td>{{ appointment.doctorId }}</td>
           <td>{{ appointment.patientId }}</td>

@@ -4,6 +4,7 @@ import { AppointmentService } from '../../services/appointmnent/appointment.serv
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {RouterLink } from '@angular/router';
+import { AppointmentStatus } from '../../models/Appointment/AppointmentStatus';
 
 @Component({
   selector: 'app-appointment-list',
@@ -13,6 +14,7 @@ import {RouterLink } from '@angular/router';
   styleUrl: './appointment-list.component.css'
 })
 export class AppointmentListComponent {
+AppointmentStatus = AppointmentStatus;
 Appointments:IAppointment[]=[]
 appointmentService:AppointmentService=inject(AppointmentService);
 currentPage: number = 1;
