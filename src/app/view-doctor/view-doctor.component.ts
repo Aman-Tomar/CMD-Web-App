@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-view-doctor',
   standalone: true,
-  imports: [CommonModule,FormsModule,NgIf],
+  imports: [CommonModule,FormsModule,NgIf,RouterLink],
   templateUrl: './view-doctor.component.html',
   styleUrl: './view-doctor.component.css'
 })

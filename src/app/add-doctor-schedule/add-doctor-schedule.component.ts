@@ -39,22 +39,22 @@ export class AddDoctorScheduleComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.scheduleForm.valid) {
-      const scheduleData: IDoctorSchedule = this.scheduleForm.value;
-      this.doctorService.createSchedule(scheduleData).subscribe({
-        next: (response) => {
-          console.log('Schedule created successfully:', response);
-          // Handle success (e.g., redirect or show a success message)
-        },
-        error: (error) => {
-          console.error('Error creating schedule:', error);
-          // Handle error (e.g., show an error message)
-        },
-        complete: () => {
-          console.log('Request complete.');
-          // Handle completion if needed
-        }
-      });
-    }
-  }
+  //   if (this.scheduleForm.valid) {
+  //     const scheduleData: IDoctorSchedule = this.scheduleForm.value;
+  //     this.doctorService.createSchedule(scheduleData).subscribe({
+  //       next: (response) => {
+  //         console.log('Schedule created successfully:', response);
+  //         // Handle success (e.g., redirect or show a success message)
+  //       },
+  //       error: (error) => {
+  //         console.error('Error creating schedule:', error);
+  //         // Handle error (e.g., show an error message)
+  //       },
+  //       complete: () => {
+  //         console.log('Request complete.');
+  //         // Handle completion if needed
+  //       }
+  //     });
+  //   }
+   }
 }
