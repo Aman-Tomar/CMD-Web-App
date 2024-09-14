@@ -1,8 +1,7 @@
 export interface IAppointment
 {
     id:number,
-    
-purposeOfVisit:string,
+    purposeOfVisit:string,
     date:string,
     time:string,
     email:string,
@@ -15,6 +14,4 @@ purposeOfVisit:string,
     lastModifiedDate?:string,
     patientId:number,
     doctorId:number
-
-
 }
