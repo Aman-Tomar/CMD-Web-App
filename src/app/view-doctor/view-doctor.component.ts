@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { IDoctor } from '../models/Doctors/doctor.models';
 import { DoctorService } from '../services/doctor/doctor.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
