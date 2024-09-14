@@ -23,6 +23,7 @@ export class AddAppointmentComponent implements OnInit {
   patients: Patient[]=[];
   doctors: IDoctor[]=[];
   errorMessage: string = '';
+  successMessage: string = '';
   appointment: IAppointment={
     id: 0,
     purposeOfVisit: '',
@@ -110,8 +111,6 @@ export class AddAppointmentComponent implements OnInit {
       error: (err: string) => {this.errorMessage=err;console.log(this.errorMessage)}
     });
   }
-
-  
   
   onSubmit() {
     console.log(this.reactiveForm);
@@ -121,9 +120,11 @@ export class AddAppointmentComponent implements OnInit {
       this.appointmentService.createAppointment(this.appointment).subscribe(
         response => {
           console.log('Appointment created successfully', response);
+          this.successMessage=`Success! Appointment Made Successfully`;
           this.reactiveForm.reset();  // Optionally reset the form after successful submission
         },
         error => {
+          this.errorMessage="Error! Appointment Could not be Scheduled ";
           console.error('Error creating appointment', error);
         }
       );
