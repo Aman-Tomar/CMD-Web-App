@@ -24,7 +24,9 @@
       </thead>
       <tbody >
         <tr *ngFor="let appointment of Appointments">
-          <td>{{ formatAppointmentId(appointment.id) }}</td>
+          <td> <a [routerLink]="['/appointments', appointment.id]" class="link-primary">
+            {{ formatAppointmentId(appointment.id) }}
+          </a></td>
           <td>{{ appointment.purposeOfVisit }}</td>
           <td>{{ appointment.date }}</td>
           <td>{{ appointment.time }}</td>
