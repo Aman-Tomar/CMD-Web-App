@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core';
 import { IAppointment } from '../../models/Appointment/Appointment';
 import { IAppointmentDTO } from '../../models/Appointment/AppointmentDTO';
-import { Observable, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { PatientResponse } from '../../models/Appointment/PatientResponse';
 import { DoctorResponse } from '../../models/Appointment/DoctorResponse';
 @Injectable({
@@ -41,6 +41,13 @@ export class AppointmentService {
 
     return this.http.get<IAppointment[]>(`${this.apiUrl}/Appointment/Inactive`, { params });
   }
+    // Fetch an appointment by its ID
+    getAppointmentById(appointmentId: number): Observable<IAppointment> {
+      return this.http.get<IAppointment>(`${this.apiUrl}/Appointment/${appointmentId}`)
+        .pipe(
+          catchError(this.handleError)
+        );
+    }
 
 //Patients  Api Call
   getPatients(pageNo: number = 1, pageLimit: number = 20):Observable<PatientResponse>{
