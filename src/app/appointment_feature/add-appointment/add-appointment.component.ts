@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, NgModule, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup, FormsModule, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { AppointmentService } from '../../services/appointmnent/appointment.service';
 import { Patient } from '../../models/Appointment/Patient';
@@ -8,12 +8,13 @@ import { PatientResponse } from '../../models/Appointment/PatientResponse';
 import { IDoctor } from '../../models/Appointment/Doctor';
 import { DoctorResponse } from '../../models/Appointment/DoctorResponse';
 import { IAppointment } from '../../models/Appointment/Appointment';
+import { AppointmentStatus } from '../../models/Appointment/AppointmentStatus';
 // import { CustomValidator } from './Validators/AppointmentCustomValidator';
 
 @Component({
   selector: 'app-add-appointment',
   standalone: true,
-  imports: [RouterOutlet,ReactiveFormsModule,CommonModule],
+  imports: [RouterOutlet,ReactiveFormsModule,CommonModule,FormsModule],
   templateUrl: './add-appointment.component.html',
   styleUrl: './add-appointment.component.css'
 })
@@ -22,7 +23,20 @@ export class AddAppointmentComponent implements OnInit {
   patients: Patient[]=[];
   doctors: IDoctor[]=[];
   errorMessage: string = '';
-  appointment!: IAppointment;
+  appointment: IAppointment={
+    id: 0,
+    purposeOfVisit: '',
+    date: '',
+    time: '',
+    email: '',
+    phone: '',
+    status: AppointmentStatus.Scheduled,
+    message: '',
+    createdBy: 'admin',
+    lastModifiedBy: 'admin',
+    patientId: 0,
+    doctorId: 0
+  };
 
 
   ngOnInit(): void {
@@ -36,7 +50,7 @@ export class AddAppointmentComponent implements OnInit {
     doctor:new FormControl('',[Validators.required]),
     purposeOfVisit:new FormControl('',[Validators.required]),
     email:new FormControl('',[Validators.required,Validators.email]),
-    phoneNumber:new FormControl('',[Validators.required]),
+    phone:new FormControl('',[Validators.required]),
     date:new FormControl('',[Validators.required]),
     time:new FormControl('',[Validators.required]),
     message:new FormControl('',[Validators.required]),
@@ -97,7 +111,38 @@ export class AddAppointmentComponent implements OnInit {
     });
   }
 
+  
+  
   onSubmit() {
     console.log(this.reactiveForm);
+    this.mapFormToAppointment();
+    console.log(this.appointment);
+    if (this.reactiveForm.valid) {
+      this.appointmentService.createAppointment(this.appointment).subscribe(
+        response => {
+          console.log('Appointment created successfully', response);
+          this.reactiveForm.reset();  // Optionally reset the form after successful submission
+        },
+        error => {
+          console.error('Error creating appointment', error);
+        }
+      );
+    } else {
+      console.log('Form is invalid');
+    }
+    }
+
+    private mapFormToAppointment() {
+      const formValues = this.reactiveForm.value;
+    
+      // Map form values to the appointment object with default handling
+      this.appointment.patientId =Number(formValues.patient); // Provide a default value if needed
+      this.appointment.doctorId = Number(formValues.doctor) ; // Provide a default value if needed
+      this.appointment.purposeOfVisit = String(formValues.purposeOfVisit );
+      this.appointment.date = String(formValues.date )
+      this.appointment.time = String(formValues.time )+":00";
+      this.appointment.email = String(formValues.email)
+      this.appointment.phone =String(formValues.phone )
+      this.appointment.message=String(formValues.message)
     }
 }

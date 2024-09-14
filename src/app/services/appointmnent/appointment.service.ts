@@ -38,6 +38,12 @@ export class AppointmentService {
     return this.http.get<DoctorResponse>(`${this.doctorApiUrl}/Doctor`, { params })
   }
 
+  //create appointment
+
+  createAppointment(appointment: IAppointment): Observable<IAppointment> {
+    return this.http.post<IAppointment>(`${this.apiUrl}/appointment`, appointment);
+  }
+
    // Handle errors
    private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
@@ -50,4 +56,5 @@ export class AppointmentService {
   }
 
 
+  
 }

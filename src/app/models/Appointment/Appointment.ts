@@ -1,3 +1,5 @@
+import { AppointmentStatus } from "./AppointmentStatus";
+
 export interface IAppointment
 {
     id:number,
@@ -6,7 +8,7 @@ export interface IAppointment
     time:string,
     email:string,
     phone:string,
-    status:string,
+    status:AppointmentStatus,
     message:string,
     createdBy:string,
     createdDate?:string,
