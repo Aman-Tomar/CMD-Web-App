@@ -3,11 +3,12 @@ import { IAppointment } from '../../models/Appointment/Appointment';
 import { AppointmentService } from '../../services/appointmnent/appointment.service';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-appointment-list',
   standalone: true,
-  imports: [NgIf,NgFor,FormsModule,NgClass],
+  imports: [NgIf,NgFor,FormsModule,NgClass,RouterLink],
   templateUrl: './appointment-list.component.html',
   styleUrl: './appointment-list.component.css'
 })
