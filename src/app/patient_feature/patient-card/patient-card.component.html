@@ -1,0 +1,24 @@
+<!-- src/app/shared/components/patient-card/patient-card.component.html -->
+
+<div class="card">
+    <div class="card-body">
+      <div class="d-flex align-items-center mb-3">
+        <img [src]="avatarUrl" alt="{{ patient.patientName }}" class="rounded-circle me-3" width="64" height="64">
+        <div>
+          <h5 class="card-title mb-0">{{ patient.patientName }}</h5>
+          <p class="card-text"><small class="text-muted">Patient ID: {{ patient.patientId }}</small></p>
+        </div>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Age:</strong> {{ patient.age }}</li>
+        <li class="list-group-item"><strong>Gender:</strong> {{ patient.gender }}</li>
+        <li class="list-group-item"><strong>Phone:</strong> {{ patient.phone }}</li>
+        <li class="list-group-item"><strong>Email:</strong> {{ patient.email }}</li>
+        <li class="list-group-item"><strong>Address:</strong> {{ patient.streetAddress }}, {{ patient.city }}, {{ patient.state }}, {{ patient.country }}</li>
+      </ul>
+      <div class="mt-3">
+        <a [routerLink]="['/patients', patient.patientId]" class="btn btn-primary me-2">View Details</a>
+        <a [routerLink]="['/patients', patient.patientId, 'edit']" class="btn btn-secondary">Edit</a>
+      </div>
+    </div>
+  </div>
