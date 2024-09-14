@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { IDoctor } from '../../models/Doctors/doctor.models';
 import { map, Observable } from 'rxjs';
@@ -8,14 +8,15 @@ import { map, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DoctorService {
-  // client:HttpClient = inject(HttpClient);
-  //   private apiUrl = "https://cmd-doctor-api.azurewebsites.net";
-  
-  // getDoctors():Observable<IDoctor[]> {
-  //    var doctors = this.client.get<any>(`${this.apiUrl}/api/Doctor`).pipe(
-  //     map(response => response.data)
-  //    );
-  //    console.log(doctors);
-  //    return doctors;
-  //}
+  private apiUrl = 'https://cmd-doctor-api.azurewebsites.net/api/Doctor'; // Replace with your API URL
+
+  constructor(private http: HttpClient) {}
+
+  getAllDoctors(page: number, pageSize: number): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString());
+
+    return this.http.get<IDoctor>(this.apiUrl, { params });
+  }
 }

@@ -1,0 +1,32 @@
+.sidebar {
+  width: 225px;
+  height: 100vh;
+  transition: all 0.3s ease-out;
+}
+  
+  .sidebar.active {
+    width: 0;
+    overflow: hidden;
+    color:white;
+    -webkit-transition: all 0.4s ease;
+	-moz-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+  .nav-link {
+    transition: color 0.3s ease, background-color 0.3s ease;
+    color:#888
+  }
+
+  .nav-link:hover {
+    color: #ffffff;
+    background-color:#888 ; /* Change text color on hover (e.g., Bootstrap's warning color) */
+  }
+  
+  .active-link {
+    background-color: #343a40; /* Set a lighter background for the active link */
+    color: #ffc107; /* Optional: Change text color for active link */
+  }

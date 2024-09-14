@@ -1,0 +1,54 @@
+<div id="sidebar" class="bg-light text-dark shadow sidebar">
+    <ul class="nav flex-column">
+      <!-- <li class="nav-item">
+        <a class="nav-link  cursor-pointer" 
+           routerLink="/dashboard" 
+           routerLinkActive="active-link" 
+           [routerLinkActiveOptions]="{ exact: true }">
+           Dashboard
+        </a>
+      </li> -->
+      <li class="nav-item ">
+        <a class="nav-link p-3 cursor-pointer d-flex justify-contents-start align-items-center" style="font-size: 17px;" 
+           [routerLink]="['/doctors']" 
+          >
+          <i class="fa fa-user-md"></i>
+           <span class="ms-2 ">Doctors</span>
+        </a>
+      </li>
+      <li class="nav-item  ">
+        <a class="nav-link p-3 cursor-pointer d-flex justify-contents-start align-items-center" style="font-size: 17px;"
+           [routerLink]="['/patients']"
+          >
+          <i class="fa fa-wheelchair"></i>
+           <span class="ms-2">Patients</span>
+        </a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link p-3 cursor-pointer d-flex justify-contents-start align-items-center" style="font-size:17px;"
+           [routerLink]="['/appointments']" 
+           >
+           <i class="fa fa-calendar-days"></i>
+           <span class="ms-2">Appointments</span>
+           
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link p-3 cursor-pointer d-flex justify-contents-start align-items-center" style="font-size: 17px;"
+           [routerLink]="['/doctor-schedules']" 
+           >
+           <i class="fa fa-calendar-check"></i>
+           <span class="ms-2">Schedule</span>
+        </a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link p-3 cursor-pointer d-flex justify-contents-start align-items-center" style="font-size: 1em;"
+           [routerLink]="['/profile']" 
+          >
+           <i class="fa fa-user"></i>
+           <span class="ms-2">Profile</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  

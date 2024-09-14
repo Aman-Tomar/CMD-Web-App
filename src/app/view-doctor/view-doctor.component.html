@@ -1,6 +1,35 @@
-<!-- @for (doctor of doctors; track $index) 
-{
-    <h1>{{doctor.firstName}} {{doctor.lastName}}</h1>
-    <p>{{doctor.address}} </p>
-    <img [src]="'data:image/png;base64,' + doctor.profilePicture" alt="image">
-} -->
+<div class="container">
+    <div class="header">
+      <h1>Doctors</h1>
+      <!-- <button class="add-doctor-btn">+ Add Doctor</button> -->
+    </div>
+    <div class="doctor-grid">
+      <div *ngFor="let doctor of doctors" class="doctor-card">
+        <div class="doctor-card-header">
+          <img [src]="'data:image/png;base64,' + doctor.profilePicture" alt="{{ doctor.firstName }}" class="doctor-image">
+          <!-- <button class="more-options-btn">⋮</button> -->
+        </div>
+        <h2>{{ doctor.firstName }} {{ doctor.lastName }}</h2>
+        <p class="specialization">{{ doctor.specialization }}</p>
+        <p class="location">
+          <i class="fas fa-map-marker-alt"></i> 
+          {{ doctor.city }}
+        </p>
+      </div>
+    </div>
+    <div class="pagination">
+      <nav *ngIf="!isLoading && !errorMessage">
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="pageNumber === 1">
+            <a class="page-link" (click)="changePage(pageNumber - 1)">Previous</a>
+          </li>
+          <li *ngFor="let p of pages" class="page-item" [class.active]="p === pageNumber">
+            <a class="page-link" (click)="changePage(p)">{{ p }}</a>
+          </li>
+          <li class="page-item" [class.disabled]="pageNumber === pages.length">
+            <a class="page-link" (click)="changePage(pageNumber + 1)">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
