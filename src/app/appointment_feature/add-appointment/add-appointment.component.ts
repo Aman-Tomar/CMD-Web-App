@@ -58,38 +58,15 @@ export class AddAppointmentComponent implements OnInit {
   });
 
 
-  get Patient() //read/get property 
-  {
-    return this.reactiveForm.get("patient");
-  }
-  get Doctor()
-  {
-    return this.reactiveForm.get("email");
-  }
-  get PurposeOfVisit()
-  {
-    return this.reactiveForm.get("purposeOfVisit");
-  }
-  get Email()
-  {
-    return this.reactiveForm.get("email");
-  }
-  get PhoneNumber()
-  {
-    return this.reactiveForm.get("PhoneNumber");
-  }
-  get Date()
-  {
-    return this.reactiveForm.get("date");
-  }
-  get Time()
-  {
-    return this.reactiveForm.get("time");
-  }
-  get message()
-  {
-    return this.reactiveForm.get("message");
-  }
+  get Patient() { return this.reactiveForm.get("patient"); }
+  get Doctor() { return this.reactiveForm.get("doctor"); }
+  get PurposeOfVisit() { return this.reactiveForm.get("purposeOfVisit"); }
+  get Email() { return this.reactiveForm.get("email"); }
+  get PhoneNumber() { return this.reactiveForm.get("phone"); }
+  get Date() { return this.reactiveForm.get("date"); }
+  get Time() { return this.reactiveForm.get("time"); }
+  get Message() { return this.reactiveForm.get("message"); }
+
 
   loadPatients(): void {
     this.appointmentService.getPatients().subscribe({
@@ -117,18 +94,19 @@ export class AddAppointmentComponent implements OnInit {
     this.mapFormToAppointment();
     console.log(this.appointment);
     if (this.reactiveForm.valid) {
-      this.appointmentService.createAppointment(this.appointment).subscribe(
-        response => {
-          console.log('Appointment created successfully', response);
+      this.appointmentService.createAppointment(this.appointment).subscribe({
+        next:(data) => {
+          console.log('Appointment created successfully', data);
           this.successMessage=`Success! Appointment Made Successfully`;
           this.reactiveForm.reset();  // Optionally reset the form after successful submission
         },
-        error => {
+        error:(error)=> {
           this.errorMessage="Error! Appointment Could not be Scheduled ";
           console.error('Error creating appointment', error);
         }
-      );
-    } else {
+    });
+    } 
+    else {
       console.log('Form is invalid');
     }
     }

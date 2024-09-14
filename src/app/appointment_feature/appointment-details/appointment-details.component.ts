@@ -33,12 +33,12 @@ export class AppointmentDetailsComponent {
   }
 
   goBack()
-{
-this.router.navigate(['appointments']);
-}
+  {
+  this.router.navigate(['appointments']);
+  }
 
-cancelAppointment()
-{
+  cancelAppointment()
+  {
 
-}
+  }
 }
