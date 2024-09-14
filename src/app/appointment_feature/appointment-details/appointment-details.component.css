@@ -1,0 +1,32 @@
+/* Inactive status */
+.status-red {
+    background-color: #ffe5e6;
+    border: 1px solid #fe0000;
+    color: #fe0000;
+}
+
+/* Active status */
+.status-green {
+    background-color: #e5ffe6;
+    border: 1px solid #00c853;
+    color: #00c853;
+}
+
+.custom-badge {
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 12px;
+    min-width: 95px;
+    padding: 1px 10px;
+    text-align: center;
+}
+
+/* Apply not-allowed cursor to the disabled cancel button */
+.disabled-cursor {
+    cursor: not-allowed;
+  }
+  
+  /* Ensure the button styles remain intact */
+  .cancel-btn[disabled] {
+    pointer-events: auto; /* Allow hover event to work on disabled button */
+  }

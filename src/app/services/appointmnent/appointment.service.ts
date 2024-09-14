@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core';
 import { IAppointment } from '../../models/Appointment/Appointment';
 import { IAppointmentDTO } from '../../models/Appointment/AppointmentDTO';
-import { Observable, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,6 +17,14 @@ export class AppointmentService {
 
     return this.http.get<IAppointment[]>(`${this.apiUrl}/Appointment`, { params })
   }
+
+    // Fetch an appointment by its ID
+    getAppointmentById(appointmentId: number): Observable<IAppointment> {
+      return this.http.get<IAppointment>(`${this.apiUrl}/Appointment/${appointmentId}`)
+        .pipe(
+          catchError(this.handleError)
+        );
+    }
 
    // Handle errors
    private handleError(error: HttpErrorResponse) {
