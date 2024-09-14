@@ -56,10 +56,10 @@
               <div class="col-md-8">
                 <span [ngClass]="{
                   'custom-badge': true,
-                  'status-red': Appointment?.status !== '0',
-                  'status-green': Appointment?.status === '0'
+                  'status-red': Appointment?.status !== AppointmentStatus.Scheduled,
+                  'status-green': Appointment?.status === AppointmentStatus.Scheduled
                 }">
-                  {{ Appointment?.status === '0' ? 'Active' : 'Inactive' }}
+                  {{ Appointment?.status === AppointmentStatus.Scheduled ? 'Active' : 'Inactive' }}
                 </span>
               </div>
             </div>
@@ -87,7 +87,7 @@
             <!-- Buttons -->
             <div class=" d-flex justify-content-between">
               <a (click)="goBack()" class="btn btn-secondary">Back to Appointments</a>
-              <button [class.disabled-cursor]="Appointment?.status !== '0'"  [disabled]="Appointment?.status !== '0'" 
+              <button [class.disabled-cursor]="Appointment?.status !== AppointmentStatus.Scheduled"  [disabled]="Appointment?.status !== AppointmentStatus.Scheduled" 
                (click)="cancelAppointment()" class="cancel-btn btn btn-danger">Cancel Appointment</button>
             </div>
             

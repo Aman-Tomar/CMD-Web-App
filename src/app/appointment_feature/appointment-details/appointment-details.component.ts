@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AppointmentService } from '../../services/appointmnent/appointment.service';
 import { IAppointment } from '../../models/Appointment/Appointment';
 import { NgClass } from '@angular/common';
+import { AppointmentStatus } from '../../models/Appointment/AppointmentStatus';
 
 @Component({
   selector: 'app-appointment-details',
@@ -12,6 +13,7 @@ import { NgClass } from '@angular/common';
   styleUrl: './appointment-details.component.css'
 })
 export class AppointmentDetailsComponent {
+  AppointmentStatus = AppointmentStatus;
   route:ActivatedRoute=inject(ActivatedRoute);
   service:AppointmentService=inject(AppointmentService);
   router:Router=inject(Router);
