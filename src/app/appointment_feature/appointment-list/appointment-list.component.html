@@ -1,0 +1,70 @@
+<!-- Error Message -->
+<div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+    {{ errorMessage }}
+  </div>
+  
+  <!-- Appointments Table -->
+  <div *ngIf="Appointments && Appointments.length > 0" class="table-responsive">
+    <table class=" custom-table table table-bordered table-hover table-striped ">
+      <thead class="table-light">
+        <tr>
+          <th>Appointment ID</th>
+          <th>Purpose of Visit</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Status</th>
+          <th>Doctor ID</th>
+          <th>Patient ID</th>
+        </tr>
+      </thead>
+      <tbody >
+        <tr *ngFor="let appointment of Appointments">
+          <td>{{ formatAppointmentId(appointment.id) }}</td>
+          <td>{{ appointment.purposeOfVisit }}</td>
+          <td>{{ appointment.date }}</td>
+          <td>{{ appointment.time }}</td>
+          <td> <span [ngClass]="{
+            'custom-badge': true,
+            'status-red': appointment.status !== '0',
+            'status-green': appointment.status === '0'
+          }">
+            {{ appointment.status === '0' ? 'Active' : 'Inactive' }}
+          </span></td>
+          <td>{{ appointment.doctorId }}</td>
+          <td>{{ appointment.patientId }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- No appointments found -->
+  <div *ngIf="Appointments.length === 0" class="alert alert-warning" role="alert">
+    No appointments found.
+  </div>
+  
+  <!-- Page size selection -->
+  <div class="d-flex justify-content-end align-items-center mb-3">
+    <label for="pageSize" class="me-2">Items per page: </label>
+    <select id="pageSize" [(ngModel)]="pageSize" class="form-select w-auto" (change)="onPageSizeChange($event)">
+      <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+    </select>
+  </div>
+  
+  <!-- Pagination controls -->
+  <nav>
+    <ul class=" justify-content-center pagination">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="previousPage()">Previous</button>
+      </li>
+  
+      <!-- Display page numbers -->
+      <li *ngFor="let page of totalPages; let i = index" class="page-item" [class.active]="i + 1 === currentPage">
+        <button class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</button>
+      </li>
+  
+      <li class="page-item" [class.disabled]="currentPage === totalPages.length">
+        <button class="page-link" (click)="nextPage()">Next</button>
+      </li>
+    </ul>
+  </nav>
+  
