@@ -23,6 +23,7 @@ totalAppointments: number = 0;
 pageSizes: number[] = [5, 10, 20, 50];
 totalPages: number[] = [];
 errorMessage: string = '';
+sortOrder: string = 'asc'; // Default sort order
 
 ngOnInit(): void {
   this.getAppointments(this.currentPage, this.pageSize);
@@ -38,12 +39,23 @@ getAppointments(pageNo: number, pageLimit: number): void {
   });
 }
 
- // Update total pages based on the total number of appointments
- updateTotalPages(): void {
-  this.totalAppointments = 100; // Assume total appointments count comes from a response (this is just a placeholder)
-  const totalPageCount = Math.ceil(this.totalAppointments / this.pageSize);
+ // Toggle sorting by date
+ sortByDate(): void {
+  if (this.sortOrder === 'asc') {
+    this.Appointments.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    this.sortOrder = 'desc'; // Toggle to descending order
+  } else {
+    this.Appointments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    this.sortOrder = 'asc'; // Toggle to ascending order
+  }
+}
+
+updateTotalPages(): void {
+  const totalAppointments = this.Appointments.length; // Length of the filtered appointments
+  const totalPageCount = Math.ceil(totalAppointments / this.pageSize);
   this.totalPages = Array.from({ length: totalPageCount }, (_, i) => i + 1);
 }
+
 
 // Go to the next page
 nextPage(): void {

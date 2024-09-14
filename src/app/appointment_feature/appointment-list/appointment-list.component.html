@@ -3,6 +3,7 @@
     {{ errorMessage }}
   </div>
   <a  class=" mt-3 btn btn-primary float-right" [routerLink]="['/appointments/add']">+ Add Appointment</a>
+
   <!-- Appointments Table -->
   <div *ngIf="Appointments && Appointments.length > 0" class="table-responsive">
     <table class=" custom-table table table-bordered table-hover table-striped ">
@@ -10,7 +11,13 @@
         <tr>
           <th>Appointment ID</th>
           <th>Purpose of Visit</th>
-          <th>Date</th>
+          <th>
+            Date
+            <button class="btn btn-sm" (click)="sortByDate()">
+              <span *ngIf="sortOrder === 'asc'">&#9650;</span> <!-- Up arrow for ascending -->
+              <span *ngIf="sortOrder === 'desc'">&#9660;</span> <!-- Down arrow for descending -->
+            </button>
+          </th>
           <th>Time</th>
           <th>Status</th>
           <th>Doctor ID</th>
