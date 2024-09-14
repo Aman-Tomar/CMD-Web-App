@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { IAppointment } from '../../models/Appointment/Appointment';
 import { IAppointmentDTO } from '../../models/Appointment/AppointmentDTO';
 import { catchError, Observable, throwError } from 'rxjs';
+import { PatientResponse } from '../../models/Appointment/PatientResponse';
+import { DoctorResponse } from '../../models/Appointment/DoctorResponse';
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +13,11 @@ export class AppointmentService {
   constructor(private http:HttpClient) { }
 
   apiUrl="https://appointmentapiservice-fyc7d5afcrhabceb.southeastasia-01.azurewebsites.net/api";
+  patientApiUrl="https://cmdpatientnewwebapp-ckbwb7h0cjhrfehx.southeastasia-01.azurewebsites.net/api";
+  doctorApiUrl="https://cmd-doctor-api.azurewebsites.net/api/";
 
+
+//Appointments  Api Call
   getAppointments(pageNo: number = 1, pageLimit: number = 20): Observable<IAppointment[]> {
     let params = new HttpParams().set('pageNo', pageNo.toString()).set('pageLimit', pageLimit.toString());
 
@@ -26,6 +32,26 @@ export class AppointmentService {
         );
     }
 
+//Patients  Api Call
+  getPatients(pageNo: number = 1, pageLimit: number = 20):Observable<PatientResponse>{
+    let params = new HttpParams().set('pageNo', pageNo.toString()).set('pageLimit', pageLimit.toString());
+
+    return this.http.get<PatientResponse>(`${this.patientApiUrl}/Patients`, { params })
+  }
+
+//Doctors  Api Call
+  getDoctors(pageNo: number = 1, pageLimit: number = 20):Observable<DoctorResponse>{
+    let params = new HttpParams().set('pageNo', pageNo.toString()).set('pageLimit', pageLimit.toString());
+
+    return this.http.get<DoctorResponse>(`${this.doctorApiUrl}/Doctor`, { params })
+  }
+
+  //create appointment
+
+  createAppointment(appointment: IAppointment): Observable<IAppointment> {
+    return this.http.post<IAppointment>(`${this.apiUrl}/appointment`, appointment);
+  }
+
    // Handle errors
    private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
@@ -38,4 +64,5 @@ export class AppointmentService {
   }
 
 
+  
 }
