@@ -2,7 +2,7 @@
 <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
     {{ errorMessage }}
   </div>
-  
+  <a  class=" mt-3 btn btn-primary float-right" [routerLink]="['/appointments/add']">+ Add Appointment</a>
   <!-- Appointments Table -->
   <div *ngIf="Appointments && Appointments.length > 0" class="table-responsive">
     <table class=" custom-table table table-bordered table-hover table-striped ">
