@@ -1,0 +1,133 @@
+<h1>Add Doctor Form</h1>
+<hr>
+<div class="container mt-5">
+  <h2 class="text-center">Doctor Registration Form</h2>
+ 
+  <form  (ngSubmit)="onSubmit()">
+    
+    <div class="mb-3">
+      <label for="firstName" class="form-label">First Name</label>
+      <input [class.is-invalid]="firstName.invalid && firstName.touched" type="text" class="form-control" id="firstName" name="firstName" required [(ngModel)]="doctor.firstName" #firstName="ngModel">
+      <small class="text-danger" *ngIf="firstName.invalid && firstName.touched">*First Name is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="lastName" class="form-label">Last Name</label>
+      <input [class.is-invalid]="lastName.invalid && lastName.touched" type="text" class="form-control" id="lastName" name="lastName" required [(ngModel)]="doctor.lastName" #lastName="ngModel">
+      <small class="text-danger" *ngIf="lastName.invalid && lastName.touched">*Last Name is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input [class.is-invalid]="email.invalid && email.touched" type="email" class="form-control" id="email" name="email" required [(ngModel)]="doctor.email" #email="ngModel">
+      <small class="text-danger" *ngIf="email.invalid && email.touched">*Valid Email is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone</label>
+      <input [class.is-invalid]="phone.invalid && phone.touched" type="tel" class="form-control" id="phone" name="phone" required [(ngModel)]="doctor.phoneNo" #phone="ngModel">
+      <small class="text-danger" *ngIf="phone.invalid && phone.touched">*Phone Number is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="specialization" class="form-label">Specialization</label>
+      <input [class.is-invalid]="specialization.invalid && specialization.touched" type="text" class="form-control" id="specialization" name="specialization" required [(ngModel)]="doctor.specialization" #specialization="ngModel">
+      <small class="text-danger" *ngIf="specialization.invalid && specialization.touched">*Specialization is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="qualification" class="form-label">Qualification</label>
+      <input [class.is-invalid]="qualification.invalid && qualification.touched" type="text" class="form-control" id="qualification" name="qualification" required [(ngModel)]="doctor.qualification" #qualification="ngModel">
+      <small class="text-danger" *ngIf="qualification.invalid && qualification.touched">*Qualification is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea [class.is-invalid]="description.invalid && description.touched" class="form-control" id="description" name="description" required [(ngModel)]="doctor.briefDescription" #description="ngModel"></textarea>
+      <small class="text-danger" *ngIf="description.invalid && description.touched">*Description is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="experience" class="form-label">Experience (in years)</label>
+      <input [class.is-invalid]="experience.invalid && experience.touched" type="number" class="form-control" id="experience" name="experience" required [(ngModel)]="doctor.experienceInYears" #experience="ngModel">
+      <small class="text-danger" *ngIf="experience.invalid && experience.touched">*Experience is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="dateOfBirth" class="form-label">Date of Birth</label>
+      <input [class.is-invalid]="dateOfBirth.invalid && dateOfBirth.touched" type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" required [(ngModel)]="doctor.dateOfBirth" #dateOfBirth="ngModel">
+      <small class="text-danger" *ngIf="dateOfBirth.invalid && dateOfBirth.touched">*Date of Birth is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="gender" class="form-label">Gender</label>
+      <select [class.is-invalid]="gender.invalid && gender.touched" id="gender" name="gender" class="form-select" required [(ngModel)]="doctor.gender" #gender="ngModel">
+        <option value="" disabled selected>Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+      <!-- <input [class.is-invalid]="gender.invalid && gender.touched" type="number" class="form-control" id="gender" name="gender" required [(ngModel)]="doctor.gender" #gender="ngModel"> -->
+      <small class="text-danger" *ngIf="gender.invalid && gender.touched">*Gender is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="address" class="form-label">Address</label>
+      <textarea [class.is-invalid]="address.invalid && address.touched" class="form-control" id="address" name="address" required [(ngModel)]="doctor.address" #address="ngModel"></textarea>
+      <small class="text-danger" *ngIf="address.invalid && address.touched">*Address is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="country" class="form-label">Country</label>
+      <input [class.is-invalid]="country.invalid && country.touched" type="text" class="form-control" id="country" name="country" required [(ngModel)]="doctor.country" #country="ngModel">
+      <small class="text-danger" *ngIf="country.invalid && country.touched">*Country is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="state" class="form-label">State</label>
+      <input [class.is-invalid]="state.invalid && state.touched" type="text" class="form-control" id="state" name="state" required [(ngModel)]="doctor.state" #state="ngModel">
+      <small class="text-danger" *ngIf="state.invalid && state.touched">*State is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="city" class="form-label">City</label>
+      <input [class.is-invalid]="city.invalid && city.touched" type="text" class="form-control" id="city" name="city" required [(ngModel)]="doctor.city" #city="ngModel">
+      <small class="text-danger" *ngIf="city.invalid && city.touched">*City is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="zipCode" class="form-label">Zip Code</label>
+      <input [class.is-invalid]="zipCode.invalid && zipCode.touched" type="text" class="form-control" id="zipCode" name="zipCode" required [(ngModel)]="doctor.zipCode" #zipCode="ngModel">
+      <small class="text-danger" *ngIf="zipCode.invalid && zipCode.touched">*Zip Code is required</small>
+    </div>
+
+    <div class="mb-3 form-check">
+      <input [class.is-invalid]="status.invalid && status.touched" type="checkbox" class="form-check-input" id="status" name="status" required [(ngModel)]="doctor.status" #status="ngModel">
+      <label for="status" class="form-check-label">Active</label>
+      <small class="text-danger" *ngIf="status.invalid && status.touched">*Status is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="departmentId" class="form-label">Department ID</label>
+      <input [class.is-invalid]="departmentId.invalid && departmentId.touched" type="number" class="form-control" id="departmentId" name="departmentId" required [(ngModel)]="doctor.departmentId" #departmentId="ngModel">
+      <small class="text-danger" *ngIf="departmentId.invalid && departmentId.touched">*Department ID is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="clinicId" class="form-label">Clinic ID</label>
+      <input [class.is-invalid]="clinicId.invalid && clinicId.touched" type="number" class="form-control" id="clinicId" name="clinicId" required [(ngModel)]="doctor.clinicId" #clinicId="ngModel">
+      <small class="text-danger" *ngIf="clinicId.invalid && clinicId.touched">*Clinic ID is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="profilePicture" class="form-label">Profile Picture (Optional)</label>
+      <input type="file" id="profilePicture" class="form-control" (change)="onFileSelected($event)">
+      <img *ngIf="doctor.profilePicture" [src]="doctor.profilePicture" alt="Profile Picture Preview" class="img-thumbnail mt-2" style="max-width: 150px;">
+    </div>
+
+    <button  type="submit" class="btn btn-primary">Add Doctor</button>
+  </form>
+</div> 
+
+<!-- #doctorForm="ngForm"
+[disabled]="doctorForm.invalid" -->

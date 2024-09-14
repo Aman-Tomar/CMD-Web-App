@@ -1,6 +1,54 @@
-<!-- @for (doctor of doctors; track $index) 
-{
-    <h1>{{doctor.firstName}} {{doctor.lastName}}</h1>
-    <p>{{doctor.address}} </p>
-    <img [src]="'data:image/png;base64,' + doctor.profilePicture" alt="image">
-} -->
+<div class="container">
+  <h1>Doctors</h1>
+  <!-- Dropdown for selecting page size -->
+<div class="page-size-selector">
+  <label for="pageSize">Doctors per page: </label>
+  <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange($event)">
+    <option [value]="10">10</option>
+    <option [value]="25">25</option>
+    <option [value]="50">50</option>
+    <option [value]="100">100</option>
+  </select>
+</div>
+  <button [routerLink]="['/doctor/add']" class="add-doctor-btn" >+ Add Doctor</button>
+  <div class="doctor-grid">
+    <div *ngFor="let doctor of doctors" class="doctor-card">
+      <!-- <img [src]="'data:image/png;base64,'+doctor.profilePicture" alt="{{ doctor.firstName }}" class="doctor-image"> -->
+       <!-- Show profile picture if available, otherwise show placeholder -->
+       <div class="doctor-card-header">
+        <img [routerLink]="['/doctor',doctor.doctorId]"
+             [src]="doctor.profilePicture ? 'data:image/png;base64,' + doctor.profilePicture : fallbackimage"
+             [alt]="doctor.firstName + ' ' + doctor.lastName"
+             class="doctor-image" >
+      </div>
+     
+      <h2>{{ doctor.firstName }}</h2><h2>{{doctor.lastName}}</h2>
+      <p>{{ doctor.specialization }}</p>
+      <p class="location">
+        <i class="fas fa-map-marker-alt"></i> 
+        {{ doctor.city }}
+      </p>
+      <button [routerLink]="['/doctor/edit',doctor.doctorId]" class="add-doctor-btn" >Update Doctor</button>
+    </div>
+  </div>
+  <div class="pagination">
+      <nav *ngIf="!isLoading && !errorMessage">
+          <ul class="pagination">
+            <li class="page-item" [class.disabled]="pageNumber === 1">
+              <a class="page-link" (click)="changePage(pageNumber - 1)">Previous</a>
+            </li>
+            <li *ngFor="let p of pages" class="page-item" [class.active]="p === pageNumber">
+              <a class="page-link" (click)="changePage(p)">{{ p }}</a>
+            </li>
+            <li class="page-item" [class.disabled]="pageNumber === pages.length">
+              <a class="page-link" (click)="changePage(pageNumber + 1)">Next</a>
+            </li>
+          </ul>
+        </nav>
+    </div>
+  </div>
+  <!-- Display Range -->
+<div class="display-range">
+  {{ getDisplayRange() }}
+</div>
+

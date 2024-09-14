@@ -5,15 +5,14 @@ import { EditDoctorComponent } from './edit-doctor/edit-doctor.component';
 import { ViewDoctorScheduleComponent } from './view-doctor-schedule/view-doctor-schedule.component';
 import { EditDoctorScheduleComponent } from './edit-doctor-schedule/edit-doctor-schedule.component';
 import { AddDoctorScheduleComponent } from './add-doctor-schedule/add-doctor-schedule.component';
+import { DoctorDetailsComponent } from './doctor-details/doctor-details.component';
 
-export const routes: Routes = [
-    
-];
 export const routes: Routes = [
     {path:'doctor',component:ViewDoctorComponent,title:'doctors'},
     {path:'doctor/add',component:AddDoctorComponent,title:'add doctor'},
-    {path:'doctor/edit',component:EditDoctorComponent,title:'edit doctor'},
+    {path:'doctor/edit/:id',component:EditDoctorComponent,title:'edit doctor'},
     {path:'view-schedule',component:ViewDoctorScheduleComponent,title:'doctor schedule'},
     {path:'view-schedule/edit',component:EditDoctorScheduleComponent,title:'edit schedule'},
     {path:'view-schedule/add',component:AddDoctorScheduleComponent,title:'add schedule'},
+    {path:'doctor/:id',component:DoctorDetailsComponent,title:'doctor details'}
 ];
