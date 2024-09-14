@@ -3,12 +3,12 @@
 <div class="container-fluid">
   <div class="row">
     <!-- Sidebar -->
-    <div class="col-md-3">
+    <div [ngClass]="{'col-md-3 sidebar-container': isSidebarOpen, 'd-none': !isSidebarOpen}">
       <app-sidebar></app-sidebar>
     </div>
 
-    <!-- Main content where routed components load -->
-    <div class="col-md-9">
+    <!-- Main content -->
+    <div [ngClass]="{'col-md-9 content-container': isSidebarOpen, 'col-12': !isSidebarOpen}">
       <router-outlet></router-outlet>
     </div>
   </div>
