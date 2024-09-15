@@ -27,7 +27,7 @@ export class AddAppointmentComponent implements OnInit {
   successMessage: string = '';
   minDate: string = '';
   maxDate: string = '';
-
+  departments:{departmentId:number,departmentName:string}[]=[]
   appointment: IAppointment={
     id: 0,
     purposeOfVisit: '',
@@ -47,6 +47,7 @@ export class AddAppointmentComponent implements OnInit {
   ngOnInit(): void {
     this.loadPatients();
     this.loadDoctors();
+    this.loadDepartments();
     const today = new Date();
     this.minDate = today.toISOString().split('T')[0];
 
@@ -92,7 +93,7 @@ export class AddAppointmentComponent implements OnInit {
   loadDoctors(): void {
     console.log("Doctors loading");
     this.appointmentService.getDoctors().subscribe({
-      next: (data: DoctorResponse) => {
+      next: (data: any) => {
         this.doctors = data.data;
         console.log("doctors:"+data)
       } ,
@@ -100,6 +101,16 @@ export class AddAppointmentComponent implements OnInit {
     });
   }
   
+  loadDepartments():void{
+    console.log("Departments loading");
+    this.appointmentService.getDepartments().subscribe({
+      next: (data: any) => {
+        this.departments = data;
+        console.log("departments:"+data)
+      } ,
+      error: (err: string) => {this.errorMessage=err;console.log(this.errorMessage)}
+    });
+  }
 
   onPatientSelect(event: any) {
     const selectedPatientId = event.target.value;
@@ -125,6 +136,7 @@ export class AddAppointmentComponent implements OnInit {
     console.log(this.reactiveForm);
     this.mapFormToAppointment();
     console.log(this.appointment);
+
     if (this.reactiveForm.valid) {
       this.appointmentService.createAppointment(this.appointment).subscribe({
         next:(data) => {
