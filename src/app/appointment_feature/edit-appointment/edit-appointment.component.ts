@@ -7,9 +7,11 @@ import { Patient } from '../../models/Appointment/Patient';
 import { IDoctor } from '../../models/Appointment/Doctor';
 import { IAppointment } from '../../models/Appointment/Appointment';
 import { AppointmentStatus } from '../../models/Appointment/AppointmentStatus';
-import { IAppointmentDTO } from '../../models/Appointment/AppointmentDTO';
+import { IAppointmentDTO } from '../../models/Appointment/EditAppointmentDTO';
 import { lastValueFrom } from 'rxjs';
 import { dateRangeValidator, timeNotInPastValidator } from '../../Validators/AppointmentCustomValidator';
+import { DoctorResponse } from '../../models/Appointment/DoctorResponse';
+import { PatientResponse } from '../../models/Appointment/PatientResponse';
 
 @Component({
   selector: 'app-edit-appointment',
@@ -29,8 +31,8 @@ export class EditAppointmentComponent implements OnInit {
   appointmentId!: number;
   formattedAppontmentId:string='loading...';
   appointment!: IAppointment;
-  patient!: Patient;
-  doctor!: IDoctor;
+  patients: Patient[]=[];
+  doctors: IDoctor[]=[];
   updatedAppointment: IAppointmentDTO = {} as IAppointmentDTO;
 
   reactiveForm = new FormGroup({
@@ -42,11 +44,12 @@ export class EditAppointmentComponent implements OnInit {
     date: new FormControl('', [Validators.required, dateRangeValidator()]),
     time: new FormControl('', [Validators.required,timeNotInPastValidator('date')]),
     message: new FormControl('', [Validators.required]),
+    status:new FormControl('',[Validators.required])
   });
 
   ngOnInit(): void {
-    this.reactiveForm.get('patient')?.disable();
-    this.reactiveForm.get('doctor')?.disable();
+    this.loadPatients();
+    this.loadDoctors();
 
     this.route.paramMap.subscribe(param => {
       this.appointmentId = Number(param.get('id'));
@@ -56,14 +59,15 @@ export class EditAppointmentComponent implements OnInit {
             this.appointment = data;
             this.formattedAppontmentId=this.formatAppointmentId(this.appointmentId);
             this.reactiveForm.patchValue({
-              patient: this.formatPatientId(this.appointment.patientId),
-              doctor:this.formatDoctortId(this.appointment.doctorId),
+              patient: String(this.appointment.patientId),
+              doctor:String(this.appointment.doctorId),
               purposeOfVisit: this.appointment.purposeOfVisit,
               email: this.appointment.email,
               phone: this.appointment.phone,
               date: this.appointment.date,
               time: (this.appointment.time).slice(0,5),
-              message: this.appointment.message
+              message: this.appointment.message,
+              status:this.getStatusLabel(this.appointment.status)
             });
           },
           error: err => console.log(err)
@@ -104,6 +108,27 @@ export class EditAppointmentComponent implements OnInit {
     }
   }
 
+  loadPatients(): void {
+    this.appointmentService.getPatients().subscribe({
+      next: (data: PatientResponse) => {
+        this.patients = data.items;
+        console.log(data)
+      } ,
+      error: (err: string) => {this.errorMessage=err;console.log(this.errorMessage)}
+    });
+  }
+
+  loadDoctors(): void {
+    console.log("Doctors loading");
+    this.appointmentService.getDoctors().subscribe({
+      next: (data: DoctorResponse) => {
+        this.doctors = data.data;
+        console.log("doctors:"+data)
+      } ,
+      error: (err: string) => {this.errorMessage=err;console.log(this.errorMessage)}
+    });
+  }
+
   // Method to format appointment ID
   formatAppointmentId(id: number): string {
     return `APT${id.toString().padStart(4, '0')}`;
@@ -113,6 +138,14 @@ export class EditAppointmentComponent implements OnInit {
   }
   formatDoctortId(id: number): string {
     return `DOC${id.toString().padStart(4, '0')}`;
+  }
+
+  getStatusLabel(status: AppointmentStatus): string {
+    if (status === AppointmentStatus.Scheduled) {
+      return 'active';
+    } else {
+      return 'inactive';
+    }
   }
 
   private mapFormToAppointment(): void {
@@ -125,7 +158,10 @@ export class EditAppointmentComponent implements OnInit {
       Email: String(formValues.email),
       Phone: String(formValues.phone),
       Message: String(formValues.message),
-      LastModifiedBy:"admin"
+      LastModifiedBy:"admin",
+      PatientId:Number(formValues.patient),
+      DoctorId:Number(formValues.doctor),
+      Status: formValues.status === 'Active' ? AppointmentStatus.Scheduled : AppointmentStatus.Cancelled
     };
     console.log(this.updatedAppointment);
   }
