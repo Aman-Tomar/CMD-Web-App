@@ -1,0 +1,22 @@
+export interface IDoctor {
+    doctorId:number,
+    firstName:string,
+    lastName:string,
+    dateOfBirth:Date,
+    email:string,
+    gender:string,
+    address:string,
+    country:string,
+    state:string,
+    city:string,
+    zipCode:string,
+    briefDescription:string,
+    phoneNo:string,
+    status:boolean,
+    specialization:string,
+    experienceInYears:number,
+    qualification:string,
+    departmentId:number,
+    clinicId:number,
+    profilePicture:string
+}

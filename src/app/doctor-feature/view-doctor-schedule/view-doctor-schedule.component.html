@@ -1,0 +1,89 @@
+
+
+<div class="d-flex justify-content-between mb-3">
+  <h4 style="color: #565656;" class="mt-3">Schedule</h4>
+  <a class="mt-3 btn btn-primary rounded-pill" [routerLink]="['/schedule/add']">
+    + Add Schedule
+  </a>
+</div>
+
+<!-- Loading Spinner -->
+<div *ngIf="isLoading" class="d-flex justify-content-center mt-5">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<!-- Doctor Schedule Table -->
+<div *ngIf="!isLoading && doctorSchedules.length > 0" class="table-responsive">
+  <table class="custom-table table table-bordered table-hover table-striped">
+      <thead class="table-light">
+        <tr>
+          <th class="fw-bolder">Doctor Name</th>
+          <th class="fw-bolder">Department</th>
+          <th class="fw-bolder">Available Days</th>
+          <th class="fw-bolder">Available Time</th>
+          <th class="fw-bolder">Status</th>
+          <th class="fw-bolder">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let schedule of doctorSchedules">
+            <td>{{ schedule.doctorFirstName }} {{ schedule.doctorLastName }}</td>
+            <td>{{ schedule.departmentName?.departmentName }}</td>
+            <td>{{ schedule.weekday }}</td>
+            <td>{{ schedule.startTime }} - {{ schedule.endTime }}</td>
+            <td> <span [ngClass]="{
+              'custom-badge': true,
+              'status-red': schedule.status !== schedule.status,
+              'status-green': schedule.status === schedule.status
+            }">
+              {{ schedule.status === schedule.status ? 'Active' : 'Inactive' }}
+            </span></td>
+            <td>
+              <button class="btn btn-sm btn-warning" [routerLink]="['/schedule/edit/',schedule.doctorScheduleId]">Edit</button>
+            </td>
+        </tr>
+      </tbody>
+  </table>
+</div>
+
+<!-- No schedule found -->
+<div *ngIf="!isLoading && doctorSchedules.length === 0" class="alert alert-warning" role="alert">
+  No schedule found.
+</div>
+
+<!-- Pagination -->
+<div class="justify-content-center pagination">
+    <nav *ngIf="!isLoading && !errorMessage">
+    <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="pageNumber === 1">
+        <a class="page-link" (click)="changePage(pageNumber - 1)">Previous</a>
+        </li>
+        <li *ngFor="let p of pages" class="page-item" [class.active]="p === pageNumber">
+        <a class="page-link" (click)="changePage(p)">{{ p }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="pageNumber === pages.length">
+        <a class="page-link" (click)="changePage(pageNumber + 1)">Next</a>
+        </li>
+    </ul>
+    </nav>
+</div>
+
+<div *ngIf="!isLoading && !errorMessage"  class="d-flex justify-content-between mb-3">
+  <!-- Display Range -->
+  <div class="display-range">
+      {{ getDisplayRange() }}
+  </div>
+  
+  <!-- Page Size Selector -->
+  <div class="page-size-selector">
+    <label for="pageSize">Doctors per page: </label>
+    <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange($event)">
+        <option [value]="10">10</option>
+        <option [value]="25">25</option>
+        <option [value]="50">50</option>
+        <option [value]="100">100</option>
+    </select>
+  </div>
+</div>
