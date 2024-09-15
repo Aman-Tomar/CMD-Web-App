@@ -5,6 +5,7 @@ import { NgClass, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {RouterLink } from '@angular/router';
 import { AppointmentStatus } from '../../models/Appointment/AppointmentStatus';
+import { AppointmentResponse } from '../../models/Appointment/AppointmentResponse';
 
 @Component({
   selector: 'app-appointment-list',
@@ -15,6 +16,7 @@ import { AppointmentStatus } from '../../models/Appointment/AppointmentStatus';
 })
 export class AppointmentListComponent {
 AppointmentStatus = AppointmentStatus;
+AppointmentResponse:AppointmentResponse={Items:[],TotalAppointments:0,PageLimit:20,PageNumber:1};
 Appointments:IAppointment[]=[];
 appointmentService:AppointmentService=inject(AppointmentService);
 currentPage: number = 1;
@@ -37,66 +39,45 @@ ngOnInit(): void {
 getAppointments(pageNo: number, pageLimit: number): void {
   this.loading = true;
   this.appointmentService.getAppointments(pageNo, pageLimit).subscribe({
-    next: (data: IAppointment[]) => {
-      this.Appointments = data;
-      this.checkLastPage(data);
-      this.fetchDoctorAndPatientDetails(); 
-      this.loading = false; 
-      console.log(data)
-    } ,
-    error: (err: string) => {
-      this.errorMessage=err;
-      this.loading = false; 
-      console.log(this.errorMessage)}
+    next: (data: AppointmentResponse) => {
+      this.AppointmentResponse = data;
+      console.log('Received data:', data);  // Debugging: log the full response
+      this.Appointments = data.Items;  // Assign response.Items to Appointments
+      console.log('Appointments:', this.Appointments);  // Debugging: log the appointments
+
+      // Update pagination and check last page
+      this.updateTotalPages();
+      this.checkLastPage(this.Appointments);
+
+      this.loading = false;  // Stop loading
+    },
+    error: (err: any) => {
+      this.errorMessage = err;
+      this.loading = false;  // Stop loading in case of error
+      console.error('Error:', this.errorMessage);  // Improved error logging
+    }
   });
 }
 
-fetchDoctorAndPatientDetails(): void {
-  this.Appointments.forEach((appointment) => {
-    // Fetch patient details
-    this.appointmentService.getPatientById(appointment.patientId).subscribe({
-      next: (patientData) => {
-        this.patientDetails[appointment.patientId] =
-          patientData?.name || 'Unknown Patient';
-          console.log(patientData)
-      },
-      error: () => {
-        this.patientDetails[appointment.patientId] = 'Unknown Patient'; // Default value on error
-      },
-    });
 
-    // Fetch doctor details
-    this.appointmentService.getDoctorById(appointment.doctorId).subscribe({
-      next: (doctorData) => {
-        this.doctorDetails[appointment.doctorId] =
-          doctorData?.name || 'Unknown Doctor';
-          console.log(doctorData)
-      },
-      error: () => {
-        this.doctorDetails[appointment.doctorId] = 'Unknown Doctor'; // Default value on error
-      },
-    });
-  });
-}
-
- // Toggle sorting by date
+ //Toggle sorting by date
  sortByDate(): void {
   if (this.sortOrder === 'asc') {
-    this.Appointments.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    this.AppointmentResponse.Items.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
     this.sortOrder = 'desc'; // Toggle to descending order
   } else {
-    this.Appointments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    this.AppointmentResponse.Items.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     this.sortOrder = 'asc'; // Toggle to ascending order
   }
 }
 
 updateTotalPages(): void {
-  const totalAppointments = this.Appointments.length; // Length of the filtered appointments
-  const totalPageCount = Math.ceil(totalAppointments / this.pageSize);
-  this.totalPages = Array.from({ length: totalPageCount }, (_, i) => i + 1);
+  const totalAppointments = this.AppointmentResponse.TotalAppointments; // Length of the filtered appointments
+  // const totalPageCount = Math.ceil(totalAppointments / this.pageSize);
+  // this.totalPages = Array.from({ length: totalPageCount }, (_, i) => i + 1);
 }
 
-  // Check if the current response indicates the last page
+  //Check if the current response indicates the last page
   checkLastPage(appointments: IAppointment[]): void {
     console.log(this.Appointments.length,this.pageSize)
     // If the response size is less than the page size, it's the last page

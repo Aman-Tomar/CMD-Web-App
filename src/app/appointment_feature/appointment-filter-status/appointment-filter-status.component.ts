@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IAppointment } from '../../models/Appointment/Appointment';
 import { AppointmentService } from '../../services/appointmnent/appointment.service';
+import { AppointmentResponse } from '../../models/Appointment/AppointmentResponse';
 
 @Component({
   selector: 'app-appointment-filter-status',
@@ -39,19 +40,31 @@ export class AppointmentFilterComponent implements OnInit {
   }
 
   private loadAppointments(status?: 'active' | 'inactive') {
-    const observable = status === 'active' ? 
-      this.appointmentService.getActiveAppointments() : 
-      (status === 'inactive' ? 
-        this.appointmentService.getInactiveAppointments() : 
-        this.appointmentService.getAppointments());
+    let observable;
+    if (status === 'active') {
+      observable = this.appointmentService.getActiveAppointments();
+    } else if (status === 'inactive') {
+      observable = this.appointmentService.getInactiveAppointments();
+    // } else {
+    //   observable = this.appointmentService.getAppointments();
+    // }
 
     observable.subscribe(
       (data) => {
-        this.appointments = data;
-      },
+        // if (status === 'active' || status === 'inactive') {
+          // Handle list of appointments
+          this.appointments = data;
+        } 
+        //else {
+        //   // Handle AppointmentResponse, 
+        //   this.appointments = data.Items;
+        // }
+      // }
+      ,
       (error) => {
         console.error('Error fetching appointments:', error);
       }
     );
+  }
   }
 }
