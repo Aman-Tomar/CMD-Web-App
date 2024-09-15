@@ -12,7 +12,7 @@ export const routes: Routes = [
     {path:'doctor/add',component:AddDoctorComponent,title:'add doctor'},
     {path:'doctor/edit/:id',component:EditDoctorComponent,title:'edit doctor'},
     {path:'view-schedule',component:ViewDoctorScheduleComponent,title:'doctor schedule'},
-    {path:'view-schedule/edit',component:EditDoctorScheduleComponent,title:'edit schedule'},
+    {path:'view-schedule/edit/:id',component:EditDoctorScheduleComponent,title:'edit schedule'},
     {path:'view-schedule/add',component:AddDoctorScheduleComponent,title:'add schedule'},
     {path:'doctor/:id',component:DoctorDetailsComponent,title:'doctor details'}
 ];
