@@ -46,9 +46,9 @@ getAppointments(pageNo: number, pageLimit: number): void {
 
       console.log('Appointments:', this.Appointments);  // Debugging: log the appointments
       console.log('Appointment response :',this.AppointmentResponse);
-      // Update pagination and check last page
-      // this.updateTotalPages();
-      // this.checkLastPage(this.Appointments);
+      //Update pagination and check last page
+      this.updateTotalPages(this.AppointmentResponse);
+      this.checkLastPage(this.Appointments);
 
       this.loading = false;  // Stop loading
     },
@@ -72,10 +72,10 @@ getAppointments(pageNo: number, pageLimit: number): void {
   }
 }
 
-updateTotalPages(): void {
-  const totalAppointments = this.AppointmentResponse.totalAppointments; // Length of the filtered appointments
-  // const totalPageCount = Math.ceil(totalAppointments / this.pageSize);
-  // this.totalPages = Array.from({ length: totalPageCount }, (_, i) => i + 1);
+updateTotalPages(AppointmentResponse:AppointmentResponse): void {
+  const totalAppointments = AppointmentResponse.totalAppointments; // Length of the filtered appointments
+  const totalPageCount = Math.ceil(totalAppointments / this.pageSize);
+   this.totalPages = Array.from({ length: totalPageCount }, (_, i) => i + 1);
 }
 
   //Check if the current response indicates the last page
