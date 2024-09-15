@@ -1,8 +1,8 @@
 export interface IDoctorSchedule {
    clinicId:number,
-   weekDay:String,
+   weekday:string,
    startTime:string,
-   endtime:string,
+   endTime:string,
    status:boolean,
    doctorId:number
 }
