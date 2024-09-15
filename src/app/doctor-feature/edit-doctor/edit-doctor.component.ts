@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
-import { IDoctor } from '../models/Doctors/doctor.models';
-import { DoctorService } from '../services/doctor/doctor.service';
+import { IDoctor } from '../../models/Doctors/doctor.models';
+import { DoctorService } from '../../services/doctor/doctor.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -56,7 +56,7 @@ export class EditDoctorComponent {
   getDoctorById(doctorId: number): void {
     this.doctorService.getDoctorById(doctorId).subscribe({
       next: (doctor) => {
-       doctor.dateOfBirth = this.convertDateForInput(doctor.dateOfBirth);
+        doctor.dateOfBirth = new Date(doctor.dateOfBirth);
         this.doctor = doctor;
         this.onCountryChange();
       },

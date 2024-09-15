@@ -20,7 +20,7 @@ export class DoctorService {
     return this.client.get<IDoctor>(`${this.apiUrl}/api/Doctor`, { params });
   }
   
-  getDoctorById(doctorId:number):Observable<any>{
+  getDoctorById(doctorId:number):Observable<IDoctor>{
       return this.client.get<IDoctor>(`${this.apiUrl}/api/Doctor/${doctorId}`).pipe(
         map(this.mapDoctorResponse)
       );

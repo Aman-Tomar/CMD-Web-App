@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { IDoctor } from '../models/Doctors/doctor.models';
-import { DoctorService } from '../services/doctor/doctor.service';
+import { IDoctor } from '../../models/Doctors/doctor.models';
+import { DoctorService } from '../../services/doctor/doctor.service';
 import { ActivatedRoute } from '@angular/router';
-import { IAddress } from '../models/Doctors/address.models';
+import { IAddress } from '../../models/Doctors/address.models';
 import { state } from '@angular/animations';
 import { DatePipe } from '@angular/common';
 

@@ -888,39 +888,3 @@ textarea.form-control {
 	text-align: right;
 	width: auto;
 }
-
-
-
-
-/* Define the flex container */
-.layout {
-	display: flex;
-	flex-direction: column; /* Navbar stays at the top */
-	height: 100vh; /* Full viewport height */
-  }
-  
-  .content {
-	display: flex; /* Sidebar and content are side by side */
-	flex: 1; /* Content should fill the remaining space */
-	overflow: hidden; /* Avoid overflow */
-  }
-  
-  app-navbar {
-	height: 60px; /* Adjust the navbar height */
-	background-color: #333; /* Example color */
-  }
-  
-  app-sidebar {
-	width: 250px; /* Sidebar width */
-	background-color: #f4f4f4; /* Example background */
-	padding: 20px; /* Add padding for spacing */
-	box-sizing: border-box; /* Ensure padding doesn’t affect the width */
-	flex-shrink: 0; /* Prevent sidebar from shrinking */
-  }
-  
-  .main-content {
-	flex: 1; /* Take up remaining space */
-	padding: 20px; /* Add padding */
-	overflow-y: auto; /* Allow vertical scrolling if content is large */
-  }
-  

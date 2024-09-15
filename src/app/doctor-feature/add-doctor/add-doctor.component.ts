@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DoctorService } from '../services/doctor/doctor.service';
-import { IDoctor } from '../models/Doctors/doctor.models';
+import { DoctorService } from '../../services/doctor/doctor.service';
+import { IDoctor } from '../../models/Doctors/doctor.models';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({

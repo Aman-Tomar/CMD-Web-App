@@ -1,10 +1,15 @@
-<div class="layout">
-    <app-navbar></app-navbar>
-    <div class="content">
+<app-navbar></app-navbar>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <div [ngClass]="{'col-md-3 sidebar-container': isSidebarOpen, 'd-none': !isSidebarOpen}">
       <app-sidebar></app-sidebar>
-      <div class="main-content">
-        <router-outlet></router-outlet>
-      </div>
+    </div>
+
+    <!-- Main content -->
+    <div [ngClass]="{'col-md-9 content-container': isSidebarOpen, 'col-12': !isSidebarOpen}">
+      <router-outlet></router-outlet>
     </div>
   </div>
-  
+</div>

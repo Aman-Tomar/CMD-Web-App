@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IDoctorSchedule } from '../models/Doctors/doctorSchedule.models';
+import { IDoctorSchedule } from '../../models/Doctors/doctorSchedule.models';
 import { CommonModule } from '@angular/common';
-import { DoctorService } from '../services/doctor/doctor.service';
-import { DoctorScheduleService } from '../services/doctor-schedule.service';
-import { IDoctor } from '../models/Doctors/doctor.models';
+import { DoctorService } from '../../services/doctor/doctor.service';
+import { IDoctor } from '../../models/Doctors/doctor.models';
+import { Router } from '@angular/router';
+import { DoctorScheduleService } from '../../services/doctor/doctor-schedule.service';
 
 @Component({
   selector: 'app-add-doctor-schedule',
@@ -24,11 +25,14 @@ export class AddDoctorScheduleComponent implements OnInit {
   errorMessage: string = '';
   fallbackimage = 'assets/placeholder-image.jpg';
   status: boolean | null = null;
+  message: string | null = null;
+  success: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private doctorService: DoctorService,
-    private doctorScheduleService: DoctorScheduleService
+    private doctorScheduleService: DoctorScheduleService,
+    private router: Router
   ) {
     // Initialize the form in the constructor
     this.scheduleForm = this.fb.group({
@@ -84,15 +88,21 @@ export class AddDoctorScheduleComponent implements OnInit {
 
       this.doctorScheduleService.createSchedule(this.scheduleForm.value.doctorId, scheduleData).subscribe({
         next: (response) => {
-          console.log('Schedule created successfully:', response);
-          // Handle success (e.g., redirect or show a success message)
+          this.message = 'Schedule created successfully!';
+          this.success = true;
+          setTimeout(() => {
+            this.message = null;
+            this.router.navigate(['/schedule']);
+          }, 2000);
+          // console.log('Schedule created successfully:', response);
         },
         error: (error) => {
-          console.error('Error creating schedule:', error);
-          // Handle error (e.g., show an error message)
+          this.message = 'Error occurred while creating the schedule.';
+          this.success = false;
+          // console.error('Error creating schedule:', error);
         },
         complete: () => {
-          console.log('Request complete.');
+          // console.log('Request complete.');
           // Handle completion if needed
         }
       });

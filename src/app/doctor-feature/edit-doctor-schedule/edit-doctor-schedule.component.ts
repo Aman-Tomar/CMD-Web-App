@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { IDoctor } from "../models/Doctors/doctor.models";
-import { DoctorService } from "../services/doctor/doctor.service";
-import { DoctorScheduleService } from "../services/doctor-schedule.service";
-import { IDoctorSchedule } from "../models/Doctors/doctorSchedule.models";
+import { IDoctor } from "../../models/Doctors/doctor.models";
+import { DoctorService } from "../../services/doctor/doctor.service";
+import { IDoctorSchedule } from "../../models/Doctors/doctorSchedule.models";
 import { CommonModule } from "@angular/common";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { DoctorScheduleService } from "../../services/doctor/doctor-schedule.service";
 
 
 @Component({
@@ -18,19 +18,20 @@ import { ActivatedRoute } from "@angular/router";
 
 export class EditDoctorScheduleComponent implements OnInit {
   // scheduleForm: FormGroup;
+  isLoading: boolean = false;
   doctors: IDoctor[] = [];
   totalDoctors: number = 0;
   pageNumber: number = 1;
-  pageSize: number = 10;  // Adjust page size as needed
+  pageSize: number = 1000;  // Adjust page size as needed
   pages: number[] = [];
-  isLoading: boolean = false;
   errorMessage: string = '';
   fallbackimage = 'assets/placeholder-image.jpg';
   status: boolean | null = null;
   doctorScheduleId: number | null = null;
+  message: string | null = null;
+  success: boolean = false;
 
   scheduleForm = new FormGroup({
-    clinicId: new FormControl<number | null>(null, [Validators.required]),
     weekDay: new FormControl('', [Validators.required]),
     startTime: new FormControl('', [Validators.required]),
     endTime: new FormControl('', [Validators.required]),
@@ -39,12 +40,11 @@ export class EditDoctorScheduleComponent implements OnInit {
   });
 
   constructor(
-    private fb: FormBuilder,
     private doctorService: DoctorService,
     private doctorScheduleService: DoctorScheduleService,
-    private route: ActivatedRoute
-  ) {
-  }
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -60,24 +60,21 @@ export class EditDoctorScheduleComponent implements OnInit {
 
   loadDoctorSchedule(id: number): void {
     this.isLoading = true;
-    this.doctorScheduleService.getSchedules(id).subscribe({
+    this.doctorScheduleService.getSchedule(id).subscribe({
       next: (response) => {
-        console.log('Loaded schedule data:', response);
+        // console.log('Loaded schedule data:', response);
         if (response) {
-          const schedule = response;
-  
           // Convert startTime and endTime to HH:mm format
-          const formattedStartTime = this.formatTime(schedule.startTime);
-          const formattedEndTime = this.formatTime(schedule.endTime);
+          const formattedStartTime = this.formatTime(response.startTime);
+          const formattedEndTime = this.formatTime(response.endTime);
   
           // Patch the form with the loaded schedule data
           this.scheduleForm.setValue({
-            clinicId: schedule.clinicId,
-            weekDay: this.capitalizeWeekDay(schedule.weekday), // Convert "MONDAY" to "Monday"
+            weekDay: this.capitalizeWeekDay(response.weekday), // Convert "MONDAY" to "Monday"
             startTime: formattedStartTime,
             endTime: formattedEndTime,
-            status: schedule.status,
-            doctorId: schedule.doctorId // Ensure doctorId is patched
+            status: response.status,
+            doctorId: response.doctorId // Ensure doctorId is patched
           });
         }
         this.isLoading = false;
@@ -109,15 +106,14 @@ export class EditDoctorScheduleComponent implements OnInit {
     this.isLoading = true;
     this.doctorService.getAllDoctors(this.pageNumber, this.pageSize).subscribe({
       next: (response) => {
-        console.log('API Response:', response); // Ensure the response structure is as expected
+        // console.log('API Response:', response);
         if (response && response.data) {
           this.doctors = response.data.map((doctor: any) => ({
             ...doctor, // Copy all doctor properties
             city: doctor.doctorAddress ? doctor.doctorAddress.city : '' // Map city from doctorAddress
           }));
-  
           this.pages = Array.from({ length: response.totalPages }, (_, i) => i + 1);
-          console.log(this.doctors);
+          // console.log(this.doctors);
         } else {
           this.errorMessage = 'No doctor data available.';
         }
@@ -142,8 +138,8 @@ export class EditDoctorScheduleComponent implements OnInit {
   
       // Ensure all required fields are properly set
       const scheduleData: IDoctorSchedule = {
+        doctorScheduleId: this.doctorScheduleId ? this.doctorScheduleId : -1,
         doctorId: Number(formValues.doctorId), // Convert to number
-        clinicId: formValues.clinicId !== null && formValues.clinicId !== undefined ? Number(formValues.clinicId) : 0, // Default value 0 if undefined or null
         weekday: formValues.weekDay || '', // Default to empty string if undefined
         startTime: formValues.startTime || '', // Default to empty string if undefined
         endTime: formValues.endTime || '', // Default to empty string if undefined
@@ -153,15 +149,21 @@ export class EditDoctorScheduleComponent implements OnInit {
       if (this.doctorScheduleId !== null) {
         this.doctorScheduleService.editSchedule(this.doctorScheduleId, scheduleData).subscribe({
           next: (response) => {
-            console.log('Schedule created successfully:', response);
-            // Handle success (e.g., redirect or show a success message)
+            this.message = 'Schedule created successfully!';
+            this.success = true;
+            setTimeout(() => {
+              this.message = null;
+              this.router.navigate(['/schedule']);
+            }, 2000);
+            // console.log('Schedule created successfully:', response);
           },
           error: (error) => {
-            console.error('Error creating schedule:', error);
-            // Handle error (e.g., show an error message)
+            this.message = 'Error occurred while creating the schedule.';
+            this.success = false;
+            // console.error('Error creating schedule:', error);
           },
           complete: () => {
-            console.log('Request complete.');
+            // console.log('Request complete.');
           }
         });
       }
