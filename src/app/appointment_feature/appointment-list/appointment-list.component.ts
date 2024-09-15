@@ -40,7 +40,7 @@ getAppointments(pageNo: number, pageLimit: number): void {
   this.loading = true;
   this.appointmentService.getAppointments(pageNo, pageLimit).subscribe({
     next: (response: AppointmentResponse) => {
-      console.log('Received data:', response.totalAppointments);  // Debugging: log the full response
+      console.log('Received data:', response.items);  // Debugging: log the full response
       this.Appointments = response.items;  // Assign response.items to Appointments
       this.AppointmentResponse = response
 
