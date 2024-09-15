@@ -13,11 +13,12 @@ export class DoctorScheduleService {
   private departmentApiUrl = 'https://cmd-clinic-api.azurewebsites.net/api/Department';
   client:HttpClient = inject(HttpClient);
 
-  getDoctorSchedule(page: number, pageSize: number):Observable<any>{
+  getDoctorSchedule(doctorId: number, page: number, pageSize: number):Observable<any>{
     const params = new HttpParams()
+    .set('doctorId', doctorId)
     .set('page', page.toString())  
     .set('pageSize', pageSize.toString());
-  return this.client.get<IDoctorSchedule>(`${this.apiUrl}/api/DoctorSchedule?doctorId=2&page=1&pageSize=10`, { params });
+  return this.client.get<IDoctorSchedule>(`${this.apiUrl}/api/DoctorSchedule`, { params });
   } 
 
   getDepartments(): Observable<IDepartment[]> {
@@ -25,11 +26,29 @@ export class DoctorScheduleService {
   }
 
   getDepartmentNameById(departmentId: number): Observable<string | undefined> {
-    return this.getDepartments().pipe(
-      map(departments => {
-        const department = departments.find(dep => dep.departmentId === departmentId);
-        return department ? department.departmentName : undefined;
-      })
-    );
+    return this.client.get<string>(`${this.departmentApiUrl}/${departmentId}`);
+  }
+
+  createSchedule(doctorId: number, schedule: IDoctorSchedule): Observable<any> {
+    return this.client.post<any>(`${this.apiUrl}/api/DoctorSchedule?doctorId=${doctorId}`, schedule);
+  }
+
+  getAllDoctorSchedules(doctorId: number): Observable<IDoctorSchedule[]> {
+    return this.client.get<IDoctorSchedule[]>(`${this.apiUrl}/api/DoctorSchedule?doctorId=${doctorId}`);
+  }
+
+  getAllSchedules(page: number, pageSize: number):Observable<any>{
+    const params = new HttpParams()
+    .set('page', page.toString())  
+    .set('pageSize', pageSize.toString());
+  return this.client.get<IDoctorSchedule>(`${this.apiUrl}/api/DoctorSchedule/all`, { params });
+  } 
+
+  getSchedule(doctorScheduleId: number): Observable<IDoctorSchedule> {
+    return this.client.get<IDoctorSchedule>(`${this.apiUrl}/api/DoctorSchedule/${doctorScheduleId}`);
+  }
+
+  editSchedule(doctorId: number, schedule: IDoctorSchedule): Observable<IDoctorSchedule> {
+    return this.client.put<IDoctorSchedule>(`${this.apiUrl}/api/DoctorSchedule?doctorScheduleId=${doctorId}`, schedule);
   }
 }

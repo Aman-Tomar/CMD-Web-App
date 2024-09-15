@@ -1,22 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { DoctorService } from '../services/doctor/doctor.service';
-import { IDoctor } from '../models/Doctors/doctor.models';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { IDoctor } from '../../models/Doctors/doctor.models';
+import { DoctorService } from '../../services/doctor/doctor.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-add-doctor',
+  selector: 'app-edit-doctor',
   standalone: true,
   imports: [CommonModule,FormsModule],
-  templateUrl: './add-doctor.component.html',
-  styleUrl: './add-doctor.component.css'
+  templateUrl: './edit-doctor.component.html',
+  styleUrl: './edit-doctor.component.css'
 })
-export class AddDoctorComponent {
-  doctorService = inject(DoctorService);
-  router:Router = inject(Router);
-  selectedFile: File | null = null; // Variable to store the selected file
-
+export class EditDoctorComponent {
+  doctorId: number = 0;
   doctor: IDoctor = {
     doctorId: 0,
     firstName: '',
@@ -37,24 +34,47 @@ export class AddDoctorComponent {
     qualification: '',
     departmentId: 0,
     clinicId: 0,
-    profilePicture: ''  // Optional for now, will not store base64 here
+    profilePicture: ''
   };
+  selectedFile: File | null = null;
+
+  constructor(
+    private route: ActivatedRoute,
+    private doctorService: DoctorService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      this.doctorId = Number(params.get('id'));
+      this.getDoctorById(this.doctorId);
+    });
+  }
+
+  getDoctorById(doctorId: number): void {
+    this.doctorService.getDoctorById(doctorId).subscribe({
+      next: (doctor) => {
+        this.doctor = doctor;
+      },
+      error: (error) => {
+        console.error('Error fetching doctor', error);
+      }
+    });
+  }
 
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0]; // Store the file
+    this.selectedFile = event.target.files[0];
   }
 
   formatDate(date: any): string {
     const parsedDate = new Date(date);
-    return parsedDate.toISOString(); // Returns a format like "2023-09-14T12:34:56.789Z"
+    return parsedDate.toISOString();
   }
 
   onSubmit() {
     const formattedDate = this.formatDate(this.doctor.dateOfBirth);
-    // Create a FormData object to handle the file and other fields
     const formData = new FormData();
 
-    // Append doctor details (except image, because image is a separate file)
     formData.append('doctorId', this.doctor.doctorId.toString());
     formData.append('firstName', this.doctor.firstName);
     formData.append('lastName', this.doctor.lastName);
@@ -75,20 +95,18 @@ export class AddDoctorComponent {
     formData.append('departmentId', this.doctor.departmentId.toString());
     formData.append('clinicId', this.doctor.clinicId.toString());
 
-    // If the image is selected, append it to the FormData
     if (this.selectedFile) {
       formData.append('profilePicture', this.selectedFile, this.selectedFile.name);
     }
 
-    // Now send the FormData to the API
-    this.doctorService.addDoctor(formData).subscribe({
+    this.doctorService.editDoctor(this.doctorId, formData).subscribe({
       next: (response) => {
-        console.log('Doctor added successfully', response);
+        console.log('Doctor updated successfully', response);
         this.router.navigate(['/doctor']);
       },
       error: (err) => {
-        console.log('Error adding doctor');
+        console.error('Error updating doctor', err);
       }
     });
-  } 
+  }
 }
