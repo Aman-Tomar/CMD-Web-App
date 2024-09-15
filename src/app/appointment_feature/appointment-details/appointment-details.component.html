@@ -56,8 +56,8 @@
               <div class="col-md-8">
                 <span [ngClass]="{
                   'custom-badge': true,
-                  'status-red': Appointment?.status !== 0,
-                  'status-green': Appointment?.status === 0
+                  'status-red': Appointment?.status !== AppointmentStatus.Scheduled,
+                  'status-green': Appointment?.status === AppointmentStatus.Scheduled
                 }">
                   {{ Appointment?.status === 0 ? 'Active' : 'Inactive' }}
                 </span>
