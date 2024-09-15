@@ -24,6 +24,7 @@ pageSizes: number[] = [5, 10, 20, 50];
 totalPages: number[] = [];
 isLastPage:boolean=false;
 errorMessage: string = '';
+sortOrder: string = 'asc'; // Default sort order
 
 ngOnInit(): void {
   this.getAppointments(this.currentPage, this.pageSize);
@@ -41,7 +42,22 @@ getAppointments(pageNo: number, pageLimit: number): void {
   });
 }
 
+ // Toggle sorting by date
+ sortByDate(): void {
+  if (this.sortOrder === 'asc') {
+    this.Appointments.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    this.sortOrder = 'desc'; // Toggle to descending order
+  } else {
+    this.Appointments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    this.sortOrder = 'asc'; // Toggle to ascending order
+  }
+}
 
+updateTotalPages(): void {
+  const totalAppointments = this.Appointments.length; // Length of the filtered appointments
+  const totalPageCount = Math.ceil(totalAppointments / this.pageSize);
+  this.totalPages = Array.from({ length: totalPageCount }, (_, i) => i + 1);
+}
 
   // Check if the current response indicates the last page
   checkLastPage(appointments: IAppointment[]): void {
@@ -53,9 +69,6 @@ getAppointments(pageNo: number, pageLimit: number): void {
       this.isLastPage = false;
     }
   }
-  
-
-
 
 // Go to the next page
 nextPage(): void {
