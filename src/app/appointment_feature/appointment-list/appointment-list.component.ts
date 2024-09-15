@@ -29,8 +29,8 @@ isLastPage:boolean=false;
 errorMessage: string = '';
 sortOrder: string = 'asc'; // Default sort order
 loading:boolean=false //Loading default to false
-patientDetails: { [id: number]: string } = {}; // Cache for patient details
-doctorDetails: { [id: number]: string } = {}; // Cache for doctor details
+patientDetails: { [id: number]: { name: string, age: number } } = {}; // Cache for patient details
+doctorDetails: { [id: number]: {name:string} } = {}; // Cache for doctor details
 filteredAppointments: IAppointment[] = []; // New list to store filtered data
 
 ngOnInit(): void {
@@ -47,9 +47,11 @@ getAppointments(pageNo: number, pageLimit: number): void {
       this.filteredAppointments = this.Appointments;
       this.AppointmentResponse = response
 
-      console.log('Appointments:', this.Appointments);  // Debugging: log the appointments
-      console.log('Appointment response :',this.AppointmentResponse);
-      //Update pagination and check last page
+      this.Appointments.forEach(appointment => {
+        this.fetchPatientDetails(appointment.patientId);
+        this.fetchDoctorDetails(appointment.doctorId);
+      });
+
       this.updateTotalPages(this.AppointmentResponse);
       this.checkLastPage(this.Appointments);
 
@@ -61,6 +63,36 @@ getAppointments(pageNo: number, pageLimit: number): void {
       console.error('Error:', this.errorMessage);  // Improved error logging
     }
   });
+}
+
+// Fetch and cache patient details
+fetchPatientDetails(patientId: number): void {
+  if (!this.patientDetails[patientId]) {
+    this.appointmentService.getPatientById(patientId).subscribe({
+      next: (response: any) => {
+        this.patientDetails[patientId] = { name: response.name, age: response.age };
+        console.log(this.patientDetails)
+      },
+      error: () => {
+        this.patientDetails[patientId] = { name: 'Unknown', age: 0 }; // Handle error case
+      }
+    });
+  }
+}
+
+// Fetch and cache doctor details
+fetchDoctorDetails(doctorId: number): void {
+  if (!this.doctorDetails[doctorId]) {
+    this.appointmentService.getDoctorById(doctorId).subscribe({
+      next: (response: any) => {
+        this.doctorDetails[doctorId] = {name:response.name};
+        console.log(this.doctorDetails)
+      },
+      error: () => {
+        this.doctorDetails[doctorId] = {name:"Unknown"}; // Handle error case
+      }
+    });
+  }
 }
 
   // Filter to show only active appointments

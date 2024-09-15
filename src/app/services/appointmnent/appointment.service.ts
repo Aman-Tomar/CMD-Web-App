@@ -14,13 +14,10 @@ export class AppointmentService {
 
   constructor(private http:HttpClient) { }
 
-  // private apiUrl = environment.appointmentBaseUrl;
-  // private patientApiUrl = environment.patientBaseUrl;
-  // private doctorApiUrl = environment.doctorBaseUrl;
-
   private apiUrl = environment.appointmentBaseUrl;
   private patientApiUrl = environment.patientBaseUrl;
   private doctorApiUrl = environment.doctorBaseUrl;
+
   private departmentApiUrl="https://cmd-clinic-api.azurewebsites.net/api";
 
 //Appointments  Api Call
