@@ -1,5 +1,7 @@
-<!-- Error Message -->
-<div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+<div class="container mt-4"> <!-- Container with margin -->
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
     "The objects are not found"
   </div>
 
@@ -25,27 +27,28 @@
     </a>
   </div>
 
-  <!-- Loading Spinner -->
-  <div *ngIf="loading" class="d-flex justify-content-center mt-5">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
+    <!-- Loading Spinner -->
+    <div *ngIf="loading" class="d-flex justify-content-center mt-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
-  </div>
 
   <!-- Appointments Table -->
+  <div *ngIf="!loading && filteredAppointments.length > 0" class="table-responsive">
+    <table class="table table-bordered table-hover table-striped">
   <div *ngIf="!loading && filteredAppointments.length > 0" class="table-responsive">
     <table class="table table-bordered table-hover table-striped">
       <thead class="table-light">
         <tr>
           <th class="fw-bolder">Appointment ID</th>
           <th class="fw-bolder">Purpose of Visit</th>
-          <th class="fw-bolder">
-            Date
-<button class="btn btn-sm" (click)="sortByDate()">
-<span *ngIf="sortOrder === 'asc'">&#9650;</span> <!-- Up arrow for ascending -->
-<span *ngIf="sortOrder === 'desc'">&#9660;</span> <!-- Down arrow for descending -->
-</button>
-</th>
+          <th class="fw-bolder">Date
+            <button class="btn btn-sm" (click)="sortByDate()">
+              <span *ngIf="sortOrder === 'asc'">&#9650;</span>
+              <span *ngIf="sortOrder === 'desc'">&#9660;</span>
+            </button>
+          </th>
           <th fw-bolder>Time</th>
           <th fw-bolder>Status</th>
           <th fw-bolder>Doctor ID</th>
@@ -58,26 +61,37 @@
           <td>
             <a [routerLink]="['/appointments', appointment.id]" class="link-primary">{{ formatAppointmentId(appointment.id) }}</a>
           </td>
+      <tbody>
+        <tr *ngFor="let appointment of filteredAppointments">
+          <td>
+            <a [routerLink]="['/appointments', appointment.id]" class="link-primary">{{ formatAppointmentId(appointment.id) }}</a>
+          </td>
           <td>{{ appointment.purposeOfVisit }}</td>
           <td>{{ appointment.date }}</td>
           <td>{{ appointment.time }}</td>
           <td>
+           
             <span [ngClass]="{
-              'custom-badge': true,
-              'status-red': appointment.status !== AppointmentStatus.Scheduled,
-              'status-green': appointment.status === AppointmentStatus.Scheduled
-            }">
-              {{ appointment.status === AppointmentStatus.Scheduled ? 'Active' : 'Inactive' }}
-            </span>
+                'custom-badge': true,
+                'status-red': appointment.status !== AppointmentStatus.Scheduled,
+                'status-green': appointment.status === AppointmentStatus.Scheduled
+              }">
+                {{ appointment.status === AppointmentStatus.Scheduled ? 'Active' : 'Inactive' }}
+              </span>
+          
           </td>
           <td>{{ appointment.doctorId }}</td>
           <td>{{ appointment.patientId }}</td>
           <td class="dropdown">
             <button class="p-0 border-0 bg-transparent" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
               <i class="fas fa-ellipsis-v text-muted"></i>
+              <i class="fas fa-ellipsis-v text-muted"></i>
             </button>
             <ul class="dropdown-menu dropdown-menu-end" style="min-width: 150px;">
+            <ul class="dropdown-menu dropdown-menu-end" style="min-width: 150px;">
               <li>
+                <a class="dropdown-item small text-muted" [routerLink]="['/appointments', appointment.id]">
+                  <i class="fas fa-eye me-2"></i>View
                 <a class="dropdown-item small text-muted" [routerLink]="['/appointments', appointment.id]">
                   <i class="fas fa-eye me-2"></i>View
                 </a>
@@ -85,19 +99,25 @@
               <li>
                 <a class="dropdown-item small text-muted" [routerLink]="['/appointments/edit', appointment.id]">
                   <i class="fas fa-edit me-2"></i>Edit
+                <a class="dropdown-item small text-muted" [routerLink]="['/appointments/edit', appointment.id]">
+                  <i class="fas fa-edit me-2"></i>Edit
                 </a>
               </li>
               <li>
+                <a class="dropdown-item small text-muted">
+                  <i class="fas fa-trash me-2"></i>Delete
                 <a class="dropdown-item small text-muted">
                   <i class="fas fa-trash me-2"></i>Delete
                 </a>
               </li>
             </ul>
           </td>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
+
 
   <!-- No appointments found -->
   <div *ngIf="!loading && AppointmentResponse.items.length === 0" class="alert alert-warning" role="alert">
@@ -106,10 +126,13 @@
 
   <div *ngIf="AppointmentResponse">
     <small>Showing {{startingItemNo}} to {{lastItemNo}} of {{AppointmentResponse.totalAppointments}} items</small>
+
+  <div *ngIf="AppointmentResponse">
+    <small>Showing {{startingItemNo}} to {{lastItemNo}} of {{AppointmentResponse.totalAppointments}} items</small>
   </div>
   <!-- Pagination controls -->
   <nav class="mb-3" *ngIf="!loading">
-    <ul class=" justify-content-center pagination">
+    <ul class="pagination justify-content-center mb-3">
       <li class="page-item" [class.disabled]="currentPage === 1">
         <button class="page-link" (click)="previousPage()">Previous</button>
       </li>
@@ -121,5 +144,8 @@
       </li>
     </ul>
   </nav>
+  
+</div> <!-- End of container -->
+
   
 </div> <!-- End of container -->
