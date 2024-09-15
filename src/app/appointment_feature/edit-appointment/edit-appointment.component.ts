@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AppointmentService } from '../../services/appointmnent/appointment.service';
 import { Patient } from '../../models/Appointment/Patient';
 import { IDoctor } from '../../models/Appointment/Doctor';
@@ -14,7 +14,7 @@ import { dateRangeValidator, timeNotInPastValidator } from '../../Validators/App
 @Component({
   selector: 'app-edit-appointment',
   standalone: true,
-  imports: [RouterOutlet, ReactiveFormsModule, CommonModule, FormsModule],
+  imports: [RouterOutlet, ReactiveFormsModule, CommonModule, FormsModule,RouterLink],
   templateUrl: './edit-appointment.component.html',
   styleUrls: ['./edit-appointment.component.css']
 })

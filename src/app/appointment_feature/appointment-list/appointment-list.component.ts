@@ -15,7 +15,7 @@ import { AppointmentStatus } from '../../models/Appointment/AppointmentStatus';
 })
 export class AppointmentListComponent {
 AppointmentStatus = AppointmentStatus;
-Appointments:IAppointment[]=[]
+Appointments:IAppointment[]=[];
 appointmentService:AppointmentService=inject(AppointmentService);
 currentPage: number = 1;
 pageSize: number = 20;
@@ -25,6 +25,7 @@ totalPages: number[] = [];
 isLastPage:boolean=false;
 errorMessage: string = '';
 sortOrder: string = 'asc'; // Default sort order
+loading:boolean=false //Loading default to false
 
 ngOnInit(): void {
   this.getAppointments(this.currentPage, this.pageSize);
@@ -32,13 +33,19 @@ ngOnInit(): void {
 }
 
 getAppointments(pageNo: number, pageLimit: number): void {
+  this.loading = true;  // Start loading
   this.appointmentService.getAppointments(pageNo, pageLimit).subscribe({
     next: (data: IAppointment[]) => {
       this.Appointments = data;
       this.checkLastPage(data); 
-      console.log(data)
-    } ,
-    error: (err: string) => {this.errorMessage=err;console.log(this.errorMessage)}
+      this.loading = false;  // Stop loading
+      console.log(data);
+    },
+    error: (err: string) => {
+      this.errorMessage = err;
+      this.loading = false;  // Stop loading in case of error
+      console.log(this.errorMessage);
+    }
   });
 }
 

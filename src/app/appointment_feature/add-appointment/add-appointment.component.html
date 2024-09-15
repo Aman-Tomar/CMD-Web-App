@@ -15,9 +15,14 @@
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="card-title text-center">Add Appointment</h4>
-                </div>
+                 <!-- Breadcrumb -->
+                 <nav aria-label="breadcrumb" class="card-header">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a [routerLink]="['/']" class="text-decoration-none">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/appointments']" class=" text-decoration-none">Appointments</a></li>
+                        <li class="breadcrumb-item active text-black" aria-current="page">Add Appointment</li>
+                    </ol>
+                </nav>
                 <div class="card-body">
                     <!-- Form Starts -->
                     <form [formGroup]="reactiveForm" (ngSubmit)="onSubmit()">
