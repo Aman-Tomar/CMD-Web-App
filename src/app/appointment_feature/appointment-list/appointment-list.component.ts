@@ -82,10 +82,10 @@ getAppointments(pageNo: number, pageLimit: number): void {
  //Toggle sorting by date
  sortByDate(): void {
   if (this.sortOrder === 'asc') {
-    this.AppointmentResponse.items.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    this.filteredAppointments.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
     this.sortOrder = 'desc'; // Toggle to descending order
   } else {
-    this.AppointmentResponse.items.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    this.filteredAppointments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     this.sortOrder = 'asc'; // Toggle to ascending order
   }
 }
