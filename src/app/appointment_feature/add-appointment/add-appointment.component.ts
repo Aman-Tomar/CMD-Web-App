@@ -9,6 +9,7 @@ import { IDoctor } from '../../models/Appointment/Doctor';
 import { DoctorResponse } from '../../models/Appointment/DoctorResponse';
 import { IAppointment } from '../../models/Appointment/Appointment';
 import { AppointmentStatus } from '../../models/Appointment/AppointmentStatus';
+import { dateRangeValidator } from '../../Validators/AppointmentCustomValidator';
 // import { CustomValidator } from './Validators/AppointmentCustomValidator';
 
 @Component({
@@ -23,6 +24,7 @@ export class AddAppointmentComponent implements OnInit {
   patients: Patient[]=[];
   doctors: IDoctor[]=[];
   errorMessage: string = '';
+  successMessage: string = '';
   appointment: IAppointment={
     id: 0,
     purposeOfVisit: '',
@@ -48,47 +50,24 @@ export class AddAppointmentComponent implements OnInit {
   reactiveForm=new FormGroup({
     patient:new FormControl('',[Validators.required]),
     doctor:new FormControl('',[Validators.required]),
-    purposeOfVisit:new FormControl('',[Validators.required]),
-    email:new FormControl('',[Validators.required,Validators.email]),
-    phone:new FormControl('',[Validators.required]),
-    date:new FormControl('',[Validators.required]),
-    time:new FormControl('',[Validators.required]),
-    message:new FormControl('',[Validators.required]),
+    purposeOfVisit: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    phone: new FormControl('', [Validators.required, Validators.pattern(/^(\+91|91)?[6-9][0-9]{9}$/)]),
+    date: new FormControl('', [Validators.required, dateRangeValidator()]),
+    time: new FormControl('', [Validators.required]),
+    message: new FormControl('', [Validators.required]),
   });
 
 
-  get Patient() //read/get property 
-  {
-    return this.reactiveForm.get("patient");
-  }
-  get Doctor()
-  {
-    return this.reactiveForm.get("email");
-  }
-  get PurposeOfVisit()
-  {
-    return this.reactiveForm.get("purposeOfVisit");
-  }
-  get Email()
-  {
-    return this.reactiveForm.get("email");
-  }
-  get PhoneNumber()
-  {
-    return this.reactiveForm.get("PhoneNumber");
-  }
-  get Date()
-  {
-    return this.reactiveForm.get("date");
-  }
-  get Time()
-  {
-    return this.reactiveForm.get("time");
-  }
-  get message()
-  {
-    return this.reactiveForm.get("message");
-  }
+  get Patient() { return this.reactiveForm.get("patient"); }
+  get Doctor() { return this.reactiveForm.get("doctor"); }
+  get PurposeOfVisit() { return this.reactiveForm.get("purposeOfVisit"); }
+  get Email() { return this.reactiveForm.get("email"); }
+  get PhoneNumber() { return this.reactiveForm.get("phone"); }
+  get Date() { return this.reactiveForm.get("date"); }
+  get Time() { return this.reactiveForm.get("time"); }
+  get Message() { return this.reactiveForm.get("message"); }
+
 
   loadPatients(): void {
     this.appointmentService.getPatients().subscribe({
@@ -110,24 +89,25 @@ export class AddAppointmentComponent implements OnInit {
       error: (err: string) => {this.errorMessage=err;console.log(this.errorMessage)}
     });
   }
-
-  
   
   onSubmit() {
     console.log(this.reactiveForm);
     this.mapFormToAppointment();
     console.log(this.appointment);
     if (this.reactiveForm.valid) {
-      this.appointmentService.createAppointment(this.appointment).subscribe(
-        response => {
-          console.log('Appointment created successfully', response);
+      this.appointmentService.createAppointment(this.appointment).subscribe({
+        next:(data) => {
+          console.log('Appointment created successfully', data);
+          this.successMessage=`Success! Appointment Made Successfully`;
           this.reactiveForm.reset();  // Optionally reset the form after successful submission
         },
-        error => {
+        error:(error)=> {
+          this.errorMessage="Error! Appointment Could not be Scheduled ";
           console.error('Error creating appointment', error);
         }
-      );
-    } else {
+    });
+    } 
+    else {
       console.log('Form is invalid');
     }
     }
