@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IAppointment } from '../models/Appointment/Appointment';
-import { AppointmentService } from '../services/appointmnent/appointment.service';
+import { IAppointment } from '../../models/Appointment/Appointment';
+import { AppointmentService } from '../../services/appointmnent/appointment.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
