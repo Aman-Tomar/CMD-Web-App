@@ -14,6 +14,9 @@
       </select>
     </div>
     <div class="col-md-6 text-end">
+      <button class="btn btn-primary me-2 rounded-pill" (click)="showAllRecords()">All</button>
+      <button class="btn btn-success me-2 rounded-pill" (click)="filterActive()">Active</button>
+      <button class="btn btn-danger me-2 rounded-pill" (click)="filterInactive()">Inactive</button>
       <a class="btn btn-primary rounded-pill" [routerLink]="['/appointments/add']">+ Add Appointment</a>
     </div>
   </div>
@@ -26,7 +29,7 @@
   </div>
 
   <!-- Appointments Table -->
-  <div *ngIf="!loading && AppointmentResponse.items.length > 0" class="table-responsive">
+  <div *ngIf="!loading && filteredAppointments.length > 0" class="table-responsive">
     <table class="table table-bordered table-hover table-striped">
       <thead class="table-light">
         <tr>
@@ -46,7 +49,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let appointment of AppointmentResponse.items">
+        <tr *ngFor="let appointment of filteredAppointments">
           <td>
             <a [routerLink]="['/appointments', appointment.id]" class="link-primary">{{ formatAppointmentId(appointment.id) }}</a>
           </td>
