@@ -9,7 +9,7 @@ import { IAppointment } from '../../models/Appointment/Appointment';
 import { AppointmentStatus } from '../../models/Appointment/AppointmentStatus';
 import { IAppointmentDTO } from '../../models/Appointment/AppointmentDTO';
 import { lastValueFrom } from 'rxjs';
-import { dateRangeValidator } from '../../Validators/AppointmentCustomValidator';
+import { dateRangeValidator, timeNotInPastValidator } from '../../Validators/AppointmentCustomValidator';
 
 @Component({
   selector: 'app-edit-appointment',
@@ -40,7 +40,7 @@ export class EditAppointmentComponent implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', [Validators.required, Validators.pattern(/^(\+91|91)?[6-9][0-9]{9}$/)]),
     date: new FormControl('', [Validators.required, dateRangeValidator()]),
-    time: new FormControl('', [Validators.required]),
+    time: new FormControl('', [Validators.required,timeNotInPastValidator('date')]),
     message: new FormControl('', [Validators.required]),
   });
 
