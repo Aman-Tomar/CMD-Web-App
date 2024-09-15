@@ -79,11 +79,8 @@
                                 <div class="form-group">
                                     <label for="appointmentDate" class="form-label">Date</label>
                                     <div class="input-group" id="datetimepickerDate">
-                                        <input [class.is-invalid]="reactiveForm.get('date')?.invalid && reactiveForm.get('date')?.touched" name="date" formControlName="date" type="date" class="form-control" id="appointmentDate" />
+                                        <input [class.is-invalid]="reactiveForm.get('date')?.invalid && reactiveForm.get('date')?.touched" name="date" formControlName="date" type="date" class="form-control" id="appointmentDate" [attr.min]="minDate" [attr.max]="maxDate"/>
                                     </div>
-                                    <div class="text-danger small" *ngIf="reactiveForm.controls.date.errors?.['pastDate']">
-                                        The date cannot be in the past.
-                                      </div>
                                       <div class="text-danger small" *ngIf="reactiveForm.controls.date.errors?.['futureDateExceeded']">
                                         The date cannot be more than 30 days in the future.
                                       </div>

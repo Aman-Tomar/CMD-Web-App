@@ -25,6 +25,9 @@ export class AddAppointmentComponent implements OnInit {
   doctors: IDoctor[]=[];
   errorMessage: string = '';
   successMessage: string = '';
+  minDate: string = '';
+  maxDate: string = '';
+
   appointment: IAppointment={
     id: 0,
     purposeOfVisit: '',
@@ -44,6 +47,13 @@ export class AddAppointmentComponent implements OnInit {
   ngOnInit(): void {
     this.loadPatients();
     this.loadDoctors();
+    const today = new Date();
+    this.minDate = today.toISOString().split('T')[0];
+
+     // Set maximum date to 30 days from today
+     const maxDate = new Date();
+     maxDate.setDate(maxDate.getDate() + 30);
+     this.maxDate = maxDate.toISOString().split('T')[0];
   }
   
 
