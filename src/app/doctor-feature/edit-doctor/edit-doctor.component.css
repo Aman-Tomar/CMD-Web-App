@@ -4,3 +4,9 @@
     padding: 10px 20px; 
   }
   
+  .profile-picture {
+    width: 70px;  /* Set width */
+    height: 70px; /* Set height to match width for square */
+    object-fit: cover; /* Crop the image to fit the square */
+    border-radius: 5px; /* Optional: Add a slight border radius for rounded corners */
+  }

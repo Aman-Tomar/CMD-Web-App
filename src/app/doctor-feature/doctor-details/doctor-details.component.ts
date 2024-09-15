@@ -11,31 +11,55 @@ import { DatePipe } from '@angular/common';
   standalone: true,
   imports: [DatePipe],
   templateUrl: './doctor-details.component.html',
-  styleUrl: './doctor-details.component.css'
+  styleUrls: ['./doctor-details.component.css'] // Note: Corrected 'styleUrl' to 'styleUrls'
 })
-export class DoctorDetailsComponent implements OnInit{
-    ngOnInit(): void {
-      this.route.paramMap.subscribe(data =>{
-        this.doctorId = Number(data.get('id'));
-        console.log("received doctor id is " + this.doctorId);
-        this.getDoctorById(this.doctorId);
-      })
-    }
-    doctorService:DoctorService = inject(DoctorService);
-    route:ActivatedRoute = inject(ActivatedRoute);
-    doctorId:number = 0 ;
-    doctor:IDoctor | undefined;
-    doctorAddress:IAddress | undefined;
+export class DoctorDetailsComponent implements OnInit {
+
+    // Injecting necessary services like DoctorService and ActivatedRoute for data fetching and routing
+    doctorService: DoctorService = inject(DoctorService);
+    route: ActivatedRoute = inject(ActivatedRoute);
+
+    // Property to hold the doctor ID from the route parameters
+    doctorId: number = 0;
+
+    // Variables to hold the doctor and address details
+    doctor: IDoctor | undefined;
+    doctorAddress: IAddress | undefined;
+
+    // Placeholder image to be used if the doctor's profile picture is not available
     fallbackimage = 'assets/placeholder-image.jpg';
     
-    getDoctorById(doctorId:number){
+    /**
+     * Angular lifecycle hook that is called after the component is initialized.
+     * It subscribes to the route parameters to fetch the doctor ID and then retrieves doctor details.
+     */
+    ngOnInit(): void {
+      // Subscribe to the route parameters to extract the doctor ID from the URL
+      this.route.paramMap.subscribe(data => {
+        // Convert the doctor ID from string to a number
+        this.doctorId = Number(data.get('id'));
+        console.log("Received doctor ID is " + this.doctorId);
+
+        // Fetch doctor details based on the received doctor ID
+        this.getDoctorById(this.doctorId);
+      });
+    }
+
+    /**
+     * Fetches the details of a doctor by their ID.
+     * Calls the DoctorService to retrieve the doctor information from the backend.
+     * @param doctorId - The ID of the doctor to fetch details for.
+     */
+    getDoctorById(doctorId: number) {
        this.doctorService.getDoctorById(doctorId).subscribe({
-        next:(doctor)=>{
+        next: (doctor) => {
+          // Success callback: Assigns the retrieved doctor data to the component's doctor variable
           console.log(doctor);
           this.doctor = doctor;
         },
-        error:(error)=>{
-          console.log("Error fetching doctor",error)
+        error: (error) => {
+          // Error callback: Logs the error in case of a failure in fetching doctor details
+          console.error("Error fetching doctor", error);
         }
        });
     }
