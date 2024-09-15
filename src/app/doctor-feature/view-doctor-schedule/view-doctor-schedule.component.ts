@@ -9,48 +9,52 @@ import { DoctorScheduleService } from '../../services/doctor/doctor-schedule.ser
 import { IDoctor } from '../../models/Doctors/doctor.models';
 import { IDepartment } from '../../models/Doctors/department.models';
 
-
 @Component({
   selector: 'app-view-doctor-schedule',
   standalone: true,
-  imports: [FormsModule,RouterLink,CommonModule],
+  imports: [FormsModule, RouterLink, CommonModule],
   templateUrl: './view-doctor-schedule.component.html',
-  styleUrl: './view-doctor-schedule.component.css'
+  styleUrls: ['./view-doctor-schedule.component.css']
 })
-export class ViewDoctorScheduleComponent implements OnInit{
+export class ViewDoctorScheduleComponent implements OnInit {
+  // Array to hold doctor schedules with extended details
   doctorSchedules: ExtendedDoctorSchedule[] = [];
-  doctorName:string='';
-  departmentName:string='';
+  // Properties to hold doctor and department names
+  doctorName: string = '';
+  departmentName: string = '';
+  // Pagination properties
   totalScheduless: number = 0;
   pageNumber: number = 1;
   pageSize: number = 10;
   pages: number[] = [];
+  // Loading and error state
   isLoading: boolean = false;
   errorMessage: string = '';
 
-  ngOnInit(): void {
-    this.loadDoctorSchedule();
-  }
   constructor(
     private doctorScheduleService: DoctorScheduleService,
-    private doctorService:DoctorService
+    private doctorService: DoctorService
   ) {}
 
+  ngOnInit(): void {
+    // Load doctor schedules when the component initializes
+    this.loadDoctorSchedule();
+  }
 
   loadDoctorSchedule() {
-    this.isLoading = true;
-  
+    this.isLoading = true; // Set loading state to true
+
+    // Fetch doctor schedules with pagination
     this.doctorScheduleService.getAllSchedules(this.pageNumber, this.pageSize).pipe(
       switchMap((response: IScheduleResponse) => {
         if (response && response.data && response.data.length > 0) {
+          // Create an observable for each doctor's details
           const doctorObservables = response.data.map(schedule =>
             this.doctorService.getDoctorById(schedule.doctorId).pipe(
               switchMap((doctorDetails: IDoctor) =>
                 this.doctorScheduleService.getDepartmentNameById(doctorDetails.departmentId).pipe(
                   map((departmentName: string | undefined) => {
-                    console.log('Doctor details:', doctorDetails); // Debugging
-                    console.log('Department name:', departmentName); // Debugging
-                    
+                    // Extend schedule with doctor and department details
                     return {
                       ...schedule,
                       doctorFirstName: doctorDetails.firstName,
@@ -62,10 +66,10 @@ export class ViewDoctorScheduleComponent implements OnInit{
               )
             )
           );
-  
+
+          // Combine all observables and update component properties
           return forkJoin(doctorObservables).pipe(
             map((schedulesWithDetails) => {
-              console.log('Schedules with details:', schedulesWithDetails);
               this.pageNumber = response.page;
               this.pageSize = response.pageSize;
               this.totalScheduless = response.totalItems;
@@ -76,41 +80,45 @@ export class ViewDoctorScheduleComponent implements OnInit{
         } else {
           this.errorMessage = 'No doctor schedule data available.';
           this.isLoading = false;
-          return [];
+          return []; // Return an empty array if no data is available
         }
       })
     ).subscribe({
       next: (schedulesWithDetails: any[]) => {
+        // Update component with fetched schedules
         this.doctorSchedules = schedulesWithDetails;
-        this.isLoading = false;
+        this.isLoading = false; // Set loading state to false
       },
       error: (error) => {
+        // Handle errors during data fetch
         console.error('Error fetching doctor schedules:', error);
         this.errorMessage = 'Failed to load doctor schedules.';
-        this.isLoading = false;
+        this.isLoading = false; // Set loading state to false
       },
       complete: () => {
+        // Log completion of data load
         console.log('Doctor schedules loaded.');
       }
     });
   }
-  
-  
-  
+
+  // Method to handle page change
   changePage(page: number): void {
     if (page !== this.pageNumber) {
       this.pageNumber = page;
-      this.loadDoctorSchedule();
+      this.loadDoctorSchedule(); // Reload schedules for the new page
     }
   }
 
+  // Method to handle page size change
   onPageSizeChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
-    this.pageSize = +selectElement.value;
-    this.pageNumber = 1; // Reset to first page
-    this.loadDoctorSchedule();
+    this.pageSize = +selectElement.value; // Update page size
+    this.pageNumber = 1; // Reset to the first page
+    this.loadDoctorSchedule(); // Reload schedules with new page size
   }
 
+  // Method to get display range of the current page
   getDisplayRange(): string {
     const start = (this.pageNumber - 1) * this.pageSize + 1;
     const end = Math.min(this.pageNumber * this.pageSize, this.totalScheduless);
@@ -118,12 +126,7 @@ export class ViewDoctorScheduleComponent implements OnInit{
   }
 }
 
-
-
-
-
-
-
+// Interface to extend IDoctorSchedule with additional details
 interface ExtendedDoctorSchedule extends IDoctorSchedule {
   doctorFirstName?: string;
   doctorLastName?: string;
