@@ -16,7 +16,7 @@ export class AppointmentService {
   private apiUrl="https://appointmentapiservice-fyc7d5afcrhabceb.southeastasia-01.azurewebsites.net/api";
   private patientApiUrl="https://cmdpatientnewwebapp-ckbwb7h0cjhrfehx.southeastasia-01.azurewebsites.net/api";
   private doctorApiUrl="https://cmd-doctor-api.azurewebsites.net/api/";
-
+  private departmentApiUrl="https://cmd-clinic-api.azurewebsites.net/api";
 
 //Appointments  Api Call
   getAppointments(pageNo: number = 1, pageLimit: number = 20): Observable<AppointmentResponse> {
@@ -74,8 +74,6 @@ export class AppointmentService {
       .pipe(catchError(this.handleError));
   }
 
-
-
 //GetALlDoctors  Api Call
   getDoctors(pageNo: number = 1, pageLimit: number = 20):Observable<DoctorResponse>{
     let params = new HttpParams().set('pageNo', pageNo.toString()).set('pageLimit', pageLimit.toString());
@@ -88,14 +86,18 @@ export class AppointmentService {
       .pipe(catchError(this.handleError));
   }
 
+  //getting departments 
 
+getDepartments():Observable<any>{
+  return this.http.get<any>(`${this.departmentApiUrl}/Department`)
+  .pipe(catchError(this.handleError));
+}
 
 
 //create appointment
   createAppointment(appointment: IAppointment): Observable<IAppointment> {
     return this.http.post<IAppointment>(`${this.apiUrl}/appointment`, appointment);
   }
-
 
  // Update Appointment Method
  updateAppointment(updatedAppointment: IAppointmentDTO, appointmentId: number): Observable<IAppointment> {
