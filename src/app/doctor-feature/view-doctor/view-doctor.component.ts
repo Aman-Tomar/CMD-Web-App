@@ -22,6 +22,7 @@ export class ViewDoctorComponent implements OnInit{
   isLoading: boolean = false;
   errorMessage: string = '';
   fallbackimage = 'assets/placeholder-image.jpg';
+  currentDoctorId: number | null = null;
  
 
   constructor(private doctorService: DoctorService) {}
@@ -77,6 +78,9 @@ export class ViewDoctorComponent implements OnInit{
     const start = (this.pageNumber - 1) * this.pageSize + 1;
     const end = Math.min(this.pageNumber * this.pageSize, this.totalDoctors);
     return `Showing ${start} to ${end} of ${this.totalDoctors} entries`;
+  }
+  toggleMenu(id: number) {    
+    this.currentDoctorId = this.currentDoctorId === id ? null : id;   
   }
   
  
