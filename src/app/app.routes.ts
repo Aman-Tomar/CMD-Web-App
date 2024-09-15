@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AppointmentListComponent } from './appointment_feature/appointment-list/appointment-list.component';
 import { AddAppointmentComponent } from './appointment_feature/add-appointment/add-appointment.component';
-import { AppointmentFilterComponent } from './appointment_feature/appointment-list/appointment-filter-status/appointment-filter-status.component';
+import { AppointmentFilterComponent } from './appointment_feature/appointment-filter-status/appointment-filter-status.component';
 import { EditAppointmentComponent } from './appointment_feature/edit-appointment/edit-appointment.component';
 import { AppointmentDetailsComponent } from './appointment_feature/appointment-details/appointment-details.component';
 
