@@ -16,13 +16,11 @@ import { EditAppointmentComponent } from './appointment_feature/edit-appointment
 import { AppointmentDetailsComponent } from './appointment_feature/appointment-details/appointment-details.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: '/patients', pathMatch: 'full' },
+    {path:'',component:HomeComponent},
     { path: 'patients', component: PatientListComponent },
     { path: 'patients/new', component: PatientFormComponent },
     { path: 'patients/:id', component: PatientDetailComponent },
     { path: 'patients/:id/edit', component: PatientFormComponent },
-
-    {path:'',component:HomeComponent},
     {path:'doctor',component:ViewDoctorComponent,title:'doctors'},
     {path:'doctor/add',component:AddDoctorComponent,title:'add doctor'},
     {path:'doctor/edit/:id',component:EditDoctorComponent,title:'edit doctor'},
