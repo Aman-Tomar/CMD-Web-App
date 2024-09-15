@@ -15,6 +15,7 @@ import { Patient } from '../../models/patient.model';
   styleUrls: ['./patient-form.component.css']
 })
 export class PatientFormComponent implements OnInit {
+  
   patientForm: FormGroup;
   isEditMode: boolean = false;
   patientId: number | null = null;
@@ -97,12 +98,12 @@ export class PatientFormComponent implements OnInit {
       error: (error) => console.error('Error loading patient data', error)
     });
   }
-   //patientForm.invalid=false;
+  
   onSubmit(): void {
+    if (this.patientForm.valid )
     //if (this.patientForm.valid && !this.patientForm.invalid)
-    if (this.patientForm.valid && !this.patientForm.invalid)
        {
-        //this.patientForm.invalid=true;
+        
       const patientData: Patient = this.patientForm.value;
       
       if (this.patientForm.get('preferredDoctorId')) {
@@ -124,6 +125,9 @@ export class PatientFormComponent implements OnInit {
         control?.markAsTouched();
       });
     }
+  }
+  onReset() {
+    this.patientForm.reset();
   }
 
   loadIndianStates(): void {

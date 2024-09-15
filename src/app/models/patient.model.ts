@@ -13,7 +13,8 @@ export interface Patient {
     lastModifiedDate: string;
     lastModifiedBy: number;
     preferredClinicId: number | null;
-    image?: File |string | null;
+    //image?: File |string | null;
+    image?:string | null;
     patientAddressId: number;
     streetAddress: string;
     city: string;
