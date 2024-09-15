@@ -19,7 +19,6 @@ import { environment } from '../environments/environment';
   encapsulation: ViewEncapsulation.None 
 })
 export class AppComponent implements OnInit {
-  envName = environment.name;
   title = 'cmd-ui-app';
 
   isSidebarOpen: boolean = true;
