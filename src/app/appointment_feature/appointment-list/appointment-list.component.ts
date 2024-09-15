@@ -26,6 +26,8 @@ isLastPage:boolean=false;
 errorMessage: string = '';
 sortOrder: string = 'asc'; // Default sort order
 loading:boolean=false //Loading default to false
+patientDetails: { [id: number]: string } = {}; // Cache for patient details
+  doctorDetails: { [id: number]: string } = {}; // Cache for doctor details
 
 ngOnInit(): void {
   this.getAppointments(this.currentPage, this.pageSize);
@@ -33,19 +35,47 @@ ngOnInit(): void {
 }
 
 getAppointments(pageNo: number, pageLimit: number): void {
-  this.loading = true;  // Start loading
+  this.loading = true;
   this.appointmentService.getAppointments(pageNo, pageLimit).subscribe({
     next: (data: IAppointment[]) => {
       this.Appointments = data;
-      this.checkLastPage(data); 
-      this.loading = false;  // Stop loading
-      console.log(data);
-    },
+      this.checkLastPage(data);
+      this.fetchDoctorAndPatientDetails(); 
+      this.loading = false; 
+      console.log(data)
+    } ,
     error: (err: string) => {
-      this.errorMessage = err;
-      this.loading = false;  // Stop loading in case of error
-      console.log(this.errorMessage);
-    }
+      this.errorMessage=err;
+      this.loading = false; 
+      console.log(this.errorMessage)}
+  });
+}
+
+fetchDoctorAndPatientDetails(): void {
+  this.Appointments.forEach((appointment) => {
+    // Fetch patient details
+    this.appointmentService.getPatientById(appointment.patientId).subscribe({
+      next: (patientData) => {
+        this.patientDetails[appointment.patientId] =
+          patientData?.name || 'Unknown Patient';
+          console.log(patientData)
+      },
+      error: () => {
+        this.patientDetails[appointment.patientId] = 'Unknown Patient'; // Default value on error
+      },
+    });
+
+    // Fetch doctor details
+    this.appointmentService.getDoctorById(appointment.doctorId).subscribe({
+      next: (doctorData) => {
+        this.doctorDetails[appointment.doctorId] =
+          doctorData?.name || 'Unknown Doctor';
+          console.log(doctorData)
+      },
+      error: () => {
+        this.doctorDetails[appointment.doctorId] = 'Unknown Doctor'; // Default value on error
+      },
+    });
   });
 }
 

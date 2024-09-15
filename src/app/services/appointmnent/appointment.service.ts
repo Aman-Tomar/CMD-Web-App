@@ -67,12 +67,28 @@ export class AppointmentService {
     return this.http.get<PatientResponse>(`${this.patientApiUrl}/Patients`, { params })
   }
 
+   // Fetch a single patient by their ID
+   getPatientById(patientId: number): Observable<any> {
+    return this.http.get<any>(`${this.patientApiUrl}/Patients/${patientId}`)
+      .pipe(catchError(this.handleError));
+  }
+
+
+
 //GetALlDoctors  Api Call
   getDoctors(pageNo: number = 1, pageLimit: number = 20):Observable<DoctorResponse>{
     let params = new HttpParams().set('pageNo', pageNo.toString()).set('pageLimit', pageLimit.toString());
 
     return this.http.get<DoctorResponse>(`${this.doctorApiUrl}/Doctor`, { params })
   }
+  // Fetch a single doctor by their ID
+  getDoctorById(doctorId: number): Observable<any> {
+    return this.http.get<any>(`${this.doctorApiUrl}/Doctor/${doctorId}`)
+      .pipe(catchError(this.handleError));
+  }
+
+
+
 
 //create appointment
   createAppointment(appointment: IAppointment): Observable<IAppointment> {

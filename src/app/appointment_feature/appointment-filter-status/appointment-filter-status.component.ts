@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+
+import { CommonModule } from '@angular/common';
 import { IAppointment } from '../../models/Appointment/Appointment';
 import { AppointmentService } from '../../services/appointmnent/appointment.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-appointment-filter-status',
