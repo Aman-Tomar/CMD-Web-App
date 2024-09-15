@@ -1,0 +1,99 @@
+<div class="container mt-4">
+    <div class="row">
+      <!-- Appointment Detail Card -->
+      <div class="col-md-8 offset-md-2">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h5 class="card-title">Appointment Details</h5>
+          </div>
+          <div class="card-body">
+            
+            <!-- Appointment ID -->
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <h6 class="fw-bold">Appointment ID:</h6>
+              </div>
+              <div class="col-md-8">
+                <p class="mb-0">{{ Appointment?.id }}</p>
+              </div>
+            </div>
+  
+            <!-- Purpose of Visit -->
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <h6 class="fw-bold">Purpose of Visit:</h6>
+              </div>
+              <div class="col-md-8">
+                <p class="mb-0">{{ Appointment?.purposeOfVisit }}</p>
+              </div>
+            </div>
+  
+            <!-- Date -->
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <h6 class="fw-bold">Date:</h6>
+              </div>
+              <div class="col-md-8">
+                <p class="mb-0">{{ Appointment?.date }}</p>
+              </div>
+            </div>
+  
+            <!-- Time -->
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <h6 class="fw-bold">Time:</h6>
+              </div>
+              <div class="col-md-8">
+                <p class="mb-0">{{ Appointment?.time }}</p>
+              </div>
+            </div>
+  
+            <!-- Status -->
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <h6 class="fw-bold">Status:</h6>
+              </div>
+              <div class="col-md-8">
+                <span [ngClass]="{
+                  'custom-badge': true,
+                  'status-red': Appointment?.status !== AppointmentStatus.Scheduled,
+                  'status-green': Appointment?.status === AppointmentStatus.Scheduled
+                }">
+                  {{ Appointment?.status === 0 ? 'Active' : 'Inactive' }}
+                </span>
+              </div>
+            </div>
+  
+            <!-- Doctor Information -->
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <h6 class="fw-bold">Doctor ID:</h6>
+              </div>
+              <div class="col-md-8">
+                <p class="mb-0">{{ Appointment?.doctorId }}</p>
+              </div>
+            </div>
+  
+            <!-- Patient Information -->
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <h6 class="fw-bold">Patient ID:</h6>
+              </div>
+              <div class="col-md-8">
+                <p class="mb-0">{{ Appointment?.patientId }}</p>
+              </div>
+            </div>
+  
+            <!-- Buttons -->
+            <div class=" d-flex justify-content-between">
+              <a (click)="goBack()" class="btn btn-secondary">Back to Appointments</a>
+              <button [class.disabled-cursor]="Appointment?.status !== 0"  [disabled]="Appointment?.status !== 0" 
+               (click)="cancelAppointment(Appointment?.id)" class="cancel-btn btn btn-danger">Cancel Appointment</button>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

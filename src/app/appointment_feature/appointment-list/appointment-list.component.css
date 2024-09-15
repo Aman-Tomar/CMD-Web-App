@@ -1,0 +1,66 @@
+/* Custom Table Styles */
+.custom-table th,
+.custom-table td {
+  padding: 10px 8px !important; /* Custom padding for each cell */
+  vertical-align: middle; /* Align text vertically in the middle */
+}
+.custom-table > tbody > tr > td {
+	font-weight: 400;
+    color: black;
+    font-size: 0.875rem;
+
+}
+.custom-table>thead>tr>th
+{
+    font-size: 0.875rem;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+
+}
+
+/* Border for table cells and rows */
+.custom-table td,
+.custom-table th {
+  border: 1px solid #dee2e6; /* Border color consistent with Bootstrap */
+}
+
+/* Optional: Adjust the spacing around the table */
+.table-responsive {
+  margin: 20px 0;
+}
+
+/* Adjust pagination controls */
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination {
+  margin: 0;
+}
+
+/* Inactive status */
+.status-red {
+    background-color: #ffe5e6;
+    border: 1px solid #fe0000;
+    color: #fe0000;
+}
+
+/* Active status */
+.status-green {
+    background-color: #e5ffe6;
+    border: 1px solid #00c853;
+    color: #00c853;
+}
+
+.custom-badge {
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 12px;
+    min-width: 95px;
+    padding: 1px 10px;
+    text-align: center;
+}
+
