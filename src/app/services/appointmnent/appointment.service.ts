@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAppointment } from '../../models/Appointment/Appointment';
-import { IAppointmentDTO } from '../../models/Appointment/AppointmentDTO';
+import { IAppointmentDTO } from '../../models/Appointment/EditAppointmentDTO';
 import { catchError, Observable, throwError } from 'rxjs';
 import { PatientResponse } from '../../models/Appointment/PatientResponse';
 import { DoctorResponse } from '../../models/Appointment/DoctorResponse';

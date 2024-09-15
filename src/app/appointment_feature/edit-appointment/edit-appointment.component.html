@@ -37,9 +37,15 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="patient" class="form-label">Patient Id</label>
-                                    <input id="patient" formControlName="patient" type="text" class="form-control" >
+                                    <select name="patient" id="patient" formControlName="patient" class="form-select form-control">
+                                        <option value="" disabled>Select</option>
+                                        <option *ngFor="let patient of patients" [value]="patient.patientId">
+                                            {{patient.patientName}}
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
+                            
                            
                         </div>
 
@@ -62,9 +68,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="doctor" class="form-label">Doctor Id</label>
-                                    <input id="doctor" formControlName="doctor" type="text" class="form-control" >
+                                    <select name="doctorId" id="doctor" formControlName="doctor" class="form-select form-control">
+                                        <option value="" disabled>Select</option>
+                                        <option *ngFor="let doctor of doctors" [value]="doctor.doctorId">
+                                            {{doctor.firstName}} {{doctor.lastName}}
+                                        </option>
+                                    </select>
                                 </div>
-                            </div>
+                            </div>                            
                         </div>
 
                         <!-- Date Picker -->
@@ -111,6 +122,17 @@
                         <div class="form-group mb-3">
                             <label for="message" class="form-label">Message</label>
                             <textarea [class.is-invalid]="reactiveForm.get('date')?.invalid && reactiveForm.get('message')?.touched" name="message" formControlName="message" name="message" class="form-control" id="message" rows="4" placeholder="Enter any message"></textarea>
+                        </div>
+                        
+                        <div class="container mt-3">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" formControlName="status" id="active" value="active">
+                                    <label class="form-check-label" for="active">Active</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" formControlName="status" id="inactive" value="inactive">
+                                    <label class="form-check-label" for="inactive">Inactive</label>
+                                </div>
                         </div>
 
                         <div class="text-center">
