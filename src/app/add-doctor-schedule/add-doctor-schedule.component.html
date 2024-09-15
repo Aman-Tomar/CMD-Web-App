@@ -50,14 +50,14 @@
       <!-- Status Checkbox -->
       <div class="form-group">
         <label>Status:</label>
+          <input type="radio" formControlName="status" name="status" [value]="true"> 
+          <label for="active">Active</label>
         <label>
-          <input type="radio" formControlName="status" [value]="true"> Active
-        </label>
-        <label>
-          <input type="radio" formControlName="status" [value]="false"> Inactive
+          <input type="radio" formControlName="status" name="status" [value]="false"> 
+          <label for="active">Inactive</label>
         </label>
       </div>
-      
+
       <!-- Submit Button -->
       <div class="form-group">
         <button class="submit-button" type="submit" [disabled]="!scheduleForm.valid">CREATE SCHEDULE</button>

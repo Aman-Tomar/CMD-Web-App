@@ -17,7 +17,7 @@ export class ViewDoctorComponent implements OnInit{
   doctors: IDoctor[] = [];
   totalDoctors: number = 0;
   pageNumber: number = 1;
-  pageSize: number = 10;  // Adjust page size as needed
+  pageSize: number = 10;  
   pages: number[] = [];
   isLoading: boolean = false;
   errorMessage: string = '';
