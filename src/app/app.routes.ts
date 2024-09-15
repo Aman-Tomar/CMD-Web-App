@@ -1,4 +1,7 @@
 import { Routes } from '@angular/router';
+import { PatientDetailComponent } from './patient_feature/patient-detail/patient-detail.component';
+import { PatientFormComponent } from './patient_feature/patient-form/patient-form.component';
+import { PatientListComponent } from './patient_feature/patient-list/patient-list.component';
 import { ViewDoctorComponent } from './doctor-feature/view-doctor/view-doctor.component';
 import { AddDoctorComponent } from './doctor-feature/add-doctor/add-doctor.component';
 import { EditDoctorComponent } from './doctor-feature/edit-doctor/edit-doctor.component';
@@ -13,6 +16,12 @@ import { EditAppointmentComponent } from './appointment_feature/edit-appointment
 import { AppointmentDetailsComponent } from './appointment_feature/appointment-details/appointment-details.component';
 
 export const routes: Routes = [
+    { path: '', redirectTo: '/patients', pathMatch: 'full' },
+    { path: 'patients', component: PatientListComponent },
+    { path: 'patients/new', component: PatientFormComponent },
+    { path: 'patients/:id', component: PatientDetailComponent },
+    { path: 'patients/:id/edit', component: PatientFormComponent },
+
     {path:'',component:HomeComponent},
     {path:'doctor',component:ViewDoctorComponent,title:'doctors'},
     {path:'doctor/add',component:AddDoctorComponent,title:'add doctor'},

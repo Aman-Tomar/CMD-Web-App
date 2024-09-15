@@ -1,0 +1,18 @@
+/* src/app/shared/components/patient-card/patient-card.component.css */
+
+.card {
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  .card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .list-group-item {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .list-group-item strong {
+    min-width: 80px;
+  }
