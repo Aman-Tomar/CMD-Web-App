@@ -13,9 +13,60 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './add-doctor.component.css'
 })
 export class AddDoctorComponent {
+onCountryChange() {
+     if (this.doctor.country === 'India') {
+      this.states = [
+        'Arunachal Pradesh', 
+        'Assam', 
+        'Bihar', 
+        'Chhattisgarh', 
+        'Goa', 
+        'Gujarat', 
+        'Haryana', 
+        'Himachal Pradesh', 
+        'Jharkhand', 
+        'Karnataka', 
+        'Kerala', 
+        'Madhya Pradesh', 
+        'Maharashtra', 
+        'Manipur', 
+        'Meghalaya', 
+        'Mizoram', 
+        'Nagaland', 
+        'Odisha', 
+        'Punjab', 
+        'Rajasthan', 
+        'Sikkim', 
+        'Tamil Nadu', 
+        'Telangana', 
+        'Tripura', 
+        'Uttar Pradesh', 
+        'Uttarakhand', 
+        'West Bengal',
+        'Andaman and Nicobar Islands',
+        'Chandigarh',
+        'Dadra and Nagar Haveli and Daman and Diu',
+        'Lakshadweep',
+        'Delhi',
+        'Puducherry',
+        'Ladakh',
+        'Jammu and Kashmir'
+      ];
+    }else if (this.doctor.country === 'USA') {
+      this.states = ['California', 'New York', 'Texas']; 
+    } else if (this.doctor.country === 'Canada') {
+      this.states = ['Ontario', 'Quebec', 'British Columbia'];
+    } else if (this.doctor.country === 'UK') {
+      this.states = ['England', 'Scotland', 'Wales', 'Northern Ireland'];
+    } else {
+      this.states = [];
+    }
+  }
   doctorService = inject(DoctorService);
   router:Router = inject(Router);
-  selectedFile: File | null = null; // Variable to store the selected file
+  selectedFile: File | null = null; 
+  countries: string[] = ['USA', 'Canada', 'UK','India']; 
+  states: string[] = [];
 
   doctor: IDoctor = {
     doctorId: 0,
@@ -90,5 +141,6 @@ export class AddDoctorComponent {
         console.log('Error adding doctor');
       }
     });
+
   } 
 }

@@ -13,6 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './edit-doctor.component.css'
 })
 export class EditDoctorComponent {
+  countries: string[] = ['USA', 'Canada', 'UK','India']; 
+  states: string[] = [];
   doctorId: number = 0;
   doctor: IDoctor = {
     doctorId: 0,
@@ -54,7 +56,9 @@ export class EditDoctorComponent {
   getDoctorById(doctorId: number): void {
     this.doctorService.getDoctorById(doctorId).subscribe({
       next: (doctor) => {
+        doctor.dateOfBirth = new Date(doctor.dateOfBirth);
         this.doctor = doctor;
+        this.onCountryChange();
       },
       error: (error) => {
         console.error('Error fetching doctor', error);
@@ -62,23 +66,27 @@ export class EditDoctorComponent {
     });
   }
 
+  convertDateForInput(date: string): string {
+    const parsedDate = new Date(date);
+    return parsedDate.toISOString().split('T')[0];  // Format to 'YYYY-MM-DD'
+  }
+
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
 
-  formatDate(date: any): string {
-    const parsedDate = new Date(date);
-    return parsedDate.toISOString();
-  }
 
   onSubmit() {
-    const formattedDate = this.formatDate(this.doctor.dateOfBirth);
+  
     const formData = new FormData();
 
     formData.append('doctorId', this.doctor.doctorId.toString());
     formData.append('firstName', this.doctor.firstName);
     formData.append('lastName', this.doctor.lastName);
-    formData.append('DOB', formattedDate);
+    const formattedDateOfBirth = this.doctor.dateOfBirth instanceof Date
+    ? this.doctor.dateOfBirth.toISOString().split('T')[0]
+    : this.doctor.dateOfBirth;
+    formData.append('DOB', formattedDateOfBirth);
     formData.append('email', this.doctor.email);
     formData.append('gender', this.doctor.gender);
     formData.append('address', this.doctor.address);
@@ -97,6 +105,10 @@ export class EditDoctorComponent {
 
     if (this.selectedFile) {
       formData.append('profilePicture', this.selectedFile, this.selectedFile.name);
+    }else {
+      if (this.doctor.profilePicture) {
+        formData.append('profilePicture', this.doctor.profilePicture);
+      }
     }
 
     this.doctorService.editDoctor(this.doctorId, formData).subscribe({
@@ -109,4 +121,54 @@ export class EditDoctorComponent {
       }
     });
   }
+
+  onCountryChange() {
+    if (this.doctor.country === 'India') {
+     this.states = [
+       'Arunachal Pradesh', 
+       'Assam', 
+       'Bihar', 
+       'Chhattisgarh', 
+       'Goa', 
+       'Gujarat', 
+       'Haryana', 
+       'Himachal Pradesh', 
+       'Jharkhand', 
+       'Karnataka', 
+       'Kerala', 
+       'Madhya Pradesh', 
+       'Maharashtra', 
+       'Manipur', 
+       'Meghalaya', 
+       'Mizoram', 
+       'Nagaland', 
+       'Odisha', 
+       'Punjab', 
+       'Rajasthan', 
+       'Sikkim', 
+       'Tamil Nadu', 
+       'Telangana', 
+       'Tripura', 
+       'Uttar Pradesh', 
+       'Uttarakhand', 
+       'West Bengal',
+       'Andaman and Nicobar Islands',
+       'Chandigarh',
+       'Dadra and Nagar Haveli and Daman and Diu',
+       'Lakshadweep',
+       'Delhi',
+       'Puducherry',
+       'Ladakh',
+       'Jammu and Kashmir'
+     ];
+   }else if (this.doctor.country === 'USA') {
+     this.states = ['California', 'New York', 'Texas']; 
+   } else if (this.doctor.country === 'Canada') {
+     this.states = ['Ontario', 'Quebec', 'British Columbia'];
+   } else if (this.doctor.country === 'UK') {
+     this.states = ['England', 'Scotland', 'Wales', 'Northern Ireland'];
+   } else {
+     this.states = [];
+   }
+ }
 }
