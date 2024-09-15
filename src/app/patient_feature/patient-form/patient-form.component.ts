@@ -6,6 +6,8 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractContro
 import { ActivatedRoute, Router } from '@angular/router';
 import { PatientService } from '../../services/patient/patient.service';
 import { Patient } from '../../models/patient.model';
+import { Doctor } from '../../models/doctor.model';
+import { Clinic } from '../../models/clinic.model';
 
 @Component({
   selector: 'app-patient-form',
@@ -18,26 +20,21 @@ export class PatientFormComponent implements OnInit {
   
   patientForm: FormGroup;
   isEditMode: boolean = false;
+  doctors:Doctor[]=[];
+  clinics:Clinic[]=[];
+  //states: any[] = [];
   patientId: number | null = null;
   countries: { code: string, name: string }[] = [
     { code: 'IN', name: 'India' }
     // Add other countries as needed
   ];
-  states: { code: string, name: string }[] = [];
+   states: { code: string, name: string }[] = [];
   showStates: boolean = false;
   selectedFile: File | null = null;
   imagePreview: string | null = null;
   showGuardianFields: boolean = false;
-  clinics: { id: number, name: string }[] = [
-    { id: 1, name: 'Main Clinic' },
-    { id: 2, name: 'Branch Clinic 1' },
-    { id: 3, name: 'Branch Clinic 2' }
-  ];
-  doctors: { id: number, name: string }[] = [
-    { id: 1, name: 'Dr. John Doe' },
-    { id: 2, name: 'Dr. Jane Smith' },
-    { id: 3, name: 'Dr. Mike Johnson' }
-  ];
+ 
+
   currentUserId: number = 1; // Assuming user with ID 1 is logged in
 
   constructor(
@@ -59,7 +56,111 @@ export class PatientFormComponent implements OnInit {
     this.patientForm.get('dob')?.valueChanges.subscribe(dob => {
       this.calculateAge(dob);
     });
+    //this.patientForm=this.fb.group({preferredDoctorId:['']});
+
+    this.loadDoctors();
+    this.loadClinics();
+   // this.loadStates();
   }
+
+  // loadStates(): void {
+
+  //   this.patientService.getStates().subscribe(
+    
+  //     (data) => {
+  //       console.log(data);
+  //       this.states = data;
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching states', error);
+  //     }
+  //   );
+  // }
+
+  loadIndianStates(): void {
+    this.states = [
+      { code: 'AN', name: 'Andaman and Nicobar Islands' },
+      { code: 'AP', name: 'Andhra Pradesh' },
+      { code: 'AR', name: 'Arunachal Pradesh' },
+      { code: 'AS', name: 'Assam' },
+      { code: 'BR', name: 'Bihar' },
+      { code: 'CH', name: 'Chandigarh' },
+      { code: 'CT', name: 'Chhattisgarh' },
+      { code: 'DN', name: 'Dadra and Nagar Haveli' },
+      { code: 'DD', name: 'Daman and Diu' },
+      { code: 'DL', name: 'Delhi' },
+      { code: 'GA', name: 'Goa' },
+      { code: 'GJ', name: 'Gujarat' },
+      { code: 'HR', name: 'Haryana' },
+      { code: 'HP', name: 'Himachal Pradesh' },
+      { code: 'JK', name: 'Jammu and Kashmir' },
+      { code: 'JH', name: 'Jharkhand' },
+      { code: 'KA', name: 'Karnataka' },
+      { code: 'KL', name: 'Kerala' },
+      { code: 'LA', name: 'Ladakh' },
+      { code: 'LD', name: 'Lakshadweep' },
+      { code: 'MP', name: 'Madhya Pradesh' },
+      { code: 'MH', name: 'Maharashtra' },
+      { code: 'MN', name: 'Manipur' },
+      { code: 'ML', name: 'Meghalaya' },
+      { code: 'MZ', name: 'Mizoram' },
+      { code: 'NL', name: 'Nagaland' },
+      { code: 'OR', name: 'Odisha' },
+      { code: 'PY', name: 'Puducherry' },
+      { code: 'PB', name: 'Punjab' },
+      { code: 'RJ', name: 'Rajasthan' },
+      { code: 'SK', name: 'Sikkim' },
+      { code: 'TN', name: 'Tamil Nadu' },
+      { code: 'TG', name: 'Telangana' },
+      { code: 'TR', name: 'Tripura' },
+      { code: 'UP', name: 'Uttar Pradesh' },
+      { code: 'UT', name: 'Uttarakhand' },
+      { code: 'WB', name: 'West Bengal' }
+    ];
+  }
+
+  loadDoctors(): void {
+    this.patientService.getDoctors().subscribe(
+      (response: any) => {
+        console.log(response);
+        
+        // Map only doctorId and firstName from the response's data array
+        this.doctors = response.data.map((doctor: any) => {
+          return {
+            doctorId: doctor.doctorId,
+            firstName: doctor.firstName
+          };
+        });
+  
+        console.log(this.doctors); // Check the resulting array
+      },
+      (error) => {
+        console.error('Error fetching doctors', error);
+      }
+    );
+  }
+  loadClinics(): void {
+    this.patientService.getClinics().subscribe(
+      (response: any) => {
+        console.log(response);
+        
+        // Map only doctorId and firstName from the response's data array
+        this.clinics= response.data.map((clinic: any) => {
+          return {
+            id: clinic.id,
+            name: clinic.name
+          };
+        });
+  
+        console.log(this.clinics); // Check the resulting array
+      },
+      (error) => {
+        console.error('Error fetching clinics', error);
+      }
+    );
+  }
+  
+
 
   initForm(): FormGroup {
     return this.fb.group({
@@ -70,6 +171,7 @@ export class PatientFormComponent implements OnInit {
       dob: ['', [Validators.required]],
       gender: ['', Validators.required],
       preferredStartTime: ['',Validators.required],
+      
       preferredEndTime: ['',Validators.required],
       streetAddress: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -131,48 +233,6 @@ export class PatientFormComponent implements OnInit {
     this.patientForm.reset();
   }
 
-  loadIndianStates(): void {
-    this.states = [
-      { code: 'AN', name: 'Andaman and Nicobar Islands' },
-      { code: 'AP', name: 'Andhra Pradesh' },
-      { code: 'AR', name: 'Arunachal Pradesh' },
-      { code: 'AS', name: 'Assam' },
-      { code: 'BR', name: 'Bihar' },
-      { code: 'CH', name: 'Chandigarh' },
-      { code: 'CT', name: 'Chhattisgarh' },
-      { code: 'DN', name: 'Dadra and Nagar Haveli' },
-      { code: 'DD', name: 'Daman and Diu' },
-      { code: 'DL', name: 'Delhi' },
-      { code: 'GA', name: 'Goa' },
-      { code: 'GJ', name: 'Gujarat' },
-      { code: 'HR', name: 'Haryana' },
-      { code: 'HP', name: 'Himachal Pradesh' },
-      { code: 'JK', name: 'Jammu and Kashmir' },
-      { code: 'JH', name: 'Jharkhand' },
-      { code: 'KA', name: 'Karnataka' },
-      { code: 'KL', name: 'Kerala' },
-      { code: 'LA', name: 'Ladakh' },
-      { code: 'LD', name: 'Lakshadweep' },
-      { code: 'MP', name: 'Madhya Pradesh' },
-      { code: 'MH', name: 'Maharashtra' },
-      { code: 'MN', name: 'Manipur' },
-      { code: 'ML', name: 'Meghalaya' },
-      { code: 'MZ', name: 'Mizoram' },
-      { code: 'NL', name: 'Nagaland' },
-      { code: 'OR', name: 'Odisha' },
-      { code: 'PY', name: 'Puducherry' },
-      { code: 'PB', name: 'Punjab' },
-      { code: 'RJ', name: 'Rajasthan' },
-      { code: 'SK', name: 'Sikkim' },
-      { code: 'TN', name: 'Tamil Nadu' },
-      { code: 'TG', name: 'Telangana' },
-      { code: 'TR', name: 'Tripura' },
-      { code: 'UP', name: 'Uttar Pradesh' },
-      { code: 'UT', name: 'Uttarakhand' },
-      { code: 'WB', name: 'West Bengal' }
-    ];
-  }
-
   convertImageToBase64(image: File | string | null): Promise<string | null> {
     return new Promise((resolve, reject) => {
       if (!image) {
@@ -206,7 +266,7 @@ export class PatientFormComponent implements OnInit {
       createdBy: this.currentUserId,
       lastModifiedDate: new Date().toISOString(),
       lastModifiedBy: this.currentUserId,
-      patientAddressId: this.isEditMode ? (patientData.patientAddressId) : 0,
+      patientAddressId: this.isEditMode ?(patientData.patientAddressId ) : 0,
       streetAddress: patientData.streetAddress,
       city: patientData.city,
       state: patientData.state,
@@ -218,6 +278,8 @@ export class PatientFormComponent implements OnInit {
     if (patientData.preferredClinicId) formattedData.preferredClinicId = +patientData.preferredClinicId;
     if (patientData.image) formattedData.image = patientData.image;
     if (patientData.preferredDoctorId) formattedData.preferredDoctorId = +patientData.preferredDoctorId;
+   
+
     if (patientData.patientGuardianName) formattedData.patientGuardianName = patientData.patientGuardianName;
     if (patientData.patientGuardianPhoneNumber) formattedData.patientGuardianPhoneNumber = patientData.patientGuardianPhoneNumber;
     if (patientData.patientGuardianRelationship) formattedData.patientGuardianRelationship = patientData.patientGuardianRelationship;
@@ -273,6 +335,12 @@ export class PatientFormComponent implements OnInit {
     date.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
     return date.toISOString();
   }
+  // formatTime(time: string): string {
+  //   const [hour, minute] = time.split(':');
+  //   const period = +hour < 12 ? 'AM' : 'PM';
+  //   const formattedHour = (+hour % 12 || 12).toString().padStart(2, '0');
+  //   return `${formattedHour}:${minute} ${period}`;
+  // }
 
   handleError(error: any): void {
     console.error('Error:', error);
@@ -368,6 +436,30 @@ export class PatientFormComponent implements OnInit {
 
  
 
+  // onCountryChange(): void {
+  //   const country = this.patientForm.get('country')?.value;
+  //   this.showStates = country === 'IN';
+  //   this.patientForm.get('state')?.reset();
+  //   this.patientForm.get('zipCode')?.reset();
+
+  //   if (this.showStates) {
+  //     this.patientService.getStates().subscribe(
+  //       states => {
+  //         this.states = states.filter(state => state.countryCode === 'IN'); // Filter as needed
+  //         this.patientForm.get('state')?.setValidators([Validators.required]);
+  //         this.patientForm.get('state')?.updateValueAndValidity();
+  //       },
+  //       error => {
+  //         console.error('Error fetching states:', error);
+  //         this.states = [];
+  //       }
+  //     );
+  //   } else {
+  //     this.states = [];
+  //     this.patientForm.get('state')?.clearValidators();
+  //     this.patientForm.get('state')?.updateValueAndValidity();
+  //   }
+  // }
   onCountryChange() {
     const country = this.patientForm.get('country')?.value;
     this.showStates = country === 'IN';

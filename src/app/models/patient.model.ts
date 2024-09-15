@@ -12,7 +12,7 @@ export interface Patient {
     createdBy: number;
     lastModifiedDate: string;
     lastModifiedBy: number;
-    preferredClinicId: number | null;
+    preferredClinicId: number ;
     //image?: File |string | null;
     image?:string | null;
     patientAddressId: number;
@@ -21,11 +21,14 @@ export interface Patient {
     state: string;
     country: string;
     zipCode: string;
-    preferredDoctorId: number | null;
+    preferredDoctorId: number;
+    preferredDoctorName?: string;
     patientGuardianId: number | null;
     patientGuardianName: string | null;
     patientGuardianPhoneNumber: string | null;
     patientGuardianRelationship: string | null;
+    clinicId: number;
+  clinicName?: string;
 }
 
 export interface PatientResponse {

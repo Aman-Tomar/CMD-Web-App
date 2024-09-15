@@ -123,7 +123,7 @@
             </div>
           </div>
         </div>
-      </div>
+   
   
       <div class="card mt-4" *ngIf="showGuardianFields">
         <div class="card-body">
@@ -179,10 +179,10 @@
               </select>
             </div>
             <div class="col-md-3 mb-3">
-              <label for="preferredDoctor">Preferred Doctor</label>
+              <label for="preferredDoctor">Preferred Doctor <span class="text-danger">*</span></label>
               <select id="preferredDoctor" class="form-control" formControlName="preferredDoctorId">
                 <option value="">Select Doctor</option>
-                <option *ngFor="let doctor of doctors" [value]="doctor.id">{{ doctor.name }}</option>
+                <option *ngFor="let doctor of doctors" [value]="doctor.doctorId">{{ doctor.firstName }}</option>
               </select>
             </div>
           </div>
@@ -217,5 +217,6 @@
         <button type="button" class="btn btn-secondary" (click)="onReset()">Reset</button>
       </div>
    
-    </form>
+ 
   </div>
+</form>
