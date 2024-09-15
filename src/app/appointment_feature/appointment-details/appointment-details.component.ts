@@ -35,8 +35,11 @@ export class AppointmentDetailsComponent {
 this.router.navigate(['appointments']);
 }
 
-cancelAppointment()
+cancelAppointment(id:number|undefined)
 {
-
+this.service.cancelAppointmentById(id!).subscribe({
+  next:()=>this.router.navigate(['appointments']),
+  error:(err)=>console.log(err),
+})
 }
 }

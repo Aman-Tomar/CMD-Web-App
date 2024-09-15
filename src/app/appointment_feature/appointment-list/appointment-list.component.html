@@ -48,13 +48,13 @@
             <!-- Dropdown menu with grey text and icons -->
             <ul class="dropdown-menu dropdown-menu-end" style="min-width: 150px; padding: 10px 20px;">
               <li>
-                <a class="dropdown-item small text-muted" style="cursor: pointer;">
+                <a class="dropdown-item small text-muted" style="cursor: pointer;" [routerLink]="['/appointments',appointment.id]">
                   <i class="fas fa-eye me-2 text-muted"></i> <!-- Grey eye icon -->
                   View
                 </a>
               </li>
               <li>
-                <a class="dropdown-item small text-muted" style="cursor: pointer;" [routerLink]="['/appointments/edit', appointment.id]">
+                <a class="dropdown-item small text-muted" style="cursor: pointer;" [routerLink]="['appointments/edit', appointment.id]">
                   <i class="fas fa-edit me-2 text-muted"></i> <!-- Grey edit icon -->
                   Edit
                 </a>

@@ -19,31 +19,43 @@ Appointments:IAppointment[]=[]
 appointmentService:AppointmentService=inject(AppointmentService);
 currentPage: number = 1;
 pageSize: number = 20;
-totalAppointments: number = 0;
+// totalAppointments: number = 0;
 pageSizes: number[] = [5, 10, 20, 50];
 totalPages: number[] = [];
+isLastPage:boolean=false;
 errorMessage: string = '';
 
 ngOnInit(): void {
   this.getAppointments(this.currentPage, this.pageSize);
+  // this.updateTotalPages();
 }
 
 getAppointments(pageNo: number, pageLimit: number): void {
   this.appointmentService.getAppointments(pageNo, pageLimit).subscribe({
     next: (data: IAppointment[]) => {
       this.Appointments = data;
+      this.checkLastPage(data); 
       console.log(data)
     } ,
     error: (err: string) => {this.errorMessage=err;console.log(this.errorMessage)}
   });
 }
 
- // Update total pages based on the total number of appointments
- updateTotalPages(): void {
-  this.totalAppointments = 100; // Assume total appointments count comes from a response (this is just a placeholder)
-  const totalPageCount = Math.ceil(this.totalAppointments / this.pageSize);
-  this.totalPages = Array.from({ length: totalPageCount }, (_, i) => i + 1);
-}
+
+
+  // Check if the current response indicates the last page
+  checkLastPage(appointments: IAppointment[]): void {
+    console.log(this.Appointments.length,this.pageSize)
+    // If the response size is less than the page size, it's the last page
+    if (appointments.length < this.pageSize) {
+      this.isLastPage = true;
+    } else {
+      this.isLastPage = false;
+    }
+  }
+  
+
+
 
 // Go to the next page
 nextPage(): void {

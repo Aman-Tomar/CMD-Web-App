@@ -32,6 +32,17 @@ export class AppointmentService {
         );
     }
 
+    //cancel an appointment by its Id
+    cancelAppointmentById(appointmentId: number): Observable<any> {
+      return this.http.put<any>(`${this.apiUrl}/Appointment/Cancel/${appointmentId}`, {},{
+        headers: { 'Content-Type': 'application/json' }
+      })
+        .pipe(
+          catchError(this.handleError)
+        );
+    }
+    
+
 //Patients  Api Call
   getPatients(pageNo: number = 1, pageLimit: number = 20):Observable<PatientResponse>{
     let params = new HttpParams().set('pageNo', pageNo.toString()).set('pageLimit', pageLimit.toString());
