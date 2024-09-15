@@ -36,7 +36,7 @@
                         
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="patient" class="form-label">Patient Id</label>
+                                    <label for="patient" class="form-label">Patient</label>
                                     <select name="patient" id="patient" formControlName="patient" class="form-select form-control">
                                         <option value="" disabled>Select</option>
                                         <option *ngFor="let patient of patients" [value]="patient.patientId">
@@ -44,9 +44,10 @@
                                         </option>
                                     </select>
                                 </div>
+                                <small class="text-danger small" *ngIf="reactiveForm.controls.patient.errors?.['required']">
+                                    *Patient is required
+                                </small>
                             </div>
-                            
-                           
                         </div>
 
                         <div class="row mb-3">
@@ -64,10 +65,13 @@
                                         <option value="Follow Up">Follow Up</option>
                                     </select>
                                 </div>
+                                <small class="text-danger small" *ngIf="reactiveForm.controls.date.errors?.['required']">
+                                    *Purpose of visit is required
+                                </small>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="doctor" class="form-label">Doctor Id</label>
+                                    <label for="doctor" class="form-label">Doctor</label>
                                     <select name="doctorId" id="doctor" formControlName="doctor" class="form-select form-control">
                                         <option value="" disabled>Select</option>
                                         <option *ngFor="let doctor of doctors" [value]="doctor.doctorId">
@@ -75,6 +79,9 @@
                                         </option>
                                     </select>
                                 </div>
+                                <small class="text-danger small" *ngIf="reactiveForm.controls.doctor.errors?.['required']">
+                                    *Doctor is required
+                                </small>
                             </div>                            
                         </div>
 
@@ -85,12 +92,15 @@
                                     <label for="appointmentDate" class="form-label">Date</label>
                                     <input [class.is-invalid]="reactiveForm.get('date')?.invalid && reactiveForm.get('date')?.touched" name="date" formControlName="date" type="date" class="form-control" id="appointmentDate" />
                                 </div>
-                                <div class="text-danger small" *ngIf="reactiveForm.controls.date.errors?.['pastDate']">
-                                    The date cannot be in the past.
-                                  </div>
-                                  <div class="text-danger small" *ngIf="reactiveForm.controls.date.errors?.['futureDateExceeded']">
-                                    The date cannot be more than 30 days in the future.
-                                  </div>
+                                <small class="text-danger small" *ngIf="reactiveForm.controls.date.errors?.['required']">
+                                    *Date is required
+                                </small>
+                                <small class="text-danger small" *ngIf="reactiveForm.controls.date.errors?.['pastDate']">
+                                    *Date can not be in past
+                                </small>
+                                  <small class="text-danger small" *ngIf="reactiveForm.controls.date.errors?.['futureDateExceeded']">
+                                    *Date can not exceed 30 days in future
+                                  </small>
                             </div>
                             <!-- Time Picker -->
                             <div class="col-md-6">
@@ -98,9 +108,9 @@
                                     <label for="appointmentTime" class="form-label">Time</label>
                                     <input [class.is-invalid]="reactiveForm.get('time')?.invalid && reactiveForm.get('time')?.touched" name="time" formControlName="time" type="time" class="form-control" id="appointmentTime" />
                                 </div>
-                                <div class="text-danger small" *ngIf="reactiveForm.controls.time.hasError('timeInPast') && reactiveForm.controls.time.touched">
-                                    The time cannot be in the past.
-                                </div>
+                                <small class="text-danger small" *ngIf="reactiveForm.controls.time.hasError('timeInPast') && reactiveForm.controls.time.touched">
+                                    *Time can not be in Past
+                                </small>
                             </div>
                         </div>
 
@@ -110,18 +120,33 @@
                                     <label for="patientEmail" class="form-label">Patient Email</label>
                                     <input [class.is-invalid]="reactiveForm.get('email')?.invalid && reactiveForm.get('email')?.touched"  name="email" formControlName="email" type="email" class="form-control" id="patientEmail" placeholder="Enter email">
                                 </div>
+                                <small class="text-danger small" *ngIf="reactiveForm.controls.email.errors?.['required']">
+                                    *Email is required
+                                </small>
+                                  <small class="text-danger small" *ngIf="reactiveForm.controls.email.errors?.['email']">
+                                    *Enter valid email
+                                  </small>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="patientPhone" class="form-label">Patient Phone Number</label>
                                     <input [class.is-invalid]="reactiveForm.get('phone')?.invalid && reactiveForm.get('phone')?.touched"  name="phone" formControlName="phone" type="text" class="form-control" id="patientPhone" placeholder="Enter phone number">
                                 </div>
+                                <small class="text-danger small" *ngIf="reactiveForm.controls.phone.errors?.['required']">
+                                    *Phone number is required
+                                </small>
+                                  <small class="text-danger small" *ngIf="reactiveForm.controls.phone.errors?.['pattern']">
+                                    *Enter a valid phone number with +91
+                                  </small>
                             </div>
                         </div>
 
                         <div class="form-group mb-3">
                             <label for="message" class="form-label">Message</label>
                             <textarea [class.is-invalid]="reactiveForm.get('date')?.invalid && reactiveForm.get('message')?.touched" name="message" formControlName="message" name="message" class="form-control" id="message" rows="4" placeholder="Enter any message"></textarea>
+                            <small class="text-danger small" *ngIf="reactiveForm.controls.message.errors?.['required']">
+                                *Message is required
+                            </small>
                         </div>
                         
                         <div class="container mt-3">
