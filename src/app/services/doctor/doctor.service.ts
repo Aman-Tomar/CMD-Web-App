@@ -10,6 +10,7 @@ import { IDoctorSchedule } from '../../models/Doctors/doctorSchedule.models';
 })
 export class DoctorService {
   private apiUrl = 'https://cmd-doctor-api.azurewebsites.net'; 
+  private clinicUrl = 'https://cmd-clinic-api.azurewebsites.net';
   client:HttpClient = inject(HttpClient);
 
   getAllDoctors(page: number, pageSize: number): Observable<any> {
@@ -34,6 +35,18 @@ export class DoctorService {
     return this.client.put<any>(`${this.apiUrl}/api/Doctor?doctorId=${doctorId}`, formData);
   }
   
+  getSpecializations(): Observable<string[]> {
+    return this.client.get<string[]>(`http://localhost:3000/specializations`);
+  }
+
+  getDepartments(): Observable<any[]> {
+    return this.client.get<any[]>(`${this.clinicUrl}/api/Department`);
+  }
+
+  getClinics(): Observable<any[]> {
+    return this.client.get<any[]>(`${this.clinicUrl}/api/Clinic`);
+  }
+
   private mapDoctorResponse(response: any): IDoctor {
     return {
       doctorId: response.doctorId,
