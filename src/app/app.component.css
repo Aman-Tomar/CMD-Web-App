@@ -1,0 +1,14 @@
+.sidebar-container {
+    padding-left: 0; /* Remove left padding */
+  }
+  
+  .content-container {
+    padding-left: 0; 
+    padding-right: 0; 
+  }
+  
+  /* If the sidebar is hidden, you can keep full width on the main content */
+  /* .col-12 {
+    padding-left: 0;
+  } */
+  

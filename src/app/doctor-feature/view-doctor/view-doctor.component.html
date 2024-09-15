@@ -1,10 +1,10 @@
 
-<div class="header">
-  <h1>Doctors</h1>
-  <button [routerLink]="['/doctor/add']" class="add-doctor-btn">+ Add Doctor</button>
+<div class="header mt-3">
+  <h4 style="color: #565656;">Doctors</h4>
+  <button [routerLink]="['/doctor/add']" class="add-doctor-btn rounded-pill">+ Add Doctor</button>
 </div>
  <!-- Dropdown for selecting page size -->
- <div class="page-size-selector">
+ <div class="page-size-selector mb-3">
   <label for="pageSize">Show: </label>
   <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange($event)">
     <option [value]="1">1</option>
@@ -22,7 +22,9 @@
       <div class="menu-container">
         <button class="menu-btn" (click)="toggleMenu(doctor.doctorId)">⋮</button>
         <div *ngIf="currentDoctorId === doctor.doctorId" class="dropdown-menu">
-          <a [routerLink]="['/doctor/edit', doctor.doctorId]" class="dropdown-item">Edit</a>
+          <a [routerLink]="['/doctor/edit', doctor.doctorId]" class="dropdown-item">
+            <i class="fas fa-edit me-2 text-muted"></i>
+            Edit</a>
           <!-- Add more options here if needed -->
         </div>
       </div>

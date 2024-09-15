@@ -3,12 +3,12 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DoctorService } from '../../services/doctor/doctor.service';
 import { IDoctor } from '../../models/Doctors/doctor.models';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-add-doctor',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,RouterLink],
   templateUrl: './add-doctor.component.html',
   styleUrl: './add-doctor.component.css'
 })

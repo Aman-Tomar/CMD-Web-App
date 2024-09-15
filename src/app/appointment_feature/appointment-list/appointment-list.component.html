@@ -1,10 +1,11 @@
 <!-- Error Message -->
 <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
-    {{ errorMessage }}
+    "The objects are not found"
   </div>
 
 
-  <div class="d-flex justify-content-end mb-3">
+  <div class="d-flex justify-content-between mb-3">
+    <h4 style="color: #565656;" class="mt-3">Appointments</h4>
     <a class="mt-3 btn btn-primary rounded-pill" [routerLink]="['/appointments/add']">
       + Add Appointment
     </a>
@@ -22,20 +23,20 @@
     <table class=" custom-table table table-bordered table-hover table-striped ">
       <thead class="table-light">
         <tr>
-          <th>Appointment ID</th>
-          <th>Purpose of Visit</th>
-          <th>
+          <th class="fw-bolder">Appointment ID</th>
+          <th class="fw-bolder">Purpose of Visit</th>
+          <th class="fw-bolder">
             Date
 <button class="btn btn-sm" (click)="sortByDate()">
 <span *ngIf="sortOrder === 'asc'">&#9650;</span> <!-- Up arrow for ascending -->
 <span *ngIf="sortOrder === 'desc'">&#9660;</span> <!-- Down arrow for descending -->
 </button>
 </th>
-          <th>Time</th>
-          <th>Status</th>
-          <th>Doctor ID</th>
-          <th>Patient ID</th>
-          <th>Actions</th>
+          <th fw-bolder>Time</th>
+          <th fw-bolder>Status</th>
+          <th fw-bolder>Doctor ID</th>
+          <th fw-bolder>Patient ID</th>
+          <th fw-bolder>Actions</th>
         </tr>
       </thead>
       <tbody >
@@ -102,7 +103,7 @@
   </div>
   
   <!-- Pagination controls -->
-  <nav *ngIf="!loading">
+  <nav class="mb-3" *ngIf="!loading">
     <ul class=" justify-content-center pagination">
       <li class="page-item" [class.disabled]="currentPage === 1">
         <button class="page-link" (click)="previousPage()">Previous</button>

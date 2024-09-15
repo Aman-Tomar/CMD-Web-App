@@ -3,12 +3,12 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { IDoctor } from '../../models/Doctors/doctor.models';
 import { DoctorService } from '../../services/doctor/doctor.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-edit-doctor',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,RouterLink],
   templateUrl: './edit-doctor.component.html',
   styleUrl: './edit-doctor.component.css'
 })
