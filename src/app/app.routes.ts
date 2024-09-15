@@ -10,9 +10,7 @@ export const routes: Routes = [
     {path:'',component:HomeComponent},
     {path:'appointments',component:AppointmentListComponent,title:"All appointments"},
     {path:'appointments/add',component:AddAppointmentComponent,title:"Add appointment"},
-    {path:'appointments/:id',component:AppointmentDetailsComponent},
+    {path:'appointments/:id',component:AppointmentDetailsComponent,title:"View Appointment"},
     { path: 'appointments/edit/:id', component:EditAppointmentComponent,title:"Edit Appointment" },
-    {path:'appointments/add',component:AddAppointmentComponent,title:"Add appointment"},
     {path:'appointments/filterbystatus',component:AppointmentFilterComponent,title:"filter by status"}
-   
 ];

@@ -26,7 +26,7 @@ export class EditAppointmentComponent implements OnInit {
   errorMessage: string = '';
   successMessage: string = '';
   appointmentId!: number;
-  formattedAppontmentId!:string;
+  formattedAppontmentId:string='loading...';
   appointment!: IAppointment;
   patient!: Patient;
   doctor!: IDoctor;
@@ -44,6 +44,9 @@ export class EditAppointmentComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.reactiveForm.get('patient')?.disable();
+    this.reactiveForm.get('doctor')?.disable();
+
     this.route.paramMap.subscribe(param => {
       this.appointmentId = Number(param.get('id'));
       if (this.appointmentId) {
@@ -52,8 +55,8 @@ export class EditAppointmentComponent implements OnInit {
             this.appointment = data;
             this.formattedAppontmentId=this.formatAppointmentId(this.appointmentId);
             this.reactiveForm.patchValue({
-              patient: String(this.appointment.patientId),
-              doctor:String(this.appointment.doctorId),
+              patient: this.formatPatientId(this.appointment.patientId),
+              doctor:this.formatDoctortId(this.appointment.doctorId),
               purposeOfVisit: this.appointment.purposeOfVisit,
               email: this.appointment.email,
               phone: this.appointment.phone,
@@ -103,6 +106,12 @@ export class EditAppointmentComponent implements OnInit {
   // Method to format appointment ID
   formatAppointmentId(id: number): string {
     return `APT${id.toString().padStart(4, '0')}`;
+  }
+  formatPatientId(id: number): string {
+    return `PAT${id.toString().padStart(4, '0')}`;
+  }
+  formatDoctortId(id: number): string {
+    return `DOC${id.toString().padStart(4, '0')}`;
   }
 
   private mapFormToAppointment(): void {
