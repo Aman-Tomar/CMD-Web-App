@@ -5,14 +5,7 @@
   
 }
   
-  .sidebar.active {
-    width: 0;
-    overflow: hidden;
-    color:white;
-    -webkit-transition: all 0.4s ease;
-	-moz-transition: all 0.4s ease;
-	transition: all 0.4s ease;
-  }
+
 
   .cursor-pointer {
     cursor: pointer;
