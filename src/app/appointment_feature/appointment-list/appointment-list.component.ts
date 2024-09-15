@@ -16,7 +16,7 @@ import { AppointmentResponse } from '../../models/Appointment/AppointmentRespons
 })
 export class AppointmentListComponent {
 AppointmentStatus = AppointmentStatus;
-AppointmentResponse:AppointmentResponse={Items:[],TotalAppointments:0,PageLimit:20,PageNumber:1};
+AppointmentResponse:AppointmentResponse={items:[],totalAppointments:0,pageLimit:20,pageNumber:1};
 Appointments:IAppointment[]=[];
 appointmentService:AppointmentService=inject(AppointmentService);
 currentPage: number = 1;
@@ -39,15 +39,16 @@ ngOnInit(): void {
 getAppointments(pageNo: number, pageLimit: number): void {
   this.loading = true;
   this.appointmentService.getAppointments(pageNo, pageLimit).subscribe({
-    next: (data: AppointmentResponse) => {
-      this.AppointmentResponse = data;
-      console.log('Received data:', data);  // Debugging: log the full response
-      this.Appointments = data.Items;  // Assign response.Items to Appointments
-      console.log('Appointments:', this.Appointments);  // Debugging: log the appointments
+    next: (response: AppointmentResponse) => {
+      console.log('Received data:', response.totalAppointments);  // Debugging: log the full response
+      this.Appointments = response.items;  // Assign response.items to Appointments
+      this.AppointmentResponse = response
 
+      console.log('Appointments:', this.Appointments);  // Debugging: log the appointments
+      console.log('Appointment response :',this.AppointmentResponse);
       // Update pagination and check last page
-      this.updateTotalPages();
-      this.checkLastPage(this.Appointments);
+      // this.updateTotalPages();
+      // this.checkLastPage(this.Appointments);
 
       this.loading = false;  // Stop loading
     },
@@ -63,16 +64,16 @@ getAppointments(pageNo: number, pageLimit: number): void {
  //Toggle sorting by date
  sortByDate(): void {
   if (this.sortOrder === 'asc') {
-    this.AppointmentResponse.Items.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    this.AppointmentResponse.items.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
     this.sortOrder = 'desc'; // Toggle to descending order
   } else {
-    this.AppointmentResponse.Items.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    this.AppointmentResponse.items.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     this.sortOrder = 'asc'; // Toggle to ascending order
   }
 }
 
 updateTotalPages(): void {
-  const totalAppointments = this.AppointmentResponse.TotalAppointments; // Length of the filtered appointments
+  const totalAppointments = this.AppointmentResponse.totalAppointments; // Length of the filtered appointments
   // const totalPageCount = Math.ceil(totalAppointments / this.pageSize);
   // this.totalPages = Array.from({ length: totalPageCount }, (_, i) => i + 1);
 }

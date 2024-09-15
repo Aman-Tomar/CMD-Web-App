@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AppointmentFilterStatusComponent } from './appointment-filter-status.component';
+import { AppointmentFilterComponent } from './appointment-filter-status.component';
 
 describe('AppointmentFilterStatusComponent', () => {
-  let component: AppointmentFilterStatusComponent;
-  let fixture: ComponentFixture<AppointmentFilterStatusComponent>;
+  let component: AppointmentFilterComponent;
+  let fixture: ComponentFixture<AppointmentFilterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppointmentFilterStatusComponent]
+      imports: [AppointmentFilterComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AppointmentFilterStatusComponent);
+    fixture = TestBed.createComponent(AppointmentFilterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
