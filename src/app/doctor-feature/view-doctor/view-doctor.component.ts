@@ -37,9 +37,11 @@ export class ViewDoctorComponent implements OnInit{
       next: (response) => {
         console.log('API Response:', response); // Ensure the response structure is as expected
         if (response && response.data) {
+          this.totalDoctors = response.totalItems;
           this.doctors = response.data.map((doctor: any) => ({
             ...doctor, // Copy all doctor properties
             city: doctor.doctorAddress ? doctor.doctorAddress.city : '' // Map city from doctorAddress
+            
           }));
   
           this.pages = Array.from({ length: response.totalPages }, (_, i) => i + 1);

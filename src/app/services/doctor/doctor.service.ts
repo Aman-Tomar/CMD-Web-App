@@ -9,7 +9,7 @@ import { IDoctorSchedule } from '../../models/Doctors/doctorSchedule.models';
   providedIn: 'root'
 })
 export class DoctorService {
-  private apiUrl = 'https://localhost:44310'; 
+  private apiUrl = 'https://cmd-doctor-api.azurewebsites.net'; 
   client:HttpClient = inject(HttpClient);
 
   getAllDoctors(page: number, pageSize: number): Observable<any> {
