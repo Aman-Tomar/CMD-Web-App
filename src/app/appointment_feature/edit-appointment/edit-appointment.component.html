@@ -1,7 +1,7 @@
 @if(successMessage.length > 0) {
     <div class="alert alert-success alert-dismissible">
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        <strong>Success!</strong> {{successMessage}}
+        <strong> {{successMessage}}</strong>
     </div>
 }
 @if(errorMessage.length > 0) {
@@ -38,20 +38,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <!-- <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="department" class="form-label">Department</label>
-                                    <select id="department" class="form-select">
-                                        <option selected>Select</option>
-                                        <option>Dentists</option>
-                                        <option>Neurology</option>
-                                        <option>Ophthalmology</option>
-                                        <option>Orthopedics</option>
-                                        <option>Cancer Department</option>
-                                        <option>ENT Department</option>
-                                    </select>
-                                </div>
-                            </div> -->
+                            
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="visitPurpose" class="form-label">Purpose of Visit</label>
@@ -79,14 +66,20 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="appointmentDate" class="form-label">Date</label>
-                                    <input name="date" formControlName="date" type="date" class="form-control" id="appointmentDate" />
+                                    <input [class.is-invalid]="reactiveForm.get('date')?.invalid && reactiveForm.get('date')?.touched" name="date" formControlName="date" type="date" class="form-control" id="appointmentDate" />
                                 </div>
+                                <div class="text-danger small" *ngIf="reactiveForm.controls.date.errors?.['pastDate']">
+                                    The date cannot be in the past.
+                                  </div>
+                                  <div class="text-danger small" *ngIf="reactiveForm.controls.date.errors?.['futureDateExceeded']">
+                                    The date cannot be more than 30 days in the future.
+                                  </div>
                             </div>
                             <!-- Time Picker -->
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="appointmentTime" class="form-label">Time</label>
-                                    <input name="time" formControlName="time" type="time" class="form-control" id="appointmentTime" />
+                                    <input [class.is-invalid]="reactiveForm.get('time')?.invalid && reactiveForm.get('time')?.touched" name="time" formControlName="time" type="time" class="form-control" id="appointmentTime" />
                                 </div>
                             </div>
                         </div>
@@ -95,24 +88,24 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="patientEmail" class="form-label">Patient Email</label>
-                                    <input name="email" formControlName="email" type="email" class="form-control" id="patientEmail" placeholder="Enter email">
+                                    <input [class.is-invalid]="reactiveForm.get('email')?.invalid && reactiveForm.get('email')?.touched"  name="email" formControlName="email" type="email" class="form-control" id="patientEmail" placeholder="Enter email">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="patientPhone" class="form-label">Patient Phone Number</label>
-                                    <input name="phone" formControlName="phone" type="text" class="form-control" id="patientPhone" placeholder="Enter phone number">
+                                    <input [class.is-invalid]="reactiveForm.get('phone')?.invalid && reactiveForm.get('phone')?.touched"  name="phone" formControlName="phone" type="text" class="form-control" id="patientPhone" placeholder="Enter phone number">
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group mb-3">
                             <label for="message" class="form-label">Message</label>
-                            <textarea formControlName="message" name="message" class="form-control" id="message" rows="4" placeholder="Enter any message"></textarea>
+                            <textarea [class.is-invalid]="reactiveForm.get('date')?.invalid && reactiveForm.get('message')?.touched" name="message" formControlName="message" name="message" class="form-control" id="message" rows="4" placeholder="Enter any message"></textarea>
                         </div>
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Edit Appointment</button>
+                            <button [disabled]="reactiveForm.invalid" type="submit" class="btn btn-primary">Edit Appointment</button>
                         </div>
                     </form>
                 </div>

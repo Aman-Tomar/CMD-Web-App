@@ -26,7 +26,7 @@
                                 <div class="form-group">
                                     <label for="patient" class="form-label">Patient Name</label>
                                     <select name="patient" id="patient" formControlName="patient" class="form-select form-control">
-                                        <option  selected>Select</option>
+                                        <option  value=''selected>Select</option>
                                         <option  *ngFor="let patient of patients" value={{patient.patientId}}>{{patient.patientName}}</option>
                                     </select>
                                 </div>
@@ -35,7 +35,7 @@
                                 <div class="form-group">
                                     <label for="visitPurpose" class="form-label">Purpose of Visit</label>
                                     <select name="purposeOfVisit" formControlName="purposeOfVisit" id="visitPurpose" class="form-select form-control">
-                                        <option selected>Select</option>
+                                        <option value=''selected>Select</option>
                                         <option value="Fever">Fever</option>
                                         <option value="Cold">Cold</option>
                                         <option value="Malaria">Malaria</option>
@@ -52,7 +52,7 @@
                                 <div class="form-group">
                                     <label for="department" class="form-label">Department</label>
                                     <select id="department" class="form-select form-control">
-                                        <option selected>Select</option>
+                                        <option value=''selected>Select</option>
                                         <option>Dentists</option>
                                         <option>Neurology</option>
                                         <option>Ophthalmology</option>
@@ -66,7 +66,7 @@
                                 <div class="form-group">
                                     <label for="doctor" class="form-label">Doctor</label>
                                     <select name="doctorId" formControlName="doctor" id="doctor" class="form-select form-control">
-                                        <option  selected>Select</option>
+                                        <option  value=''selected>Select</option>
                                         <option *ngFor="let doctor of doctors" value={{doctor.doctorId}}>{{doctor.firstName}} {{doctor.lastName}}</option>
                                     </select>
                                 </div>
@@ -79,11 +79,14 @@
                                 <div class="form-group">
                                     <label for="appointmentDate" class="form-label">Date</label>
                                     <div class="input-group" id="datetimepickerDate">
-                                        <input name="date" formControlName="date" type="date" class="form-control" id="appointmentDate" />
-                                        <!-- <span class="input-group-text">
-                                            <i class="bi bi-calendar"></i>
-                                        </span> -->
+                                        <input [class.is-invalid]="reactiveForm.get('date')?.invalid && reactiveForm.get('date')?.touched" name="date" formControlName="date" type="date" class="form-control" id="appointmentDate" />
                                     </div>
+                                    <div class="text-danger small" *ngIf="reactiveForm.controls.date.errors?.['pastDate']">
+                                        The date cannot be in the past.
+                                      </div>
+                                      <div class="text-danger small" *ngIf="reactiveForm.controls.date.errors?.['futureDateExceeded']">
+                                        The date cannot be more than 30 days in the future.
+                                      </div>
                                 </div>
                             </div>
                             <!-- Time Picker -->
@@ -91,10 +94,7 @@
                                 <div class="form-group">
                                     <label for="appointmentTime" class="form-label">Time</label>
                                     <div class="input-group" id="datetimepickerTime">
-                                        <input name="time" formControlName="time" type="time" class="form-control" id="appointmentTime" />
-                                        <!-- <span class="input-group-text">
-                                            <i class="bi bi-clock"></i>
-                                        </span> -->
+                                        <input [class.is-invalid]="reactiveForm.get('time')?.invalid && reactiveForm.get('time')?.touched" name="time" formControlName="time" type="time" class="form-control" id="appointmentTime" />
                                     </div>
                                 </div>
                             </div>
@@ -104,24 +104,24 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="patientEmail" class="form-label">Patient Email</label>
-                                    <input name="email" formControlName="email" type="email" class="form-control" id="patientEmail" placeholder="Enter email">
+                                    <input [class.is-invalid]="reactiveForm.get('email')?.invalid && reactiveForm.get('email')?.touched" name="email" formControlName="email" type="email" class="form-control" id="patientEmail" placeholder="Enter email">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="patientPhone" class="form-label">Patient Phone Number</label>
-                                    <input name="phone" formControlName="phone" type="text" class="form-control" id="patientPhone" placeholder="Enter phone number">
+                                    <input [class.is-invalid]="reactiveForm.get('phone')?.invalid && reactiveForm.get('phone')?.touched" name="phone" formControlName="phone" type="text" class="form-control" id="patientPhone" placeholder="Enter phone number">
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group mb-3">
                             <label for="message" class="form-label">Message</label>
-                            <textarea formControlName="message" name="message"class="form-control" id="message" rows="4" placeholder="Enter any message"></textarea>
+                            <textarea formControlName="message" [class.is-invalid]="reactiveForm.get('message')?.invalid && reactiveForm.get('message')?.touched" name="message"class="form-control" id="message" rows="4" placeholder="Enter any message"></textarea>
                         </div>
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Create Appointment</button>
+                            <button [disabled]="reactiveForm.invalid" type="submit" class="btn btn-primary">Create Appointment</button>
                         </div>
                     </form>
                 </div>

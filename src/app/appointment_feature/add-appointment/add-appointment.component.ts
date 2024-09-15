@@ -9,6 +9,7 @@ import { IDoctor } from '../../models/Appointment/Doctor';
 import { DoctorResponse } from '../../models/Appointment/DoctorResponse';
 import { IAppointment } from '../../models/Appointment/Appointment';
 import { AppointmentStatus } from '../../models/Appointment/AppointmentStatus';
+import { dateRangeValidator } from '../../Validators/AppointmentCustomValidator';
 // import { CustomValidator } from './Validators/AppointmentCustomValidator';
 
 @Component({
@@ -49,12 +50,12 @@ export class AddAppointmentComponent implements OnInit {
   reactiveForm=new FormGroup({
     patient:new FormControl('',[Validators.required]),
     doctor:new FormControl('',[Validators.required]),
-    purposeOfVisit:new FormControl('',[Validators.required]),
-    email:new FormControl('',[Validators.required,Validators.email]),
-    phone:new FormControl('',[Validators.required]),
-    date:new FormControl('',[Validators.required]),
-    time:new FormControl('',[Validators.required]),
-    message:new FormControl('',[Validators.required]),
+    purposeOfVisit: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    phone: new FormControl('', [Validators.required, Validators.pattern(/^(\+91|91)?[6-9][0-9]{9}$/)]),
+    date: new FormControl('', [Validators.required, dateRangeValidator()]),
+    time: new FormControl('', [Validators.required]),
+    message: new FormControl('', [Validators.required]),
   });
 
 
