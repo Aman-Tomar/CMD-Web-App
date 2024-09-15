@@ -29,7 +29,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="patient" class="form-label">Patient Name</label>
-                                    <select name="patient" id="patient" formControlName="patient" class="form-select form-control">
+                                    <select name="patient" id="patient" formControlName="patient" class="form-select form-control" (change)="onPatientSelect($event)">
                                         <option value='' selected>Select</option>
                                         <option *ngFor="let patient of patients" [value]="patient.patientId">{{patient.patientName}}</option>
                                     </select>
@@ -126,7 +126,7 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="patientEmail" class="form-label">Patient Email</label>
+                                    <label for="patientEmail" class="form-label">Email</label>
                                     <input [class.is-invalid]="reactiveForm.get('email')?.touched && reactiveForm.get('email')?.invalid" name="email" formControlName="email" type="email" class="form-control" id="patientEmail" placeholder="Enter email">
                                 </div>
                                 <small class="text-danger small" *ngIf="reactiveForm.controls.email.touched && reactiveForm.controls.email.errors?.['required']">
@@ -139,7 +139,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="patientPhone" class="form-label">Patient Phone Number</label>
+                                    <label for="patientPhone" class="form-label">Phone Number</label>
                                     <input [class.is-invalid]="reactiveForm.get('phone')?.touched && reactiveForm.get('phone')?.invalid" name="phone" formControlName="phone" type="text" class="form-control" id="patientPhone" placeholder="Enter phone number">
                                 </div>
                                 <small class="text-danger small" *ngIf="reactiveForm.controls.phone.touched && reactiveForm.controls.phone.errors?.['required']">

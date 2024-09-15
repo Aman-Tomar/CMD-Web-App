@@ -100,6 +100,27 @@ export class AddAppointmentComponent implements OnInit {
     });
   }
   
+
+  onPatientSelect(event: any) {
+    const selectedPatientId = event.target.value;
+
+    // Call the API to get patient details by ID
+    if (selectedPatientId) {
+      this.appointmentService.getPatientById(selectedPatientId).subscribe({
+        next: (patientData) => {
+          // Populate the email and phone fields
+          this.reactiveForm.patchValue({
+            email: patientData.email,
+            phone: patientData.phone
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching patient details:', error);
+        }
+      });
+    }
+  }
+
   onSubmit() {
     console.log(this.reactiveForm);
     this.mapFormToAppointment();
