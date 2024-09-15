@@ -5,6 +5,8 @@ import { Patient } from '../../models/patient.model';
 import { PatientService } from '../../services/patient/patient.service';
 import { CommonService } from '../../services/patient/commonservice';
 
+
+
 @Component({
   selector: 'app-patient-detail',
   standalone: true,
@@ -16,7 +18,7 @@ export class PatientDetailComponent
 {
   patient: Patient | null = null;
 
-  constructor(private route : ActivatedRoute, private patientService : PatientService,private commonService:CommonService){}
+  constructor(private route : ActivatedRoute, private patientService : PatientService,private commonService: CommonService){}
 
   ngOnInit(): void {
     const patientId = this.route.snapshot.paramMap.get('id');
@@ -41,11 +43,17 @@ export class PatientDetailComponent
       }
     });
   }
+
   // loadPatient(id: number): void {
   //   this.patientService.getPatientById(id).subscribe(
   //     {
-  //       next: (patient) => {
-  //         this.patient = patient;
+  //       next: (patient) => 
+  //         {
+  //            // Check if heximage is defined and not null/undefined before processing
+  //           if (patient?.heximage) {
+  //             // Use the CommonService to add the correct MIME type to the image
+  //             patient.heximage = this.commonService.detectMimeTypeAndPrepend(patient.heximage);
+  //           }        
   //       },
   //       error: (error) => {
   //         console.error('Error loading patient:', error);
@@ -54,3 +62,5 @@ export class PatientDetailComponent
   //   )
   // }
 }
+
+ 

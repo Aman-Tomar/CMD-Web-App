@@ -43,9 +43,16 @@
                 Age must be between 0 and 150
               </small>
             </div>
-            <div class="col-md-4 mb-3">
+            <!-- <div class="col-md-4 mb-3">
               <label for="dob">Date of Birth <span class="text-danger">*</span></label>
               <input id="dob" type="date" class="form-control" formControlName="dob">
+              <small class="text-danger" *ngIf="patientForm.get('dob')?.invalid && patientForm.get('dob')?.touched">
+                Please enter a valid date
+              </small>
+            </div> -->
+            <div class="col-md-4 mb-3">
+              <label for="dob">Date of Birth <span class="text-danger">*</span></label>
+              <input id="dob" type="date" class="form-control" formControlName="dob" [max]="maxDate">
               <small class="text-danger" *ngIf="patientForm.get('dob')?.invalid && patientForm.get('dob')?.touched">
                 Please enter a valid date
               </small>

@@ -29,6 +29,7 @@ export class PatientService {
   getClinics(): Observable<any[]> {
     return this.http.get<any[]>(this.CLINIC_VIEW_URL);
   }
+  
   getClinicById(id: number): Observable<string> {
     return this.http.get<any>(`${this.CLINIC_VIEW_URL}/${id}`).pipe(
       map(clinic => clinic.name)

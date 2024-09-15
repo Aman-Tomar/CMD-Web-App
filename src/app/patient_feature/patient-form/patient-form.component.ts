@@ -22,6 +22,7 @@ export class PatientFormComponent implements OnInit {
   isEditMode: boolean = false;
   doctors:Doctor[]=[];
   clinics:Clinic[]=[];
+  maxDate: string='';
   //states: any[] = [];
   patientId: number | null = null;
   countries: { code: string, name: string }[] = [
@@ -44,6 +45,7 @@ export class PatientFormComponent implements OnInit {
     private router: Router
   ) {
     this.patientForm = this.initForm();
+    this.setMaxDate();
   }
 
   ngOnInit(): void {
@@ -76,6 +78,16 @@ export class PatientFormComponent implements OnInit {
   //     }
   //   );
   // }
+
+
+  setMaxDate() {
+    const today = new Date();
+    const day = ('0' + today.getDate()).slice(-2); // Add leading zero if needed
+    const month = ('0' + (today.getMonth() + 1)).slice(-2); // Add leading zero if needed
+    const year = today.getFullYear();
+    
+    this.maxDate = `${year}-${month}-${day}`;
+  }
 
   loadIndianStates(): void {
     this.states = [

@@ -1,58 +1,122 @@
 <div class="container-fluid py-4" *ngIf="patient">
-    <div class="row mb-4">
-      <div class="col-md-8">
-        <h2 class="page-title">Patient Profile</h2>
-      </div>
-      <div class="col-md-4 text-md-end">
-        <a [routerLink]="['/patients', patient.patientId, 'edit']" class="btn btn-primary">
-          <i class="fas fa-edit me-2"></i>Edit Profile
-        </a>
-      </div>
-    </div>
-  
-    <div class="card shadow">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-3 text-center mb-4 mb-md-0">
-            <img [src]="patient.image || 'assets/img/user.jpg'" alt="Patient Image" class="img-fluid rounded-circle mb-3" style="max-width: 150px;">
-            <h4 class="mb-1">{{ patient.patientName }}</h4>
-            <p class="text-muted">Patient ID: {{ patient.patientId }}</p>
-          </div>
-          <div class="col-md-9">
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <h5 class="text-primary">Personal Information</h5>
-                <ul class="list-unstyled">
-                  <li><strong>Age:</strong> {{ patient.age }}</li>
-                  <li><strong>Gender:</strong> {{ patient.gender }}</li>
-                  <li><strong>Phone:</strong> {{ patient.phone }}</li>
-                  <li><strong>Email:</strong> {{ patient.email }}</li>
-                  <li><strong>Date of Birth:</strong> {{ patient.dob | date:'dd/MM/yyyy' }}</li>
-                  <li><strong>Preferred Start Time:</strong> {{ patient.preferredStartTime }}</li>
-                  <li><strong>Preferred End Time:</strong> {{ patient.preferredEndTime }}</li>
-                  <li><strong>Preferred Clinic:</strong> {{ patient.preferredClinicId }}</li>
-                  <li><strong>Preferred Doctor:</strong> {{ patient.preferredDoctorId }}</li>
-                </ul>
-              </div>
-              <div class="col-md-6 mb-3">
-                <h5 class="text-primary">Address</h5>
-                <p>
-                  {{ patient.streetAddress }}<br>
-                  {{ patient.city }}, {{ patient.state }}<br>
-                  {{ patient.country }} {{ patient.zipCode }}
-                </p>
-                <div *ngIf="patient.age < 18">
-                  <h5 class="text-primary mt-4">Guardian Information</h5>
-                  <ul class="list-unstyled">
-                    <li><strong>Guardian Name:</strong> {{ patient.patientGuardianName }}</li>
-                    <li><strong>Guardian Phone:</strong> {{ patient.patientGuardianPhoneNumber }}</li>
-                    <li><strong>Guardian Relationship:</strong> {{ patient.patientGuardianRelationship }}</li>
-                  </ul>
+  <h2 class="page-title mb-4">Patient Profile</h2>
+
+  <div class="card shadow">
+    <div class="card-body">
+      <div class="row">
+        <!-- Patient Information -->
+        <div class="col-md-3 text-center mb-4">
+          <img [src]="patient.image || 'assets/img/user.jpg'" alt="Patient Image" class="img-fluid rounded-circle mb-3" style="max-width: 150px;">
+          <h4 class="mb-1 text-black">{{ patient.patientName }}</h4>
+          <p class="text-muted">Patient ID: {{ patient.patientId }}</p>
+        </div>
+
+        <!-- Personal Information -->
+        <div class="col-md-9 text-black">
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="mb-4" style="color: black;">Personal Information</h5>
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label>Age</label>
+                  <input type="text" class="form-control" [value]="patient.age" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label>Gender</label>
+                  <input type="text" class="form-control" [value]="patient.gender" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label>Phone</label>
+                  <input type="text" class="form-control" [value]="patient.phone" disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label>Email</label>
+                  <input type="email" class="form-control" [value]="patient.email" disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label>Date of Birth</label>
+                  <input type="text" class="form-control" [value]="patient.dob | date:'dd/MM/yyyy'" disabled>
                 </div>
               </div>
             </div>
           </div>
+
+          <!-- Preferences -->
+          <div class="card mb-4 text-black">
+            <div class="card-body">
+              <h5 class="mb-4" style="color: black;">Preferences</h5>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label>Preferred Start Time</label>
+                  <input type="text" class="form-control" [value]="patient.preferredStartTime" disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label>Preferred End Time</label>
+                  <input type="text" class="form-control" [value]="patient.preferredEndTime" disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label>Preferred Clinic</label>
+                  <input type="text" class="form-control" [value]="patient.preferredClinicId" disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label>Preferred Doctor</label>
+                  <input type="text" class="form-control" [value]="patient.preferredDoctorId" disabled>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Address Information -->
+          <div class="card mb-4 text-black">
+            <div class="card-body">
+              <h5 class="mb-4" style="color: black;">Address Information</h5>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label>Street Address</label>
+                  <input type="text" class="form-control" [value]="patient.streetAddress" disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label>City</label>
+                  <input type="text" class="form-control" [value]="patient.city" disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label>State</label>
+                  <input type="text" class="form-control" [value]="patient.state" disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label>Country</label>
+                  <input type="text" class="form-control" [value]="patient.country" disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label>Postal Code</label>
+                  <input type="text" class="form-control" [value]="patient.zipCode" disabled>
+                </div>
+              </div>
+
+              <!-- Guardian Information (if patient is a minor) -->
+              <div *ngIf="patient.age < 18">
+                <h5 class="mb-4" style="color: black;">Guardian Information</h5>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label>Guardian Name</label>
+                    <input type="text" class="form-control" [value]="patient.patientGuardianName" disabled>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Guardian Phone</label>
+                    <input type="text" class="form-control" [value]="patient.patientGuardianPhoneNumber" disabled>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Guardian Relationship</label>
+                    <input type="text" class="form-control" [value]="patient.patientGuardianRelationship" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
+</div>
+ 
