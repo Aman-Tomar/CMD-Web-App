@@ -5,6 +5,7 @@ import { IAppointmentDTO } from '../../models/Appointment/AppointmentDTO';
 import { catchError, Observable, throwError } from 'rxjs';
 import { PatientResponse } from '../../models/Appointment/PatientResponse';
 import { DoctorResponse } from '../../models/Appointment/DoctorResponse';
+import { AppointmentResponse } from '../../models/Appointment/AppointmentResponse';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,10 +19,10 @@ export class AppointmentService {
 
 
 //Appointments  Api Call
-  getAppointments(pageNo: number = 1, pageLimit: number = 20): Observable<IAppointment[]> {
+  getAppointments(pageNo: number = 1, pageLimit: number = 20): Observable<AppointmentResponse> {
     let params = new HttpParams().set('pageNo', pageNo.toString()).set('pageLimit', pageLimit.toString());
 
-    return this.http.get<IAppointment[]>(`${this.apiUrl}/Appointment`, { params })
+    return this.http.get<AppointmentResponse>(`${this.apiUrl}/Appointment`, { params })
   }
 
    // Fetch active appointments

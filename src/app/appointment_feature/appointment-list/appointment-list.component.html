@@ -18,7 +18,7 @@
 </div>
 
   <!-- Appointments Table -->
-  <div *ngIf="!loading && Appointments.length > 0" class="table-responsive">
+  <div *ngIf="!loading && AppointmentResponse.Items.length > 0" class="table-responsive">
     <table class=" custom-table table table-bordered table-hover table-striped ">
       <thead class="table-light">
         <tr>
@@ -33,7 +33,7 @@
         </tr>
       </thead>
       <tbody >
-        <tr *ngFor="let appointment of Appointments">
+        <tr *ngFor="let appointment of AppointmentResponse.Items">
           <td> <a [routerLink]="['/appointments', appointment.id]" class="link-primary">
             {{ formatAppointmentId(appointment.id) }}
           </a></td>
@@ -83,7 +83,7 @@
   </div>
   
   <!-- No appointments found -->
-  <div *ngIf="!loading && Appointments.length === 0" class="alert alert-warning" role="alert">
+  <div *ngIf="!loading && AppointmentResponse.Items.length === 0" class="alert alert-warning" role="alert">
     No appointments found.
   </div>
   
