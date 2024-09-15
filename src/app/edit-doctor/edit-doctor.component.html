@@ -1,0 +1,160 @@
+<div class="container mt-5" style="max-width: 700px; margin: 0 auto;">
+  <h2 class="text-center mb-4">Update Doctor</h2>
+  <form (ngSubmit)="onSubmit()" #doctorForm="ngForm">
+    
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="firstName" class="form-label">First Name</label>
+        <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="doctor.firstName" required #firstName="ngModel">
+        <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="text-danger">
+          First Name is required.
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="doctor.lastName" required #lastName="ngModel">
+        <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="text-danger">
+          Last Name is required.
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" [(ngModel)]="doctor.email" required email #email="ngModel">
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
+          Please enter a valid email.
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="dateOfBirth" class="form-label">Date of Birth</label>
+        <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" [(ngModel)]="doctor.dateOfBirth" required #dateOfBirth="ngModel">
+        <div *ngIf="dateOfBirth.invalid && (dateOfBirth.dirty || dateOfBirth.touched)" class="text-danger">
+          Date of Birth is required.
+        </div>
+      </div>
+    </div>
+
+   
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label class="form-label">Gender</label>
+        <div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male" [(ngModel)]="doctor.gender" required #gender="ngModel">
+            <label class="form-check-label" for="genderMale">Male</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female" [(ngModel)]="doctor.gender" required #gender="ngModel">
+            <label class="form-check-label" for="genderFemale">Female</label>
+          </div>
+        </div>
+        <div *ngIf="gender.invalid && (gender.dirty || gender.touched)" class="text-danger">
+          Gender is required.
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label for="address" class="form-label">Address</label>
+        <textarea class="form-control" id="address" name="address" rows="3" [(ngModel)]="doctor.address" required #address="ngModel"></textarea>
+        <div *ngIf="address.invalid && (address.dirty || address.touched)" class="text-danger">
+          Address is required.
+        </div>
+      </div>
+    </div>
+
+   
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label for="country" class="form-label">Country</label>
+        <select class="form-select" id="country" name="country" [(ngModel)]="doctor.country" (change)="onCountryChange()" required #country="ngModel">
+          <option value="">Select Country</option>
+          <option *ngFor="let country of countries" [value]="country">{{country}}</option>
+        </select>
+        <div *ngIf="country.invalid && (country.dirty || country.touched)" class="text-danger">
+          Country is required.
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label for="city" class="form-label">City</label>
+        <input type="text" class="form-control" id="city" name="city" [(ngModel)]="doctor.city" required #city="ngModel">
+        <div *ngIf="city.invalid && (city.dirty || city.touched)" class="text-danger">
+          City is required.
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label for="state" class="form-label">State</label>
+        <select class="form-select" id="state" name="state" [(ngModel)]="doctor.state" required #state="ngModel">
+          <option value="">Select State</option>
+          <option *ngFor="let state of states" [value]="state">{{state}}</option>
+        </select>
+        <div *ngIf="state.invalid && (state.dirty || state.touched)" class="text-danger">
+          State is required.
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label for="zipCode" class="form-label">Postal Code</label>
+        <input type="text" class="form-control" id="zipCode" name="zipCode" [(ngModel)]="doctor.zipCode" required #zipCode="ngModel">
+        <div *ngIf="zipCode.invalid && (zipCode.dirty || zipCode.touched)" class="text-danger">
+          Postal Code is required.
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="phone" class="form-label">Phone Number</label>
+        <input type="text" class="form-control" id="phone" name="phone" [(ngModel)]="doctor.phoneNo" required #phone="ngModel">
+        <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="text-danger">
+          Phone Number is required.
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="profilePicture" class="form-label">Profile Picture</label>
+        <input type="file" class="form-control" id="profilePicture" (change)="onFileSelected($event)">
+      </div>
+    </div>
+
+
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label for="briefDescription" class="form-label">Short Biography</label>
+        <textarea class="form-control" id="briefDescription" name="briefDescription" rows="3" [(ngModel)]="doctor.briefDescription" required #briefDescription="ngModel"></textarea>
+        <div *ngIf="briefDescription.invalid && (briefDescription.dirty || briefDescription.touched)" class="text-danger">
+          Short Biography is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label class="form-label">Status</label>
+        <div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="status" id="statusActive" [value]="true" [(ngModel)]="doctor.status" required #status="ngModel">
+            <label class="form-check-label" for="statusActive">Active</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="status" id="statusInactive" [value]="false" [(ngModel)]="doctor.status" required #status="ngModel">
+            <label class="form-check-label" for="statusInactive">Inactive</label>
+          </div>
+        </div>
+        <div *ngIf="status.invalid && (status.dirty || status.touched)" class="text-danger">
+          Status is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-12 text-center">
+        <button type="submit" class="btn btn-primary custom-button" [disabled]="!doctorForm.form.valid">UPDATE DOCTOR</button>
+      </div>
+    </div>
+  </form>
+</div>
