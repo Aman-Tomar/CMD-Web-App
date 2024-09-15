@@ -4,11 +4,12 @@ import { DoctorService } from '../services/doctor/doctor.service';
 import { ActivatedRoute } from '@angular/router';
 import { IAddress } from '../models/Doctors/address.models';
 import { state } from '@angular/animations';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-doctor-details',
   standalone: true,
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './doctor-details.component.html',
   styleUrl: './doctor-details.component.css'
 })
@@ -25,6 +26,7 @@ export class DoctorDetailsComponent implements OnInit{
     doctorId:number = 0 ;
     doctor:IDoctor | undefined;
     doctorAddress:IAddress | undefined;
+    fallbackimage = 'assets/placeholder-image.jpg';
     
     getDoctorById(doctorId:number){
        this.doctorService.getDoctorById(doctorId).subscribe({
