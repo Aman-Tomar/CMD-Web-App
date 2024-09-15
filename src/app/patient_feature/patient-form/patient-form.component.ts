@@ -77,6 +77,7 @@ export class PatientFormComponent implements OnInit {
       country: ['', Validators.required],
       zipCode: ['', [Validators.required, this.zipCodeValidator.bind(this)]],
       image: [''],
+
       preferredClinicId: [''],
       preferredDoctorId: [''],
       patientGuardianName: [''],
@@ -205,7 +206,7 @@ export class PatientFormComponent implements OnInit {
       createdBy: this.currentUserId,
       lastModifiedDate: new Date().toISOString(),
       lastModifiedBy: this.currentUserId,
-      patientAddressId: this.isEditMode ? (patientData.patientAddressId || 0) : 0,
+      patientAddressId: this.isEditMode ? (patientData.patientAddressId) : 0,
       streetAddress: patientData.streetAddress,
       city: patientData.city,
       state: patientData.state,
