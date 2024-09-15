@@ -2,15 +2,16 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, switchMap } from 'rxjs';
 import { PatientResponse, Patient } from '../../models/patient.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientService {
  
-  private PATIENT_BASE_URL = "https://cmdpatientnewwebapp-ckbwb7h0cjhrfehx.southeastasia-01.azurewebsites.net/api";
-  private DOCTOR_VIEW_URL= "https://cmd-doctor-api.azurewebsites.net/api/Doctor";
-  private CLINIC_VIEW_URL="https://cmd-clinic-api.azurewebsites.net/api/Clinic";
+  private PATIENT_BASE_URL = environment.patientBaseUrl;
+  private DOCTOR_VIEW_URL = environment.doctorBaseUrl;
+  private CLINIC_VIEW_URL = environment.clinicBaseUrl;
   //private Sates_URL="http://localhost:3000/states";
   
   constructor(private http: HttpClient) { }

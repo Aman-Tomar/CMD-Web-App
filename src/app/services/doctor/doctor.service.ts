@@ -2,14 +2,14 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { IDoctor } from '../../models/Doctors/doctor.models';
 import { map, Observable } from 'rxjs';
-import { IDoctorSchedule } from '../../models/Doctors/doctorSchedule.models';
+import { environment } from '../../../environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class DoctorService {
-  private apiUrl = 'https://cmd-doctor-api.azurewebsites.net'; 
+  private apiUrl = environment.doctorBaseUrl; 
   client:HttpClient = inject(HttpClient);
 
   getAllDoctors(page: number, pageSize: number): Observable<any> {
@@ -17,21 +17,21 @@ export class DoctorService {
       .set('page', page.toString())  // Adjust the key if necessary to match your API (e.g., 'pageNumber' or 'page')
       .set('pageSize', pageSize.toString());
 
-    return this.client.get<IDoctor>(`${this.apiUrl}/api/Doctor`, { params });
+    return this.client.get<IDoctor>(`${this.apiUrl}/Doctor`, { params });
   }
   
   getDoctorById(doctorId:number):Observable<IDoctor>{
-      return this.client.get<IDoctor>(`${this.apiUrl}/api/Doctor/${doctorId}`).pipe(
+      return this.client.get<IDoctor>(`${this.apiUrl}/Doctor/${doctorId}`).pipe(
         map(this.mapDoctorResponse)
       );
   }
 
   addDoctor(formData:FormData): Observable<any> {
-    return this.client.post<any>(`${this.apiUrl}/api/Doctor`, formData);
+    return this.client.post<any>(`${this.apiUrl}/Doctor`, formData);
   }
 
   editDoctor(doctorId: number, formData: FormData): Observable<any> {
-    return this.client.put<any>(`${this.apiUrl}/api/Doctor?doctorId=${doctorId}`, formData);
+    return this.client.put<any>(`${this.apiUrl}/Doctor?doctorId=${doctorId}`, formData);
   }
   
   private mapDoctorResponse(response: any): IDoctor {

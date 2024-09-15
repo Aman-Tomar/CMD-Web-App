@@ -8,9 +8,7 @@ import { PatientListComponent } from './patient_feature/patient-list/patient-lis
 import { PatientDetailComponent } from './patient_feature/patient-detail/patient-detail.component';
 import { PatientFormComponent } from './patient_feature/patient-form/patient-form.component';
 import { PatientCardComponent } from './patient_feature/patient-card/patient-card.component';
-
-
-
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +19,7 @@ import { PatientCardComponent } from './patient_feature/patient-card/patient-car
   encapsulation: ViewEncapsulation.None 
 })
 export class AppComponent implements OnInit {
+  envName = environment.name;
   title = 'cmd-ui-app';
 
   isSidebarOpen: boolean = true;

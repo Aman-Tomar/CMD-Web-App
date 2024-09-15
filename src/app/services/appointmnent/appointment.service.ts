@@ -6,6 +6,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { PatientResponse } from '../../models/Appointment/PatientResponse';
 import { DoctorResponse } from '../../models/Appointment/DoctorResponse';
 import { AppointmentResponse } from '../../models/Appointment/AppointmentResponse';
+import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,9 +14,9 @@ export class AppointmentService {
 
   constructor(private http:HttpClient) { }
 
-  private apiUrl="https://appointmentapiservice-fyc7d5afcrhabceb.southeastasia-01.azurewebsites.net/api";
-  private patientApiUrl="https://cmdpatientnewwebapp-ckbwb7h0cjhrfehx.southeastasia-01.azurewebsites.net/api";
-  private doctorApiUrl="https://cmd-doctor-api.azurewebsites.net/api/";
+  private apiUrl = environment.appointmentBaseUrl;
+  private patientApiUrl = environment.patientBaseUrl;
+  private doctorApiUrl = environment.doctorBaseUrl;
 
 
 //Appointments  Api Call
