@@ -21,19 +21,20 @@ Appointments:IAppointment[]=[];
 appointmentService:AppointmentService=inject(AppointmentService);
 currentPage: number = 1;
 pageSize: number = 20;
-// totalAppointments: number = 0;
 pageSizes: number[] = [5, 10, 20, 50];
 totalPages: number[] = [];
+startingItemNo:number=1;
+lastItemNo:number=1;
 isLastPage:boolean=false;
 errorMessage: string = '';
 sortOrder: string = 'asc'; // Default sort order
 loading:boolean=false //Loading default to false
 patientDetails: { [id: number]: string } = {}; // Cache for patient details
-  doctorDetails: { [id: number]: string } = {}; // Cache for doctor details
+doctorDetails: { [id: number]: string } = {}; // Cache for doctor details
 
 ngOnInit(): void {
   this.getAppointments(this.currentPage, this.pageSize);
-  // this.updateTotalPages();
+  this.updateTotalPages(this.AppointmentResponse);
 }
 
 getAppointments(pageNo: number, pageLimit: number): void {
@@ -75,7 +76,9 @@ getAppointments(pageNo: number, pageLimit: number): void {
 updateTotalPages(AppointmentResponse:AppointmentResponse): void {
   const totalAppointments = AppointmentResponse.totalAppointments; // Length of the filtered appointments
   const totalPageCount = Math.ceil(totalAppointments / this.pageSize);
-   this.totalPages = Array.from({ length: totalPageCount }, (_, i) => i + 1);
+  this.totalPages = Array.from({ length: totalPageCount }, (_, i) => i + 1);
+  this.startingItemNo=((AppointmentResponse.pageNumber-1)*AppointmentResponse.pageLimit)+1;
+  this.lastItemNo=Math.min(AppointmentResponse.pageLimit*AppointmentResponse.pageNumber,AppointmentResponse.totalAppointments)
 }
 
   //Check if the current response indicates the last page

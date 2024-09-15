@@ -1,36 +1,43 @@
-<!-- Error Message -->
-<div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+<div class="container mt-4"> <!-- Container with margin -->
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
     {{ errorMessage }}
   </div>
 
-
-  <div class="d-flex justify-content-end mb-3">
-    <a class="mt-3 btn btn-primary rounded-pill" [routerLink]="['/appointments/add']">
-      + Add Appointment
-    </a>
+  <!-- Page size selection and Add Appointment button -->
+  <div class="row mb-3">
+    <div class="col-md-6 d-flex align-items-center">
+      <label for="pageSize" class="me-2">Items per page: </label>
+      <select id="pageSize" [(ngModel)]="pageSize" class="form-select w-auto" (change)="onPageSizeChange($event)">
+        <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+      </select>
+    </div>
+    <div class="col-md-6 text-end">
+      <a class="btn btn-primary rounded-pill" [routerLink]="['/appointments/add']">+ Add Appointment</a>
+    </div>
   </div>
 
-<!-- Loading Spinner -->
-<div *ngIf="loading" class="d-flex justify-content-center mt-5">
-  <div class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="d-flex justify-content-center mt-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
   </div>
-</div>
 
   <!-- Appointments Table -->
   <div *ngIf="!loading && AppointmentResponse.items.length > 0" class="table-responsive">
-    <table class=" custom-table table table-bordered table-hover table-striped ">
+    <table class="table table-bordered table-hover table-striped">
       <thead class="table-light">
         <tr>
           <th>Appointment ID</th>
           <th>Purpose of Visit</th>
-          <th>
-            Date
-<button class="btn btn-sm" (click)="sortByDate()">
-<span *ngIf="sortOrder === 'asc'">&#9650;</span> <!-- Up arrow for ascending -->
-<span *ngIf="sortOrder === 'desc'">&#9660;</span> <!-- Down arrow for descending -->
-</button>
-</th>
+          <th>Date
+            <button class="btn btn-sm" (click)="sortByDate()">
+              <span *ngIf="sortOrder === 'asc'">&#9650;</span>
+              <span *ngIf="sortOrder === 'desc'">&#9660;</span>
+            </button>
+          </th>
           <th>Time</th>
           <th>Status</th>
           <th>Doctor ID</th>
@@ -38,84 +45,73 @@
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody >
+      <tbody>
         <tr *ngFor="let appointment of AppointmentResponse.items">
-          <td> <a [routerLink]="['/appointments', appointment.id]" class="link-primary">
-            {{ formatAppointmentId(appointment.id) }}
-          </a></td>
+          <td>
+            <a [routerLink]="['/appointments', appointment.id]" class="link-primary">{{ formatAppointmentId(appointment.id) }}</a>
+          </td>
           <td>{{ appointment.purposeOfVisit }}</td>
           <td>{{ appointment.date }}</td>
           <td>{{ appointment.time }}</td>
-          <td> <span [ngClass]="{
-            'custom-badge': true,
-            'status-red': appointment.status !== AppointmentStatus.Scheduled,
-            'status-green': appointment.status === AppointmentStatus.Scheduled
-          }">
-            {{ appointment.status === AppointmentStatus.Scheduled ? 'Active' : 'Inactive' }}
-          </span></td>
+          <td>
+            <span [ngClass]="{
+              'custom-badge': true,
+              'status-red': appointment.status !== AppointmentStatus.Scheduled,
+              'status-green': appointment.status === AppointmentStatus.Scheduled
+            }">
+              {{ appointment.status === AppointmentStatus.Scheduled ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
           <td>{{ appointment.doctorId }}</td>
           <td>{{ appointment.patientId }}</td>
           <td class="dropdown">
-            <!-- Button to toggle the dropdown -->
             <button class="p-0 border-0 bg-transparent" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
-              <i class="fas fa-ellipsis-v text-muted"></i> <!-- Grey three-dot icon -->
+              <i class="fas fa-ellipsis-v text-muted"></i>
             </button>
-            
-            <!-- Dropdown menu with grey text and icons -->
-            <ul class="dropdown-menu dropdown-menu-end" style="min-width: 150px; padding: 10px 20px;">
+            <ul class="dropdown-menu dropdown-menu-end" style="min-width: 150px;">
               <li>
-                <a class="dropdown-item small text-muted" style="cursor: pointer; background-color: transparent; border: none;" [routerLink]="['/appointments', appointment.id]">
-                  <i class="fas fa-eye me-2 text-muted"></i> <!-- Grey eye icon -->
-                  View
+                <a class="dropdown-item small text-muted" [routerLink]="['/appointments', appointment.id]">
+                  <i class="fas fa-eye me-2"></i>View
                 </a>
               </li>
               <li>
-                <a class="dropdown-item small text-muted" style="cursor: pointer; background-color: transparent; border: none;" [routerLink]="['/appointments/edit', appointment.id]">
-                  <i class="fas fa-edit me-2 text-muted"></i> <!-- Grey edit icon -->
-                  Edit
+                <a class="dropdown-item small text-muted" [routerLink]="['/appointments/edit', appointment.id]">
+                  <i class="fas fa-edit me-2"></i>Edit
                 </a>
               </li>
               <li>
-                <a class="dropdown-item small text-muted" style="cursor: pointer; background-color: transparent; border: none;">
-                  <i class="fas fa-trash me-2 text-muted"></i> <!-- Grey trash icon -->
-                  Delete
+                <a class="dropdown-item small text-muted">
+                  <i class="fas fa-trash me-2"></i>Delete
                 </a>
               </li>
             </ul>
-          </td>                     
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
-  
+
   <!-- No appointments found -->
   <div *ngIf="!loading && AppointmentResponse.items.length === 0" class="alert alert-warning" role="alert">
     No appointments found.
   </div>
-  
-  <!-- Page size selection -->
-  <div class="d-flex justify-content-end align-items-center mb-3">
-    <label for="pageSize" class="me-2">Items per page: </label>
-    <select id="pageSize" [(ngModel)]="pageSize" class="form-select w-auto" (change)="onPageSizeChange($event)">
-      <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
-    </select>
+
+  <div *ngIf="AppointmentResponse">
+    <small>Showing {{startingItemNo}} to {{lastItemNo}} of {{AppointmentResponse.totalAppointments}} items</small>
   </div>
-  
   <!-- Pagination controls -->
   <nav *ngIf="!loading">
-    <ul class=" justify-content-center pagination">
+    <ul class="pagination justify-content-center mb-3">
       <li class="page-item" [class.disabled]="currentPage === 1">
         <button class="page-link" (click)="previousPage()">Previous</button>
       </li>
-  
-      <!-- Display page numbers -->
       <li *ngFor="let page of totalPages; let i = index" class="page-item" [class.active]="i + 1 === currentPage">
         <button class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</button>
       </li>
-  
       <li class="page-item" [class.disabled]="currentPage === totalPages.length">
         <button class="page-link" (click)="nextPage()">Next</button>
       </li>
     </ul>
   </nav>
   
+</div> <!-- End of container -->
