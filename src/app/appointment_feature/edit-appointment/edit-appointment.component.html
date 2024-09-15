@@ -87,6 +87,9 @@
                                     <label for="appointmentTime" class="form-label">Time</label>
                                     <input [class.is-invalid]="reactiveForm.get('time')?.invalid && reactiveForm.get('time')?.touched" name="time" formControlName="time" type="time" class="form-control" id="appointmentTime" />
                                 </div>
+                                <div class="text-danger small" *ngIf="reactiveForm.controls.time.hasError('timeInPast') && reactiveForm.controls.time.touched">
+                                    The time cannot be in the past.
+                                </div>
                             </div>
                         </div>
 
