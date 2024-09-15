@@ -39,5 +39,8 @@ export class DoctorDetailsComponent implements OnInit{
         }
        });
     }
+    getProfilePicture(): string {
+      return this.doctor?.profilePicture || this.fallbackimage;
+    }
     
 }

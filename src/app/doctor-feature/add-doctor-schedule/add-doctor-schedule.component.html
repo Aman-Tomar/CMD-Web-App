@@ -1,4 +1,5 @@
 <div class="mt-4">
+  <!-- Title for the form -->
   <h3 class="form-title">Add Schedule</h3>
 </div>
 <div class="container mt-5">
@@ -6,15 +7,19 @@
     <div class="col-lg-8">
       <div class="card">
         <div class="card-body">
+          <!-- Container for the form -->
           <div class="form-container">
+            <!-- Form for adding a schedule -->
             <form [formGroup]="scheduleForm" (ngSubmit)="onSubmit()">
               <!-- Doctor Name Dropdown -->
               <div class="row mb-3">
                 <div class="col-md-6">
                   <div class="form-group">
                     <label class="form-label" for="doctorId">Doctor Name</label>
+                    <!-- Dropdown for selecting a doctor -->
                     <select class="form-control" id="doctorId" formControlName="doctorId">
                       <option value="">Select a doctor</option>
+                      <!-- Loop through doctors and create options -->
                       <option *ngFor="let doctor of doctors" [value]="doctor.doctorId">
                         {{ doctor.firstName }} {{ doctor.lastName }}
                       </option>
@@ -22,38 +27,32 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                    <!-- Weekday Dropdown -->
-                    <div class="form-group">
-                      <label class="form-label" for="weekDay">Available Days</label>
-                      <select
-                        class="form-control"
-                        id="weekDay"
-                        formControlName="weekDay"
-                      >
-                        <option value="" disabled selected>Select a day</option>
-                        <option value="Monday">Monday</option>
-                        <option value="Tuesday">Tuesday</option>
-                        <option value="Wednesday">Wednesday</option>
-                        <option value="Thursday">Thursday</option>
-                        <option value="Friday">Friday</option>
-                        <option value="Saturday">Saturday</option>
-                        <option value="Sunday">Sunday</option>
-                      </select>
-                    </div>
+                  <!-- Weekday Dropdown -->
+                  <div class="form-group">
+                    <label class="form-label" for="weekDay">Available Days</label>
+                    <!-- Dropdown for selecting available days -->
+                    <select class="form-control" id="weekDay" formControlName="weekDay">
+                      <option value="" disabled selected>Select a day</option>
+                      <option value="Monday">Monday</option>
+                      <option value="Tuesday">Tuesday</option>
+                      <option value="Wednesday">Wednesday</option>
+                      <option value="Thursday">Thursday</option>
+                      <option value="Friday">Friday</option>
+                      <option value="Saturday">Saturday</option>
+                      <option value="Sunday">Sunday</option>
+                    </select>
+                  </div>
                 </div>
               </div>
+
+              <!-- Time Inputs -->
               <div class="row mb-3">
                 <div class="col-md-6">
-                  <!-- Time Inputs -->
                   <div class="form-group time-inputs">
                     <div class="time-input">
                       <label class="form-label" for="startTime">Start Time</label>
-                      <input
-                        class="form-control"
-                        id="startTime"
-                        type="time"
-                        formControlName="startTime"
-                      />
+                      <!-- Input for start time -->
+                      <input class="form-control" id="startTime" type="time" formControlName="startTime" />
                     </div>
                   </div>
                 </div>
@@ -61,26 +60,24 @@
                   <div class="form-group time-inputs">
                     <div class="time-input">
                       <label class="form-label" for="endTime">End Time</label>
-                      <input
-                        class="form-control"
-                        id="endTime"
-                        type="time"
-                        formControlName="endTime"
-                      />
+                      <!-- Input for end time -->
+                      <input class="form-control" id="endTime" type="time" formControlName="endTime" />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Status Checkbox -->
+              <!-- Status Radio Buttons -->
               <div class="form-group">
                 <label>Status</label>
                 <br>
-                  <input type="radio" formControlName="status" name="status" [value]="true"> 
-                  <label for="active">Active</label>
-                  
-                  <input class="ms-4" type="radio" formControlName="status" name="status" [value]="false"> 
-                  <label for="active">Inactive</label>
+                <!-- Radio button for active status -->
+                <input type="radio" formControlName="status" name="status" [value]="true"> 
+                <label for="active">Active</label>
+                
+                <!-- Radio button for inactive status -->
+                <input class="ms-4" type="radio" formControlName="status" name="status" [value]="false"> 
+                <label for="inactive">Inactive</label>
               </div>
         
               <!-- Submit Button -->
@@ -89,6 +86,7 @@
               </div>
             </form>
           </div>
+          
           <!-- Success/Error Messages -->
           <div *ngIf="message" class="alert" [ngClass]="{'alert-success': success, 'alert-danger': !success}" role="alert">
             {{ message }}
