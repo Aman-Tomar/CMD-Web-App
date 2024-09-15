@@ -8,7 +8,6 @@ import { IDoctor } from '../../models/Appointment/Doctor';
 import { IAppointment } from '../../models/Appointment/Appointment';
 import { AppointmentStatus } from '../../models/Appointment/AppointmentStatus';
 import { IAppointmentDTO } from '../../models/Appointment/EditAppointmentDTO';
-import { lastValueFrom } from 'rxjs';
 import { dateRangeValidator, timeNotInPastValidator } from '../../Validators/AppointmentCustomValidator';
 import { DoctorResponse } from '../../models/Appointment/DoctorResponse';
 import { PatientResponse } from '../../models/Appointment/PatientResponse';
