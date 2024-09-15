@@ -31,6 +31,7 @@ sortOrder: string = 'asc'; // Default sort order
 loading:boolean=false //Loading default to false
 patientDetails: { [id: number]: string } = {}; // Cache for patient details
 doctorDetails: { [id: number]: string } = {}; // Cache for doctor details
+filteredAppointments: IAppointment[] = []; // New list to store filtered data
 
 ngOnInit(): void {
   this.getAppointments(this.currentPage, this.pageSize);
@@ -43,6 +44,7 @@ getAppointments(pageNo: number, pageLimit: number): void {
     next: (response: AppointmentResponse) => {
       console.log('Received data:', response.items);  // Debugging: log the full response
       this.Appointments = response.items;  // Assign response.items to Appointments
+      this.filteredAppointments = this.Appointments;
       this.AppointmentResponse = response
 
       console.log('Appointments:', this.Appointments);  // Debugging: log the appointments
@@ -61,14 +63,29 @@ getAppointments(pageNo: number, pageLimit: number): void {
   });
 }
 
+  // Filter to show only active appointments
+  filterActive(): void {
+    this.filteredAppointments = this.Appointments.filter(appointment => appointment.status === AppointmentStatus.Scheduled);
+  }
+
+  // Filter to show only inactive appointments
+  filterInactive(): void {
+    this.filteredAppointments = this.Appointments.filter(appointment => appointment.status !== AppointmentStatus.Scheduled);
+  }
+
+  // Show all records (reset the filter)
+  showAllRecords(): void {
+    this.filteredAppointments = this.Appointments; // Reset filtered appointments to all
+  }
+
 
  //Toggle sorting by date
  sortByDate(): void {
   if (this.sortOrder === 'asc') {
-    this.AppointmentResponse.items.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    this.filteredAppointments.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
     this.sortOrder = 'desc'; // Toggle to descending order
   } else {
-    this.AppointmentResponse.items.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    this.filteredAppointments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     this.sortOrder = 'asc'; // Toggle to ascending order
   }
 }
