@@ -3,11 +3,12 @@ import { SidebarService } from '../sidebar.service';
 import { AuthserviceService } from '../services/auth/authservice.service';
 import { TokenService } from '../services/token/token.service';
 import { NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, RouterLink],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
