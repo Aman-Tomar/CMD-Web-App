@@ -66,7 +66,6 @@ export class EditDoctorComponent implements OnInit{
       this.doctorId = Number(params.get('id'));
       // Fetch the doctor details for the provided ID
       this.getDoctorById(this.doctorId);
-      this.loadSpecializations();
       this.loadDepartments();
       this.loadClinics();
     });
@@ -103,13 +102,7 @@ export class EditDoctorComponent implements OnInit{
     this.selectedFile = event.target.files[0];
   }
 
-  loadSpecializations() {
-    // Load specializations from the service
-    this.doctorService.getSpecializations().subscribe(data => {
-      this.specializations = data.map((item:any)=>item.name);
-      console.log( this.specializations );
-    });
-  }
+
 
   loadDepartments() {
     this.doctorService.getDepartments().subscribe((data: IDepartment[]) => {

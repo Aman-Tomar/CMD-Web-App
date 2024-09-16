@@ -5,6 +5,7 @@ import { map, Observable } from 'rxjs';
 import { IDoctorSchedule } from '../../models/Doctors/doctorSchedule.models';
 import { IDepartment } from '../../models/Doctors/department.models';
 import { IClinic } from '../../models/Doctors/clinic.model';
+import { environment } from '../../../environments/environment';
 
 
 @Injectable({
@@ -37,24 +38,20 @@ export class DoctorService {
     return this.client.put<any>(`${this.apiUrl}/Doctor?doctorId=${doctorId}`, formData);
   }
   
-  getSpecializations(): Observable<string[]> {
-    return this.client.get<string[]>(`http://localhost:3000/specializations`);
-  }
-
   getDepartments(): Observable<any[]> {
-    return this.client.get<any[]>(`${this.clinicUrl}/api/Department`);
+    return this.client.get<any[]>(`${this.clinicUrl}/Department`);
   }
 
   getDepartmentById(departmentId: number): Observable<IDepartment> {
-    return this.client.get<IDepartment>(`${this.clinicUrl}/api/Department/${departmentId}`);
+    return this.client.get<IDepartment>(`${this.clinicUrl}/Department/${departmentId}`);
   }
 
   getClinics(): Observable<any[]> {
-    return this.client.get<any[]>(`${this.clinicUrl}/api/Clinic`);
+    return this.client.get<any[]>(`${this.clinicUrl}/Clinic`);
   }
 
   getClinicById(clinicId: number): Observable<any> {
-    return this.client.get<any>(`${this.clinicUrl}/api/Clinic/${clinicId}`);
+    return this.client.get<any>(`${this.clinicUrl}/Clinic/${clinicId}`);
   }
 
   private mapDoctorResponse(response: any): IDoctor {

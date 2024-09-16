@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { IDoctor } from '../../models/Doctors/doctor.models';
 import { DoctorService } from '../../services/doctor/doctor.service';
 import { ActivatedRoute } from '@angular/router';
-import { IAddress } from '../../models/Doctors/address.models';
 import { state } from '@angular/animations';
 import { DatePipe } from '@angular/common';
 import { IDepartment } from '../../models/Doctors/department.models';
@@ -26,7 +25,6 @@ export class DoctorDetailsComponent implements OnInit {
 
     // Variables to hold the doctor and address details
     doctor: IDoctor | undefined;
-    doctorAddress: IAddress | undefined;
     department:IDepartment | undefined;
     clinic:IClinic | undefined;
 
