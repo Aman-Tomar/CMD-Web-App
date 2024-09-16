@@ -67,7 +67,7 @@ export class AddAppointmentComponent implements OnInit {
     phone: new FormControl('', [Validators.required, Validators.pattern(/^(\+91|91)?[6-9][0-9]{9}$/)]),
     date: new FormControl('', [Validators.required, dateRangeValidator()]),
     time: new FormControl('', [Validators.required,timeNotInPastValidator('date'),doctorAvailabilityValidator('doctor','date',this.appointmentService)]),
-    message: new FormControl('', [Validators.required]),
+    message: new FormControl('', [Validators.required,Validators.maxLength(150)]),
   });
 
   get Patient() { return this.reactiveForm.get("patient"); }

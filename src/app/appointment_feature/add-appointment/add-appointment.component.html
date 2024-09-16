@@ -134,7 +134,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="patientPhone" class="form-label">Phone Number</label>
+                                    <label for="patientPhone" class="form-label">Mobile Number</label>
                                     <input [class.is-invalid]="reactiveForm.get('phone')?.touched && reactiveForm.get('phone')?.invalid" name="phone" formControlName="phone" type="text" class="form-control" id="patientPhone" placeholder="Enter phone number">
                                 </div>
                                 <small class="text-danger small" *ngIf="reactiveForm.controls.phone.touched && reactiveForm.controls.phone.errors?.['required']">
@@ -148,10 +148,13 @@
 
                         <div class="form-group mb-3">
                             <label for="message" class="form-label">Message</label>
-                            <textarea formControlName="message" [class.is-invalid]="reactiveForm.get('message')?.touched && reactiveForm.get('message')?.invalid" name="message" class="form-control" id="message" rows="4" placeholder="Enter any message"></textarea>
+                            <textarea formControlName="message" [class.is-invalid]="reactiveForm.get('message')?.touched && reactiveForm.get('message')?.invalid" name="message" class="form-control" id="message" rows="4" placeholder="Enter any message" maxlength="150"></textarea>
                             <small class="text-danger small" *ngIf="reactiveForm.controls.message.touched && reactiveForm.controls.message.errors?.['required']">
                                 *Message is required
                             </small>
+                            <small class="text-danger small" *ngIf="reactiveForm.controls.message.touched && reactiveForm.controls.message.errors?.['maxlength']">
+                                *Message cannot exceed 155 characters
+                              </small>
                         </div>
 
                         <!-- Submit Button -->
