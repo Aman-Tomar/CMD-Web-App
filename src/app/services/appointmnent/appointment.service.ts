@@ -65,7 +65,6 @@ export class AppointmentService {
 //GetAllPatients  Api Call
   getPatients(pageNo: number = 1, pageLimit: number = 20):Observable<PatientResponse>{
     let params = new HttpParams().set('pageNo', pageNo.toString()).set('pageLimit', pageLimit.toString());
-
     return this.requestService.get<PatientResponse>(`${this.patientApiUrl}/Patients`, params)
   }
 
