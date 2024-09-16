@@ -108,7 +108,7 @@ export class AddDoctorScheduleComponent implements OnInit {
           setTimeout(() => {
             this.message = null; // Clear the message after a delay
             this.router.navigate(['/schedule']); // Navigate to the schedule page
-          }, 2000);
+          }, 1500);
           // console.log('Schedule created successfully:', response);
         },
         error: (error) => {
