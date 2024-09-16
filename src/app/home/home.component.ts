@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { PatientService } from '../services/patient/patient.service';
 import { AppointmentService } from '../services/appointmnent/appointment.service';
 import { DoctorService } from '../services/doctor/doctor.service';
@@ -6,9 +7,6 @@ import { Patient } from '../models/Patients/patient.model';
 import { IDoctor } from '../models/Doctors/doctor.models';
 import { IAppointment } from '../models/Appointment/Appointment';
 import { AppointmentResponse } from '../models/Appointment/AppointmentResponse';
-import { AppointmentStatus } from '../models/Appointment/AppointmentStatus';
-import { NgClass, NgFor, NgIf } from '@angular/common';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',

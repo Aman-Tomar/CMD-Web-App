@@ -45,7 +45,7 @@ export class AddAppointmentComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.loadPatients();
+    this.loadPatients(1,10);
     this.loadDoctors();
     this.loadDepartments();
     this.loadPurposeOfVisit();
@@ -80,11 +80,11 @@ export class AddAppointmentComponent implements OnInit {
   get Message() { return this.reactiveForm.get("message"); }
 
 
-  loadPatients(): void {
-    this.appointmentService.getPatients().subscribe({
+  loadPatients(pageNumber:number,pageLimit:number): void {
+    this.appointmentService.getPatients(pageNumber,pageLimit).subscribe({
       next: (data: PatientResponse) => {
         this.patients = data.items;
-        console.log(data)
+        console.log(data.totalCountOfPatients)
       } ,
       error: (err: string) => {this.errorMessage=err;console.log(this.errorMessage)}
     });
@@ -134,6 +134,22 @@ export class AddAppointmentComponent implements OnInit {
             email: patientData.email,
             phone: patientData.phone
           });
+        },
+        error: (error) => {
+          console.error('Error fetching patient details:', error);
+        }
+      });
+    }
+  }
+
+  onDepartmentSelect(event: any) {
+    const selectedDepartmentId = event.target.value;
+    console.log(selectedDepartmentId);
+    // Call the API to get doctor details by departemntID
+    if (selectedDepartmentId) {
+      this.appointmentService.getDoctorByDepartment(selectedDepartmentId).subscribe({
+        next: (DoctorData:any) => {
+          this.doctors=DoctorData;
         },
         error: (error) => {
           console.error('Error fetching patient details:', error);

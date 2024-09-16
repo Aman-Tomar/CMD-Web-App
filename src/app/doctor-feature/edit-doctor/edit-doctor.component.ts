@@ -22,6 +22,7 @@ export class EditDoctorComponent implements OnInit{
   qualifications: string[] = [];
   departments: IDepartment[] = [];
   clinics: IClinic[] = [];
+  errorMessage:string='';
   // Model representing the do
   // Stores the ID of the doctor to be edited
   doctorId: number = 0;
@@ -81,8 +82,8 @@ export class EditDoctorComponent implements OnInit{
         
         // Copy other properties
         this.doctor = doctor;
-        // Trigger country change to load the correct list of states
-        this.onCountryChange();
+        
+       
       },
       error: (error) => {
         console.error('Error fetching doctor', error);
@@ -117,6 +118,31 @@ export class EditDoctorComponent implements OnInit{
       }) as IClinic);
       console.log(this.clinics);
     });
+  }
+
+  onPostalCodeChange(postalCode: string): void {
+    if (postalCode) {
+      // Call the API to get the details for the given postal code
+      this.doctorService.getPostalCodeDetails(postalCode).subscribe({
+        next: (response:any) => {
+          if (response && response[0].PostOffice.length > 0) {
+            const postOffice = response[0].PostOffice[0];  // Take the first matching Post Office 
+            // Update the form fields with the retrieved data
+            this.doctor.city = postOffice.Block;
+            this.doctor.state = postOffice.State;
+            this.doctor.country = postOffice.Country;
+
+          }else {
+            // No Post Offices found for the given postal code
+            this.errorMessage = 'Enter a valid pincode';
+          }
+        },
+        error: (err) => {
+          console.error('Error fetching postal code details', err);
+          this.errorMessage = 'Enter a valid pincode';
+        }
+      });
+    }
   }
   // Method triggered on form submission
   onSubmit() {
@@ -169,26 +195,20 @@ export class EditDoctorComponent implements OnInit{
     });
   }
 
-  // Updates the list of states based on the selected country
-  onCountryChange() {
-    if (this.doctor.country === 'India') {
-      this.states = [
-        'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana',
-        'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra',
-        'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim',
-        'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal',
-        'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu',
-        'Lakshadweep', 'Delhi', 'Puducherry', 'Ladakh', 'Jammu and Kashmir'
-      ];
-    } else if (this.doctor.country === 'USA') {
-      this.states = ['California', 'New York', 'Texas']; 
-    } else if (this.doctor.country === 'Canada') {
-      this.states = ['Ontario', 'Quebec', 'British Columbia'];
-    } else if (this.doctor.country === 'UK') {
-      this.states = ['England', 'Scotland', 'Wales', 'Northern Ireland'];
-    } else {
-      // Clear the states if the country is not recognized or not selected
-      this.states = [];
+  onDepartmentChange(event: any) {
+    const departmentId  = Number(event?.target.value);
+    const selectedDepartment = this.departments.find(dept => dept.departmentId === departmentId);
+    if (selectedDepartment) {
+      this.doctor.specialization = selectedDepartment.departmentName;
     }
+  }
+
+  hasSpaces(value: string): boolean {
+    return /\s/.test(value);
+  } 
+
+  hasInvalidPhoneNumber(value: string): boolean {
+    const phonePattern = /^(\+91|91)?[6-9][0-9]{9}$/;
+    return !phonePattern.test(value);
   }
 }

@@ -29,21 +29,21 @@ export class AppointmentService {
   }
 
    // Fetch active appointments
-   getActiveAppointments(pageNumber: number = 1, pageSize: number = 20): Observable<IAppointment[]> {
+   getActiveAppointments(pageNumber: number = 1, pageSize: number = 20): Observable<AppointmentResponse> {
     let params = new HttpParams()
       .set('pageNumber', pageNumber.toString())
       .set('pageSize', pageSize.toString());
 
-    return this.requestService.get<IAppointment[]>(`${this.apiUrl}/Appointment/Active`, params);
+    return this.requestService.get<AppointmentResponse>(`${this.apiUrl}/Appointment/Active`, params);
   }
 
 // Fetch inactive appointments
-   getInactiveAppointments(pageNumber: number = 1, pageSize: number = 20): Observable<IAppointment[]> {
+   getInactiveAppointments(pageNumber: number = 1, pageSize: number = 20): Observable<AppointmentResponse> {
     let params = new HttpParams()
       .set('pageNumber', pageNumber.toString())
       .set('pageSize', pageSize.toString());
 
-    return this.requestService.get<IAppointment[]>(`${this.apiUrl}/Appointment/Inactive`, params);
+    return this.requestService.get<AppointmentResponse>(`${this.apiUrl}/Appointment/Inactive`, params);
   }
 // Fetch an appointment by its ID
     getAppointmentById(appointmentId: number): Observable<IAppointment> {
@@ -115,7 +115,7 @@ export class AppointmentService {
   return this.requestService.put<IAppointment>(`${this.apiUrl}/appointment/${appointmentId}`, updatedAppointment);
 }
 
-getDoctorAvailabilty(doctorId: number, date: string, startTime: string, endTime: string):Observable<any> {
+getDoctorAvailabilty(doctorId: number, date: string, startTime: string, endTime: string): Observable<any> {
   console.log("get doctor available method");
   let params = new HttpParams()
     .set('doctorId', doctorId.toString())
@@ -123,12 +123,18 @@ getDoctorAvailabilty(doctorId: number, date: string, startTime: string, endTime:
     .set('startTime', startTime)
     .set('endTime', endTime);
 
-  // Combine params and observe in the same object
-  return this.requestService.get<any[]>(`${this.doctorApiUrl}/DoctorSchedule/available`, params).pipe(
+  // Pass the params as an object inside the second argument
+  return this.requestService.get<any>(`${this.doctorApiUrl}/DoctorSchedule/available`, params).pipe(
     catchError(this.handleError)
   );
 }
 
+//getting doctors of a particular department
+getDoctorByDepartment(id:number){
+  let params=new HttpParams().set('departmentId',id);
+  return this.requestService.get<any[]>(`${this.doctorApiUrl}/Doctor/Department`,params).pipe(
+    catchError(this.handleError));
+}
 
 // Handle errors
 private handleError(error: HttpErrorResponse) {

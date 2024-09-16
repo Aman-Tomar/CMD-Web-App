@@ -1,6 +1,6 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { catchError, map } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AppointmentService } from '../services/appointmnent/appointment.service';
 
 export function dateRangeValidator(): ValidatorFn {
@@ -60,24 +60,24 @@ export function timeNotInPastValidator(dateControlName: string): ValidatorFn {
     };
   }
   
-  export function doctorAvailabilityValidator(doctorControlName: string, dateControlName: string, appointmentService:AppointmentService): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
+  export function doctorAvailabilityValidator(doctorControlName: string, dateControlName: string, appointmentService: AppointmentService): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
       const timeValue = control.value;
   
       // Access the parent form to retrieve the date value
       const formGroup = control.parent;
       if (!formGroup) {
-        return null; // No validation if no parent form exists
+        return of(null); // No validation if no parent form exists
       }
   
       const dateControl = formGroup.get(dateControlName);
       const dateValue = dateControl ? dateControl.value : null;
-
+  
       const doctor = formGroup.get(doctorControlName);
       const doctorId = doctor ? doctor.value : null;
   
       if (!timeValue || !dateValue) {
-        return null; // No validation required if either date or time is missing
+        return of(null); // No validation required if either date or time is missing
       }
   
       // Extract date in 'yyyy-MM-dd' format
@@ -92,27 +92,24 @@ export function timeNotInPastValidator(dateControlName: string): ValidatorFn {
       endTimeDate.setHours(+hours + 1, +minutes); // Add 1 hour to start time
       const endTime = `${String(endTimeDate.getHours()).padStart(2, '0')}:${String(endTimeDate.getMinutes()).padStart(2, '0')}:00`;
   
-      console.log("Doctor Unavailable Validator")
+      console.log("Doctor Unavailable Validator");
+  
       // Call the service to check availability
       return appointmentService.getDoctorAvailabilty(doctorId, formattedDate, startTime, endTime).pipe(
         map((response) => {
-          if (response.status === 404) {
-            console.log("Doctor Unavailable :staus 404")
+          console.log("status: " + response.status);
+          if (response.status === 404 || (response.body && response.body.length === 0)) {
+            console.log("Doctor Unavailable");
             return { doctorUnavailable: true }; // No availability found
           }
-          if (response.body && response.body.length === 0) {
-            console.log("Doctor Unavailable :empty body")
-            return { doctorUnavailable: true }; // No availability found based on the body
-          }
-          console.log("Doctor Available")
+          console.log("Doctor Available");
           return null; // Doctor is available
         }),
         catchError((error) => {
-          console.log("Errror in Doctor Unavailable",error)
+          console.log("Error in Doctor Unavailable", error);
           return of({ doctorUnavailable: true }); // Handle API errors
         })
       );
-    }
+    };
   }
-  
   
