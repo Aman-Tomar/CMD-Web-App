@@ -7,9 +7,11 @@ import { environment } from '../../../environments/environment';
 
 import { Doctor } from '../../models/Patients/doctor.model';
 import { Clinic } from '../../models/Patients/clinic.model';
+import { RequestService } from '../request/request.service';
 
 @Injectable({
   providedIn: 'root' // Makes the service available throughout the app (singleton scope).
+
 })
 export class PatientService {
 
@@ -18,31 +20,31 @@ export class PatientService {
   private CLINIC_VIEW_URL = environment.clinicBaseUrl;
 
   // Injects HttpClient for making HTTP requests.
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private requestService:RequestService) { }
 
   getPatients(pageNumber: number, pageSize: number): Observable<PatientResponse> {
     const params = new HttpParams()
       .set('pageNumber', pageNumber.toString())
       .set('pageSize', pageSize.toString());
-    return this.http.get<PatientResponse>(`${this.PATIENT_BASE_URL}/patients`, { params });
+    return this.requestService.get<PatientResponse>(`${this.PATIENT_BASE_URL}/patients`, params );
   }
 
   getPatientById(patientId: number): Observable<Patient> {
-    return this.http.get<Patient>(`${this.PATIENT_BASE_URL}/patients/${patientId}`);
+    return this.requestService.get<Patient>(`${this.PATIENT_BASE_URL}/patients/${patientId}`);
   }
 
 
   createPatient(patientData: FormData): Observable<Patient> {
-    return this.http.post<Patient>(`${this.PATIENT_BASE_URL}/patients`, patientData);
+    return this.requestService.post<Patient>(`${this.PATIENT_BASE_URL}/patients`, patientData);
   }
 
   updatePatient(patientId: number, patientData: FormData): Observable<Patient> {
-    return this.http.put<Patient>(`${this.PATIENT_BASE_URL}/patients/${patientId}`, patientData);
+    return this.requestService.put<Patient>(`${this.PATIENT_BASE_URL}/patients/${patientId}`, patientData);
   }
 
 
   getDoctors(): Observable<Doctor[]> {
-    return this.http.get<any>(this.DOCTOR_VIEW_URL).pipe(
+    return this.requestService.get<any>(this.DOCTOR_VIEW_URL).pipe(
       map(response => {
         if (response && response.data) {
           return response.data.map((doctor: any) => ({
@@ -60,7 +62,7 @@ export class PatientService {
   }
 
   getClinics(): Observable<Clinic[]> {
-    return this.http.get<Clinic[]>(`${this.CLINIC_VIEW_URL}/clinic`).pipe(
+    return this.requestService.get<Clinic[]>(`${this.CLINIC_VIEW_URL}/clinic`).pipe(
       catchError(error => {
         console.error('Error fetching clinics:', error);
         return [];
