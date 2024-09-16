@@ -189,7 +189,8 @@ export class PatientFormComponent implements OnInit {
     return this.fb.group({
       patientName: ['', [Validators.required, Validators.pattern(/^[^\s][a-zA-Z\s]*$/)]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
+      
+      phone: ['', [Validators.required, Validators.pattern(/^(\+91|91)?[6-9][0-9]{9}$/), Validators.minLength(10), Validators.maxLength(13)] ],
       age: [{ value: '', disabled: true }, [Validators.required, Validators.min(0), Validators.max(150)]],
       dob: ['', [Validators.required]],
       gender: ['', Validators.required],
@@ -209,7 +210,7 @@ export class PatientFormComponent implements OnInit {
  
      
       patientGuardianName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
-      patientGuardianPhoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      patientGuardianPhoneNumber:['', [Validators.required, Validators.pattern(/^(\+91|91)?[6-9][0-9]{9}$/), Validators.minLength(10), Validators.maxLength(13)] ],
       patientGuardianRelationship: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]]
     });
   }
