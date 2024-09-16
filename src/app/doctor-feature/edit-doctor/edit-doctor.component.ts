@@ -66,7 +66,6 @@ export class EditDoctorComponent implements OnInit{
       this.doctorId = Number(params.get('id'));
       // Fetch the doctor details for the provided ID
       this.getDoctorById(this.doctorId);
-      this.loadSpecializations();
       this.loadDepartments();
       this.loadClinics();
     });

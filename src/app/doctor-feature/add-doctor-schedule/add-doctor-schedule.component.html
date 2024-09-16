@@ -62,6 +62,10 @@
               </div>
             </div>
           </div>
+          <!-- Success/Error Messages -->
+          <div *ngIf="message" class="alert" [ngClass]="{'alert-success': success, 'alert-danger': !success}" role="alert">
+            {{ message }}
+          </div>
           
           <!-- Success/Error Messages -->
           <div *ngIf="message" class="alert" [ngClass]="{'alert-success': success, 'alert-danger': !success}" role="alert">

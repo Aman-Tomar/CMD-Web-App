@@ -2,9 +2,10 @@ import { Component, inject, OnInit } from '@angular/core';
 import { IDoctor } from '../../models/Doctors/doctor.models';
 import { DoctorService } from '../../services/doctor/doctor.service';
 import { ActivatedRoute } from '@angular/router';
-import { IAddress } from '../../models/Doctors/address.models';
 import { state } from '@angular/animations';
 import { DatePipe } from '@angular/common';
+import { IDepartment } from '../../models/Doctors/department.models';
+import { IClinic } from '../../models/Doctors/clinic.model';
 
 @Component({
   selector: 'app-doctor-details',
@@ -24,7 +25,8 @@ export class DoctorDetailsComponent implements OnInit {
 
     // Variables to hold the doctor and address details
     doctor: IDoctor | undefined;
-    doctorAddress: IAddress | undefined;
+    department:IDepartment | undefined;
+    clinic:IClinic | undefined;
 
     // Placeholder image to be used if the doctor's profile picture is not available
     fallbackimage = 'assets/placeholder-image.jpg';
@@ -54,8 +56,14 @@ export class DoctorDetailsComponent implements OnInit {
        this.doctorService.getDoctorById(doctorId).subscribe({
         next: (doctor) => {
           // Success callback: Assigns the retrieved doctor data to the component's doctor variable
-          console.log(doctor);
           this.doctor = doctor;
+          if (this.doctor?.departmentId) {
+            // Fetch the department name after fetching the doctor details
+            this.getDepartmentName(this.doctor.departmentId);
+          }
+          if (this.doctor?.clinicId) {
+            this.getClinicName(this.doctor.clinicId);
+          }
         },
         error: (error) => {
           // Error callback: Logs the error in case of a failure in fetching doctor details
@@ -63,6 +71,35 @@ export class DoctorDetailsComponent implements OnInit {
         }
        });
     }
+
+    getDepartmentName(departmentId: number) {
+      this.doctorService.getDepartmentById(departmentId).subscribe({
+        next: (department) => {
+          // Assign the department name to the component's property
+          this.department = department;
+        },
+        error: (error) => {
+          console.error("Error fetching department", error);
+        }
+      });
+    }
+
+    getClinicName(clinicId: number) {
+      this.doctorService.getClinicById(clinicId).subscribe({
+        next: (c) => {
+          // Map the received data to clinicId and clinicName
+          this.clinic = {
+            clinicId: c.id,      // Map 'id' to 'clinicId'
+            clinicName: c.name   // Map 'name' to 'clinicName'
+          };
+        },
+        error: (error) => {
+          console.error("Error fetching clinic", error);
+        }
+      });
+    }
+    
+
     getProfilePicture(): string {
       return this.doctor?.profilePicture || this.fallbackimage;
     }

@@ -15,8 +15,16 @@ import { IClinic } from '../../models/Doctors/clinic.model';
   styleUrls: ['./add-doctor.component.css'] // Note: Corrected 'styleUrl' to 'styleUrls'
 })
 export class AddDoctorComponent implements OnInit {
+
+onDepartmentChange(event: any) {
+  const departmentId  = Number(event?.target.value);
+  const selectedDepartment = this.departments.find(dept => dept.departmentId === departmentId);
+  if (selectedDepartment) {
+    this.doctor.specialization = selectedDepartment.departmentName;
+  }
+}
+
   ngOnInit(): void {
-    this.loadSpecializations();
     this.loadDepartments();
     this.loadClinics();
   }
@@ -34,7 +42,7 @@ export class AddDoctorComponent implements OnInit {
 
   // List of states for the state dropdown based on the selected country
   states: string[] = [];
-
+  departmentName:string='';
   specializations: string[] = [];
   qualifications: string[] = [];
   departments: IDepartment[] = [];
@@ -96,14 +104,6 @@ export class AddDoctorComponent implements OnInit {
     }
   }
 
-  loadSpecializations() {
-    // Load specializations from the service
-    this.doctorService.getSpecializations().subscribe(data => {
-      this.specializations = data.map((item:any)=>item.name);
-      console.log( this.specializations );
-    });
-  }
-
   loadDepartments() {
     this.doctorService.getDepartments().subscribe((data: IDepartment[]) => {
       this.departments = data; // Storing the whole department object
@@ -138,6 +138,13 @@ export class AddDoctorComponent implements OnInit {
     return parsedDate.toISOString();
   }
 
+  updateSpecialization() {
+    const selectedDepartment = this.departments.find(dept => dept.departmentId === this.doctor.departmentId);
+    if (selectedDepartment) {
+      this.doctor.specialization = selectedDepartment.departmentName;
+    }
+  }
+  
   /**
    * Handles form submission for adding a new doctor.
    * Constructs FormData, appends doctor details and file, and submits it to the server.
