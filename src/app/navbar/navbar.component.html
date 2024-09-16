@@ -14,13 +14,13 @@
               <i class="bi bi-person-circle" style="color: #ffffff;"></i> Admin <!-- Icon for Profile -->
             </a>
           </li>
-          <ng-template #loginButton>
+          <!-- <ng-template #loginButton> -->
             <li class="nav-item">
               <a class="nav-link" href="/login" style="color: #ffffff;">
                 <i class="bi bi-box-arrow-right" style="color: #ffffff;"></i> Login <!-- Icon for Login -->
               </a>
             </li>
-          </ng-template>
+          <!-- </ng-template> -->
           <li class="nav-item" *ngIf="!loggedIn";else #loginButton>
             <a class="nav-link" href="#" style="color: #ffffff;">
               <i class="bi bi-box-arrow-right" style="color: #ffffff;"></i> Logout <!-- Icon for Logout -->

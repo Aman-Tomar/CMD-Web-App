@@ -21,9 +21,13 @@ export class NavbarComponent implements OnInit {
   checkLoggedIn()
   {
     const token=this.tokenService.getToken();
-    if(token)
+    console.log(token);
+    if(token !== null)
     {
       this.loggedIn=true;
+    }
+    else {
+      this.loggedIn=false;
     }
   }
 
