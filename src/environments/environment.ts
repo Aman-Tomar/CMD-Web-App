@@ -5,5 +5,6 @@ export const environment = {
 	doctorBaseUrl: "https://cmd-doctor-api.azurewebsites.net/api",
 	patientBaseUrl: "https://cmdpatientnewwebapp-ckbwb7h0cjhrfehx.southeastasia-01.azurewebsites.net/api",
 	clinicBaseUrl: "https://cmd-clinic-api.azurewebsites.net/api",
-	authBaseUrl: ""
+	authBaseUrl: "",
+	departmentBaseUrl:"https://cmd-clinic-api.azurewebsites.net/api"
 }

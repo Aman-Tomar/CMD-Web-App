@@ -18,7 +18,7 @@ export class AppointmentService {
   private patientApiUrl = environment.patientBaseUrl;
   private doctorApiUrl = environment.doctorBaseUrl;
 
-  private departmentApiUrl="https://cmd-clinic-api.azurewebsites.net/api";
+  private departmentApiUrl=environment.departmentBaseUrl;
 
 //Appointments  Api Call
   getAppointments(pageNo: number = 1, pageLimit: number = 20): Observable<AppointmentResponse> {
