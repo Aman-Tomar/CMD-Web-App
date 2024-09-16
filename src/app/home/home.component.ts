@@ -7,6 +7,8 @@ import { Patient } from '../models/Patients/patient.model';
 import { IDoctor } from '../models/Doctors/doctor.models';
 import { IAppointment } from '../models/Appointment/Appointment';
 import { AppointmentResponse } from '../models/Appointment/AppointmentResponse';
+import { NgClass, NgFor, NgIf } from '@angular/common';
+import { AppointmentStatus } from '../models/Appointment/AppointmentStatus';
 
 @Component({
   selector: 'app-home',

@@ -149,58 +149,28 @@
                 </div>
             </div>
 
-            <!-- Patients Section (Stacked below Doctors) -->
-            <div class="card">
-                <div class="card-header bg-white">
-                    <h4 class="card-title mb-0">Patients</h4>
+<!-- Patients Section (Stacked below Doctors) -->
+<div class="card">
+    <div class="card-header bg-white">
+        <h4 class="card-title mb-0">Patients</h4>
+    </div>
+    <div class="card-body">
+        <ul class="list-group list-group-flush contact-list">
+            <li class="list-group-item" *ngFor="let patient of patients">
+                <div class="d-flex align-items-center">
+                    <div class="avatarPatient me-3">{{patient.patientName.charAt(0)}}</div>
+                    <div>
+                        <h5 class="mb-0">{{patient.patientName}}</h5>
+                        <small>{{patient.state}}, {{patient.country}}</small>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush contact-list">
-                        <li class="list-group-item" *ngFor="let patient of patients" >
-                            <div class="d-flex align-items-center">
-                                <div class="avatarPatient me-3">{{patient.patientName.charAt(0)}}</div>
-                                <div>
-                                    <h5 class="mb-0">{{patient.patientName}}</h5>
-                                    <small>{{patient.state}}, {{patient.country}}</small>
-                                <div class="avatar">B</div>                                <div>
-                                    <h5 class="mb-0">Jane Smith</h5>
-                                    <small>New York, USA</small>
-                                </div>
-                            </div>
-                        </li>
-                       
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar">B</div>                                <div>
-                                    <h5 class="mb-0">Jane Smith</h5>
-                                    <small>New York, USA</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar">B</div>                                <div>
-                                    <h5 class="mb-0">Jane Smith</h5>
-                                    <small>New York, USA</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar">B</div>                                <div>
-                                    <h5 class="mb-0">Jane Smith</h5>
-                                    <small>New York, USA</small>
-                                </div>
-                            </div>
-                        </li>
-                    
-                        <!-- Additional patients can be added here -->
-                    </ul>
-                </div>
-                <div class="card-footer text-center bg-white">
-                    <a [routerLink]="['/patients']" routerLinkActive="router-link-active"  class="text-muted">View all Patients</a>
-                    
-                </div>
+            </li>
+            <!-- Additional patients can be added here -->
+        </ul>
+    </div>
+    <div class="card-footer text-center bg-white">
+        <a [routerLink]="['/patients']" class="text-muted">View all Patients</a>
+    </div>
             </div>
         </div>
 
