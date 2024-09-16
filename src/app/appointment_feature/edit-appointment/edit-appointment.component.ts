@@ -32,6 +32,7 @@ export class EditAppointmentComponent implements OnInit {
   appointment!: IAppointment;
   patients: Patient[]=[];
   doctors: IDoctor[]=[];
+  purposeOfVisit: any[] = [];
   updatedAppointment: IAppointmentDTO = {} as IAppointmentDTO;
 
   reactiveForm = new FormGroup({
@@ -49,7 +50,8 @@ export class EditAppointmentComponent implements OnInit {
   ngOnInit(): void {
     this.loadPatients();
     this.loadDoctors();
-
+    this.loadPurposeOfVisit();
+    
     this.route.paramMap.subscribe(param => {
       this.appointmentId = Number(param.get('id'));
       if (this.appointmentId) {
@@ -123,6 +125,15 @@ export class EditAppointmentComponent implements OnInit {
       next: (data: DoctorResponse) => {
         this.doctors = data.data;
         console.log("doctors:"+data)
+      } ,
+      error: (err: string) => {this.errorMessage=err;console.log(this.errorMessage)}
+    });
+  }
+  loadPurposeOfVisit():void{
+    this.appointmentService.getPurposeOfVisit().subscribe({
+      next: (data: any) => {
+        this.purposeOfVisit = data;
+        console.log("purposeOfvisit:"+data)
       } ,
       error: (err: string) => {this.errorMessage=err;console.log(this.errorMessage)}
     });

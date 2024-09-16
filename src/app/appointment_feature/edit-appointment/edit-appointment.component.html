@@ -55,14 +55,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="visitPurpose" class="form-label">Purpose of Visit</label>
-                                    <select [class.is-invalid]="reactiveForm.get('doctor')?.invalid && reactiveForm.get('doctor')?.touched" name="purposeOfVisit" formControlName="purposeOfVisit" id="visitPurpose" class="form-select">
-                                        <option selected value="">Select</option>
-                                        <option value="Fever">Fever</option>
-                                        <option value="Cold">Cold</option>
-                                        <option value="Malaria">Malaria</option>
-                                        <option value="Typhoid">Typhoid</option>
-                                        <option value="General Checkup">General Checkup</option>
-                                        <option value="Follow Up">Follow Up</option>
+                                    <select  [class.is-invalid]="reactiveForm.get('purposeOfVisit')?.invalid && reactiveForm.get('purposeOfVisit')?.touched" name="purposeOfVisit" formControlName="purposeOfVisit" id="visitPurpose" class="form-select">
+                                        <option value='' selected>Select</option>
+                                        <option *ngFor="let option of purposeOfVisit" [value]="option.purpose">
+                                            {{ option.purpose }}
+                                          </option>
                                     </select>
                                 </div>
                                 <small class="text-danger small" *ngIf="reactiveForm.controls.purposeOfVisit.touched&&reactiveForm.controls.date.errors?.['required']">

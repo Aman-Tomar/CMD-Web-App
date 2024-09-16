@@ -90,10 +90,15 @@ export class AppointmentService {
 
   //getting departments 
 
-getDepartments():Observable<any>{
-  return this.http.get<any>(`${this.departmentApiUrl}/Department`)
-  .pipe(catchError(this.handleError));
-}
+  getDepartments():Observable<any>{
+    return this.http.get<any>(`${this.departmentApiUrl}/Department`)
+    .pipe(catchError(this.handleError));
+  }
+
+  //getting Purpose Of visit
+  getPurposeOfVisit(): Observable<any> {
+    return this.http.get<any[]>('assets/purposeOfVisit.json').pipe(catchError(this.handleError));
+  }
 
 
 //create appointment

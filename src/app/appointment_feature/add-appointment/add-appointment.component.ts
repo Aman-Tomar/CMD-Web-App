@@ -25,7 +25,8 @@ export class AddAppointmentComponent implements OnInit {
   successMessage: string = '';
   minDate: string = '';
   maxDate: string = '';
-  departments:{departmentId:number,departmentName:string}[]=[]
+  departments:{departmentId:number,departmentName:string}[]=[];
+  purposeOfVisit: any[] = [];
   appointment: IAppointment={
     id: 0,
     purposeOfVisit: '',
@@ -46,6 +47,7 @@ export class AddAppointmentComponent implements OnInit {
     this.loadPatients();
     this.loadDoctors();
     this.loadDepartments();
+    this.loadPurposeOfVisit();
     const today = new Date();
     this.minDate = today.toISOString().split('T')[0];
 
@@ -105,6 +107,16 @@ export class AddAppointmentComponent implements OnInit {
       next: (data: any) => {
         this.departments = data;
         console.log("departments:"+data)
+      } ,
+      error: (err: string) => {this.errorMessage=err;console.log(this.errorMessage)}
+    });
+  }
+
+  loadPurposeOfVisit():void{
+    this.appointmentService.getPurposeOfVisit().subscribe({
+      next: (data: any) => {
+        this.purposeOfVisit = data;
+        console.log("purposeOfvisit:"+data)
       } ,
       error: (err: string) => {this.errorMessage=err;console.log(this.errorMessage)}
     });

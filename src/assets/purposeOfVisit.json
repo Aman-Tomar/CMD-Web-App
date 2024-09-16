@@ -1,0 +1,11 @@
+[
+    { "id": 1, "purpose": "Consultation" },
+    { "id": 2, "purpose": "Follow Up" },
+    { "id": 3, "purpose": "Treatment" },
+    { "id": 4, "purpose": "Emergency" },
+    { "id": 5, "purpose": "General Checkup" },
+    { "id": 6, "purpose": "Typhoid" },
+    { "id": 7, "purpose": "Malaria" },
+    { "id": 8, "purpose": "Cold" },
+    { "id": 9, "purpose": "Fever" }
+  ]
