@@ -2,7 +2,11 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { IDoctor } from '../../models/Doctors/doctor.models';
 import { map, Observable } from 'rxjs';
+import { IDoctorSchedule } from '../../models/Doctors/doctorSchedule.models';
+import { IDepartment } from '../../models/Doctors/department.models';
+import { IClinic } from '../../models/Doctors/clinic.model';
 import { environment } from '../../../environments/environment';
+import { RequestService } from '../request/request.service';
 
 
 @Injectable({
@@ -10,30 +14,47 @@ import { environment } from '../../../environments/environment';
 })
 export class DoctorService {
   private apiUrl = environment.doctorBaseUrl; 
-  client:HttpClient = inject(HttpClient);
+  private clinicUrl = environment.clinicBaseUrl;
+  requestService:RequestService = inject(RequestService);
 
   getAllDoctors(page: number, pageSize: number): Observable<any> {
     const params = new HttpParams()
       .set('page', page.toString())  // Adjust the key if necessary to match your API (e.g., 'pageNumber' or 'page')
       .set('pageSize', pageSize.toString());
 
-    return this.client.get<IDoctor>(`${this.apiUrl}/Doctor`, { params });
+    return this.requestService.get<IDoctor>(`${this.apiUrl}/Doctor`, params);
   }
   
   getDoctorById(doctorId:number):Observable<IDoctor>{
-      return this.client.get<IDoctor>(`${this.apiUrl}/Doctor/${doctorId}`).pipe(
+      return this.requestService.get<IDoctor>(`${this.apiUrl}/Doctor/${doctorId}`).pipe(
         map(this.mapDoctorResponse)
       );
   }
 
   addDoctor(formData:FormData): Observable<any> {
-    return this.client.post<any>(`${this.apiUrl}/Doctor`, formData);
+    return this.requestService.post<any>(`${this.apiUrl}/Doctor`, formData);
   }
 
   editDoctor(doctorId: number, formData: FormData): Observable<any> {
-    return this.client.put<any>(`${this.apiUrl}/Doctor?doctorId=${doctorId}`, formData);
+    return this.requestService.put<any>(`${this.apiUrl}/Doctor?doctorId=${doctorId}`, formData);
   }
   
+  getDepartments(): Observable<any[]> {
+    return this.requestService.get<any[]>(`${this.clinicUrl}/Department`);
+  }
+
+  getDepartmentById(departmentId: number): Observable<IDepartment> {
+    return this.requestService.get<IDepartment>(`${this.clinicUrl}/Department/${departmentId}`);
+  }
+
+  getClinics(): Observable<any[]> {
+    return this.requestService.get<any[]>(`${this.clinicUrl}/Clinic`);
+  }
+
+  getClinicById(clinicId: number): Observable<any> {
+    return this.requestService.get<any>(`${this.clinicUrl}/Clinic/${clinicId}`);
+  }
+
   private mapDoctorResponse(response: any): IDoctor {
     return {
       doctorId: response.doctorId,

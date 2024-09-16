@@ -5,7 +5,7 @@
       <ol class="breadcrumb mb-0">
         <li class="breadcrumb-item"><a [routerLink]="['/']" class="text-decoration-none">Home</a></li>
         <li class="breadcrumb-item"><a [routerLink]="['/schedule']" class="text-decoration-none">Schedules</a></li>
-        <li class="breadcrumb-item active text-black" aria-current="page">Edit Schedule</li>
+        <li class="breadcrumb-item active text-black" aria-current="page">Add Schedule</li>
       </ol>
     </nav>
     <div class="card-body p-4">
@@ -62,6 +62,15 @@
               </div>
             </div>
           </div>
+          <!-- Success/Error Messages -->
+          <div *ngIf="message" class="alert" [ngClass]="{'alert-success': success, 'alert-danger': !success}" role="alert">
+            {{ message }}
+          </div>
+          
+          <!-- Success/Error Messages -->
+          <div *ngIf="message" class="alert" [ngClass]="{'alert-success': success, 'alert-danger': !success}" role="alert">
+            {{ message }}
+          </div>
           
           <!-- Status Checkbox -->
           <div class="form-group">
@@ -76,8 +85,8 @@
           <div class="form-group text-center">
             <button class="btn btn-primary" type="submit" [disabled]="!scheduleForm.valid">Save Schedule</button>
           </div>
-        </form>
 
+        </form>
         <!-- Success/Error Messages -->
         <div *ngIf="message" class="alert" [ngClass]="{'alert-success': success, 'alert-danger': !success}" role="alert">
           {{ message }}

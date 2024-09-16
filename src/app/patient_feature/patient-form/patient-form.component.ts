@@ -5,9 +5,9 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractContro
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { PatientService } from '../../services/patient/patient.service';
-import { Patient } from '../../models/patient.model';
-import { Doctor } from '../../models/doctor.model';
-import { Clinic } from '../../models/clinic.model';
+import { Patient } from '../../models/Patients/patient.model';
+import { Doctor } from '../../models/Patients/doctor.model';
+import { Clinic } from '../../models/Patients/clinic.model';
 
 @Component({
   selector: 'app-patient-form',
@@ -300,17 +300,17 @@ export class PatientFormComponent implements OnInit {
     Object.keys(formattedData).forEach(key => formattedData[key] === undefined && delete formattedData[key]);
     console.log('Formatted data:', formattedData);
   
-    if (this.isEditMode && this.patientId) {
-      this.patientService.updatePatient(this.patientId, formattedData).subscribe({
-        next: () => this.router.navigate(['/patients']),
-        error: (error) => this.handleError(error)
-      });
-    } else {
-      this.patientService.createPatient(formattedData).subscribe({
-        next: () => this.router.navigate(['/patients']),
-        error: (error) => this.handleError(error)
-      });
-    }
+    // if (this.isEditMode && this.patientId) {
+    //   this.patientService.updatePatient(this.patientId, formattedData).subscribe({
+    //     next: () => this.router.navigate(['/patients']),
+    //     error: (error) => this.handleError(error)
+    //   });
+    // } else {
+    //   this.patientService.createPatient(formattedData).subscribe({
+    //     next: () => this.router.navigate(['/patients']),
+    //     error: (error) => this.handleError(error)
+    //   });
+    // }
   }
 
   calculateAge(dob: string): number {

@@ -6,21 +6,29 @@
  <!-- Dropdown for selecting page size -->
  <div class="page-size-selector mb-3">
   <label for="pageSize">Show: </label>
+  <!-- Dropdown to change the number of doctors displayed per page, bound to 'pageSize' variable -->
   <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange($event)">
-    <option [value]="1">1</option>
-    <option [value]="2">2</option>
-    <option [value]="4">4</option>
-    <option [value]="8">8</option>
+    <!-- Options for page size: 10, 25, 50, 100 -->
+    <option [value]="10">10</option>
+    <option [value]="25">25</option>
+    <option [value]="50">50</option>
+    <option [value]="100">100</option>
   </select>
+  <!-- Label for entries shown -->
   <label>Entries</label>
 </div>
 
- 
+<!-- Grid layout displaying doctors -->
 <div class="doctor-grid">
+  <!-- Loop through each doctor object and display information in a doctor card -->
   <div *ngFor="let doctor of doctors" class="doctor-card">
     <div class="doctor-card-content">
+      
+      <!-- Menu button for each doctor with a dropdown to edit the doctor details -->
       <div class="menu-container">
+        <!-- Button to toggle the dropdown menu for each specific doctor -->
         <button class="menu-btn" (click)="toggleMenu(doctor.doctorId)">⋮</button>
+        <!-- Dropdown menu that appears when the three-dot button is clicked -->
         <div *ngIf="currentDoctorId === doctor.doctorId" class="dropdown-menu">
           <a [routerLink]="['/doctor/edit', doctor.doctorId]" class="dropdown-item">
             <i class="fas fa-edit me-2 text-muted"></i>
@@ -28,12 +36,20 @@
           <!-- Add more options here if needed -->
         </div>
       </div>
+      
+      <!-- Doctor's profile image with a router link to the doctor's detail page -->
       <img [routerLink]="['/doctor', doctor.doctorId]"
            [src]="doctor.profilePicture ? 'data:image/png;base64,' + doctor.profilePicture : fallbackimage"
            [alt]="doctor.firstName + ' ' + doctor.lastName"
            class="doctor-image">
-      <h2 class="doctor-name">{{ doctor.firstName }} {{ doctor.lastName }}</h2>
+      
+      <!-- Doctor's name displayed as a heading -->
+      <h2 class="doctor-name">Dr.{{ doctor.firstName }} {{ doctor.lastName }}</h2>
+      
+      <!-- Doctor's specialization displayed as a paragraph -->
       <p class="specialization">{{ doctor.specialization }}</p>
+      
+      <!-- Doctor's location displayed with a location icon -->
       <p class="location">
         <i class="fas fa-map-marker-alt"></i>
         {{ doctor.city }}
@@ -42,15 +58,19 @@
   </div>
 </div>
 
+<!-- Pagination section to navigate between pages of doctors -->
 <div class="pagination">
   <nav *ngIf="!isLoading && !errorMessage">
     <ul class="pagination">
+      <!-- Button to go to the previous page, disabled if on the first page -->
       <li class="page-item" [class.disabled]="pageNumber === 1">
         <a class="page-link" (click)="changePage(pageNumber - 1)">Previous</a>
       </li>
+      <!-- Loop through the available pages and display pagination buttons -->
       <li *ngFor="let p of pages" class="page-item" [class.active]="p === pageNumber">
         <a class="page-link" (click)="changePage(p)">{{ p }}</a>
       </li>
+      <!-- Button to go to the next page, disabled if on the last page -->
       <li class="page-item" [class.disabled]="pageNumber === pages.length">
         <a class="page-link" (click)="changePage(pageNumber + 1)">Next</a>
       </li>
@@ -58,8 +78,7 @@
   </nav>
 </div>
 
+<!-- Displaying the current range of doctors being viewed (e.g., 1-10 out of 50) -->
 <div class="display-range">
   {{ getDisplayRange() }}
 </div>
-
-
