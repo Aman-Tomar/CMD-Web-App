@@ -7,24 +7,25 @@ import { PatientResponse } from '../../models/Appointment/PatientResponse';
 import { DoctorResponse } from '../../models/Appointment/DoctorResponse';
 import { AppointmentResponse } from '../../models/Appointment/AppointmentResponse';
 import { environment } from '../../../environments/environment';
+import { RequestService } from '../request/request.service';
 @Injectable({
   providedIn: 'root'
 })
 export class AppointmentService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private requestService:RequestService) { }
 
   private apiUrl = environment.appointmentBaseUrl;
   private patientApiUrl = environment.patientBaseUrl;
   private doctorApiUrl = environment.doctorBaseUrl;
 
-  private departmentApiUrl=environment.departmentBaseUrl;
+  private departmentApiUrl=environment.clinicBaseUrl;
 
 //Appointments  Api Call
   getAppointments(pageNo: number = 1, pageLimit: number = 20): Observable<AppointmentResponse> {
     let params = new HttpParams().set('pageNo', pageNo.toString()).set('pageLimit', pageLimit.toString());
 
-    return this.http.get<AppointmentResponse>(`${this.apiUrl}/Appointment`, { params })
+    return this.requestService.get<AppointmentResponse>(`${this.apiUrl}/Appointment`, params)
   }
 
    // Fetch active appointments
@@ -33,7 +34,7 @@ export class AppointmentService {
       .set('pageNumber', pageNumber.toString())
       .set('pageSize', pageSize.toString());
 
-    return this.http.get<IAppointment[]>(`${this.apiUrl}/Appointment/Active`, { params });
+    return this.requestService.get<IAppointment[]>(`${this.apiUrl}/Appointment/Active`, params);
   }
 
 // Fetch inactive appointments
@@ -42,11 +43,11 @@ export class AppointmentService {
       .set('pageNumber', pageNumber.toString())
       .set('pageSize', pageSize.toString());
 
-    return this.http.get<IAppointment[]>(`${this.apiUrl}/Appointment/Inactive`, { params });
+    return this.requestService.get<IAppointment[]>(`${this.apiUrl}/Appointment/Inactive`, params);
   }
 // Fetch an appointment by its ID
     getAppointmentById(appointmentId: number): Observable<IAppointment> {
-      return this.http.get<IAppointment>(`${this.apiUrl}/Appointment/${appointmentId}`)
+      return this.requestService.get<IAppointment>(`${this.apiUrl}/Appointment/${appointmentId}`)
         .pipe(
           catchError(this.handleError)
         );
@@ -54,9 +55,7 @@ export class AppointmentService {
 
     //cancel an appointment by its Id
     cancelAppointmentById(appointmentId: number): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/Appointment/Cancel/${appointmentId}`, {},{
-        headers: { 'Content-Type': 'application/json' }
-      })
+      return this.requestService.put<any>(`${this.apiUrl}/Appointment/Cancel/${appointmentId}`, {})
         .pipe(
           catchError(this.handleError)
         );
@@ -67,12 +66,12 @@ export class AppointmentService {
   getPatients(pageNo: number = 1, pageLimit: number = 20):Observable<PatientResponse>{
     let params = new HttpParams().set('pageNo', pageNo.toString()).set('pageLimit', pageLimit.toString());
 
-    return this.http.get<PatientResponse>(`${this.patientApiUrl}/Patients`, { params })
+    return this.requestService.get<PatientResponse>(`${this.patientApiUrl}/Patients`, params)
   }
 
    // Fetch a single patient by their ID
    getPatientById(patientId: number): Observable<any> {
-    return this.http.get<any>(`${this.patientApiUrl}/Patients/${patientId}`)
+    return this.requestService.get<any>(`${this.patientApiUrl}/Patients/${patientId}`)
       .pipe(catchError(this.handleError));
   }
 
@@ -80,30 +79,30 @@ export class AppointmentService {
   getDoctors(pageNo: number = 1, pageLimit: number = 20):Observable<DoctorResponse>{
     let params = new HttpParams().set('pageNo', pageNo.toString()).set('pageLimit', pageLimit.toString());
 
-    return this.http.get<DoctorResponse>(`${this.doctorApiUrl}/Doctor`, { params })
+    return this.requestService.get<DoctorResponse>(`${this.doctorApiUrl}/Doctor`, params)
   }
   // Fetch a single doctor by their ID
   getDoctorById(doctorId: number): Observable<any> {
-    return this.http.get<any>(`${this.doctorApiUrl}/Doctor/${doctorId}`)
+    return this.requestService.get<any>(`${this.doctorApiUrl}/Doctor/${doctorId}`)
       .pipe(catchError(this.handleError));
   }
 
   //getting departments 
 
   getDepartments():Observable<any>{
-    return this.http.get<any>(`${this.departmentApiUrl}/Department`)
+    return this.requestService.get<any>(`${this.departmentApiUrl}/Department`)
     .pipe(catchError(this.handleError));
   }
 
   //getting Purpose Of visit
   getPurposeOfVisit(): Observable<any> {
-    return this.http.get<any[]>('assets/purposeOfVisit.json').pipe(catchError(this.handleError));
+    return this.requestService.get<any[]>('assets/purposeOfVisit.json').pipe(catchError(this.handleError));
   }
 
 
 //create appointment
   createAppointment(appointment: IAppointment): Observable<IAppointment> {
-    return this.http.post<IAppointment>(`${this.apiUrl}/appointment`, appointment);
+    return this.requestService.post<IAppointment>(`${this.apiUrl}/appointment`, appointment);
   }
 
  // Update Appointment Method
@@ -113,7 +112,7 @@ export class AppointmentService {
   console.log('Updated Appointment Data:', updatedAppointment);
 
   // HTTP PUT request to update the appointment
-  return this.http.put<IAppointment>(`${this.apiUrl}/appointment/${appointmentId}`, updatedAppointment);
+  return this.requestService.put<IAppointment>(`${this.apiUrl}/appointment/${appointmentId}`, updatedAppointment);
 }
 
 getDoctorAvailabilty(doctorId: number, date: string, startTime: string, endTime: string):Observable<any> {
@@ -125,10 +124,7 @@ getDoctorAvailabilty(doctorId: number, date: string, startTime: string, endTime:
     .set('endTime', endTime);
 
   // Combine params and observe in the same object
-  return this.http.get<any[]>(`${this.doctorApiUrl}/DoctorSchedule/available`, {
-    params,
-    observe: 'response' // This ensures that the full HttpResponse is returned
-  }).pipe(
+  return this.requestService.get<any[]>(`${this.doctorApiUrl}/DoctorSchedule/available`, params).pipe(
     catchError(this.handleError)
   );
 }

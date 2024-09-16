@@ -14,9 +14,10 @@ import { AppointmentListComponent } from './appointment_feature/appointment-list
 import { AddAppointmentComponent } from './appointment_feature/add-appointment/add-appointment.component';
 import { EditAppointmentComponent } from './appointment_feature/edit-appointment/edit-appointment.component';
 import { AppointmentDetailsComponent } from './appointment_feature/appointment-details/appointment-details.component';
+import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
-    { path: '', component:HomeComponent,title:"MCD" },
+    { path: '', component:HomeComponent,title:"Connect my Doc" },
     { path: 'patients', component: PatientListComponent,title:"Patients" },
     { path: 'patients/new', component: PatientFormComponent,title:"Add patient" },
     { path: 'patients/:id', component: PatientDetailComponent,title:"Patient Details" },
@@ -34,4 +35,6 @@ export const routes: Routes = [
     {path:'appointments/add',component:AddAppointmentComponent,title:"Add appointment"},
     {path:'appointments/:id',component:AppointmentDetailsComponent,title:"View Appointment"},
     {path:'appointments/edit/:id', component:EditAppointmentComponent,title:"Edit Appointment" },
+
+    {path:'login',component:LoginComponent,title:"Login"}
 ];

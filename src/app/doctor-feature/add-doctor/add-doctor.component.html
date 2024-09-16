@@ -111,8 +111,26 @@
             </div>
           </div>
         </div>
-    
+
         <div class="row mb-3">
+          <div class="col-md-12">
+          <label for="qualification" class="form-label">Qualification</label>
+          <textarea class="form-control" id="qualification" name="qualification" rows="3" [(ngModel)]="doctor.qualification" required #qualification="ngModel"></textarea>
+          <div *ngIf="qualification.invalid && (qualification.dirty || qualification.touched)" class="text-danger">
+            Qualification is required.
+          </div>
+        </div>
+        </div>
+    
+        <!-- Row 10: Specialization, Qualification -->
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="experience" class="form-label">Experience in years</label>
+            <input type="tel" class="form-control" id="experience" name="experience" [(ngModel)]="doctor.experienceInYears" required #experience="ngModel">
+            <div *ngIf="experience.invalid && (experience.dirty || experience.touched)" class="text-danger">
+              Experience is a required field.
+            </div>
+          </div>
           <div class="col-md-6">
             <label for="phone" class="form-label">Phone Number</label>
             <input type="tel" class="form-control" id="phone" name="phone" [(ngModel)]="doctor.phoneNo" required #phone="ngModel">
@@ -120,10 +138,43 @@
               Phone Number is required.
             </div>
           </div>
+        </div>
+    
+        <!-- Row 11: Clinic, Department -->
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="clinicId" class="form-label">Clinic</label>
+            <select class="form-select" id="clinicId" name="clinicId" [(ngModel)]="doctor.clinicId" required #clinicId="ngModel">
+              <option value="" selected disabled>Select Clinic</option>
+              <option *ngFor="let clinic of clinics" [value]="clinic.clinicId">{{clinic.clinicName}}</option>
+            </select>
+            <div *ngIf="clinicId.invalid && (clinicId.dirty || clinicId.touched)" class="text-danger">
+              Clinic is required.
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="departmentId" class="form-label">Department</label>
+            <select class="form-select" id="departmentId" name="departmentId" [(ngModel)]="doctor.departmentId" (change)="onDepartmentChange($event)" required #departmentId="ngModel">
+              <option value="" selected disabled>Select Department</option>
+              <option *ngFor="let dept of departments" [value]="dept.departmentId">{{dept.departmentName}}</option>
+            </select>
+            <div *ngIf="departmentId.invalid && (departmentId.dirty || departmentId.touched)" class="text-danger">
+              Department is required.
+            </div>
+          </div>
+        </div>
+         <!-- Row 7: Phone Number, Profile Picture -->
+    
+        <div class="row mb-3">
+         
           <div class="col-md-6">
             <label for="profilePicture" class="form-label">Profile Picture</label>
             <input type="file" class="form-control" id="profilePicture" (change)="onFileSelected($event)">
           </div>
+          <!-- <div class="col-md-6">
+            <label for="specialization" class="form-label">Specialization</label>
+            <input type="text" class="form-control" id="specialization" name="specialization" [(ngModel)]="doctor.specialization" readonly>
+          </div> -->
         </div>
     
         <div class="row mb-3">
@@ -134,6 +185,7 @@
               Short Biography is required.
             </div>
           </div>
+
         </div>
     
         <div class="row mb-3">
@@ -163,7 +215,4 @@
       </form>
     </div>
    </div>
- 
-  
- 
 </div>

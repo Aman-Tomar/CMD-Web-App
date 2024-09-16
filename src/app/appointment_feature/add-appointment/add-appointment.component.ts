@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, NgModule, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, FormsModule, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AppointmentService } from '../../services/appointmnent/appointment.service';
 import { Patient } from '../../models/Appointment/Patient';
 import { PatientResponse } from '../../models/Appointment/PatientResponse';
@@ -19,6 +19,7 @@ import { dateRangeValidator, doctorAvailabilityValidator, timeNotInPastValidator
 })
 export class AddAppointmentComponent implements OnInit {
   appointmentService:AppointmentService=inject(AppointmentService);
+  router:Router=inject(Router);
   patients: Patient[]=[];
   doctors: IDoctor[]=[];
   errorMessage: string = '';
@@ -141,6 +142,11 @@ export class AddAppointmentComponent implements OnInit {
     }
   }
 
+  goback()
+  {
+    this.router.navigate(['/appointments'])
+  }
+
   onSubmit() {
     console.log(this.reactiveForm);
     this.mapFormToAppointment();
@@ -151,7 +157,8 @@ export class AddAppointmentComponent implements OnInit {
         next:(data) => {
           console.log('Appointment created successfully', data);
           this.successMessage=`Success! Appointment Made Successfully`;
-          this.reactiveForm.reset();  // Optionally reset the form after successful submission
+          this.reactiveForm.reset();
+          this.goback()  // Optionally reset the form after successful submission
         },
         error:(error)=> {
           this.errorMessage="Error! Appointment Could not be Scheduled ";
