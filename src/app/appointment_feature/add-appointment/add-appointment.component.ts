@@ -6,11 +6,9 @@ import { AppointmentService } from '../../services/appointmnent/appointment.serv
 import { Patient } from '../../models/Appointment/Patient';
 import { PatientResponse } from '../../models/Appointment/PatientResponse';
 import { IDoctor } from '../../models/Appointment/Doctor';
-import { DoctorResponse } from '../../models/Appointment/DoctorResponse';
 import { IAppointment } from '../../models/Appointment/Appointment';
 import { AppointmentStatus } from '../../models/Appointment/AppointmentStatus';
 import { dateRangeValidator, timeNotInPastValidator } from '../../Validators/AppointmentCustomValidator';
-// import { CustomValidator } from './Validators/AppointmentCustomValidator';
 
 @Component({
   selector: 'app-add-appointment',

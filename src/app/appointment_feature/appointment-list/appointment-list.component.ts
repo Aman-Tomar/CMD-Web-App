@@ -70,7 +70,7 @@ fetchPatientDetails(patientId: number): void {
   if (!this.patientDetails[patientId]) {
     this.appointmentService.getPatientById(patientId).subscribe({
       next: (response: any) => {
-        this.patientDetails[patientId] = { name: response.name, age: response.age };
+        this.patientDetails[patientId] = { name: response.patientName, age: response.age };
         console.log(this.patientDetails)
       },
       error: () => {
@@ -85,7 +85,7 @@ fetchDoctorDetails(doctorId: number): void {
   if (!this.doctorDetails[doctorId]) {
     this.appointmentService.getDoctorById(doctorId).subscribe({
       next: (response: any) => {
-        this.doctorDetails[doctorId] = {name:response.name};
+        this.doctorDetails[doctorId] = {name:response.firstName+" "+response.lastName};
         console.log(this.doctorDetails)
       },
       error: () => {

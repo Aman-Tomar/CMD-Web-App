@@ -71,9 +71,9 @@
               {{ appointment.status === AppointmentStatus.Scheduled ? 'Active' : 'Inactive' }}
             </span>
           </td>
-          <td>{{ patientDetails[appointment.patientId]?.name || 'N/A' }}</td>
-        <td>{{ patientDetails[appointment.patientId]?.age || 'N/A' }}</td>
-        <td>{{ doctorDetails[appointment.doctorId]?.name || 'N/A' }}</td>
+          <td>{{ patientDetails[appointment.patientId].name || 'N/A' }}</td>
+        <td>{{ patientDetails[appointment.patientId].age || 'N/A' }}</td>
+        <td>{{ doctorDetails[appointment.doctorId].name || 'N/A' }}</td>
           <td class="dropdown">
             <button class="p-0 border-0 bg-transparent" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
               <i class="fas fa-ellipsis-v text-muted"></i>
