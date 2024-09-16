@@ -202,5 +202,13 @@ export class EditDoctorComponent implements OnInit{
       this.doctor.specialization = selectedDepartment.departmentName;
     }
   }
- 
+
+  hasSpaces(value: string): boolean {
+    return /\s/.test(value);
+  } 
+
+  hasInvalidPhoneNumber(value: string): boolean {
+    const phonePattern = /^(\+91|91)?[6-9][0-9]{9}$/;
+    return !phonePattern.test(value);
+  }
 }

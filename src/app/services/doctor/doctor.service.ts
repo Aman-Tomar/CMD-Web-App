@@ -13,8 +13,7 @@ import { RequestService } from '../request/request.service';
   providedIn: 'root'
 })
 export class DoctorService {
- // private apiUrl = environment.doctorBaseUrl; 
-  private apiUrl = "https://localhost:44310/api"; 
+  private apiUrl = environment.doctorBaseUrl; 
   private clinicUrl = environment.clinicBaseUrl;
   requestService:RequestService = inject(RequestService);
 
@@ -67,12 +66,12 @@ export class DoctorService {
   }
 
   getCountryStates(){
-      return this.client.get<any[]>('assets/db.json').pipe(catchError(this.handleError));
+      return this.requestService.get<any[]>('assets/db.json').pipe(catchError(this.handleError));
   }
 
   getPostalCodeDetails(postalCode: string) {
     const apiUrl = `https://api.postalpincode.in/pincode/${postalCode}`;
-    return this.client.get(apiUrl);
+    return this.requestService.get(apiUrl);
   }
 
   private mapDoctorResponse(response: any): IDoctor {

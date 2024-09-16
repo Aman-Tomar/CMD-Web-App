@@ -16,17 +16,17 @@ import { IClinic } from '../../models/Doctors/clinic.model';
   styleUrls: ['./add-doctor.component.css'] // Note: Corrected 'styleUrl' to 'styleUrls'
 })
 export class AddDoctorComponent implements OnInit {
- // Service for handling doctor-related operations
- doctorService = inject(DoctorService);
-
- // Router for navigating to other routes
- router: Router = inject(Router);
-
- // Holds the selected file for profile picture upload
- selectedFile: File | null = null;
-
- // List of countries for the country dropdown
-//  countries: string[] = ['USA', 'Canada', 'UK', 'India'];
+  // Service for handling doctor-related operations
+  doctorService = inject(DoctorService);
+  
+  // Router for navigating to other routes
+  router: Router = inject(Router);
+  
+  // Holds the selected file for profile picture upload
+  selectedFile: File | null = null;
+  
+  // List of countries for the country dropdown
+  //  countries: string[] = ['USA', 'Canada', 'UK', 'India'];
 
 //  // List of states for the state dropdown based on the selected country
 //  states: string[] = [];
@@ -88,7 +88,7 @@ onDepartmentChange(event: any) {
 
   onCountryChange(event: any) {
     const selectedCountryCode = event.target.value;
-   // console.log("Selected country code: ", selectedCountryCode);
+    // console.log("Selected country code: ", selectedCountryCode);
     console.log("Available country states data: ", this.countryStates);
     const selectedCountry = this.countryStates.find(country => country.code2 === selectedCountryCode);
     console.log("Selected country: ", selectedCountry);
@@ -98,7 +98,7 @@ onDepartmentChange(event: any) {
       console.log("States for selected country: ", this.states);
     }
   }
-
+  
   onStateChange(event: any) {
     const selectedStateCode = event.target.value;
     console.log("Selected state code: ", selectedStateCode);
@@ -110,7 +110,7 @@ onDepartmentChange(event: any) {
       this.selectedStateName = selectedState.name; // Update the selected state name
     }
   }
-
+  
   onPostalCodeChange(postalCode: string): void {
     if (postalCode) {
       // Call the API to get the details for the given postal code
@@ -122,7 +122,7 @@ onDepartmentChange(event: any) {
             this.doctor.city = postOffice.Block;
             this.doctor.state = postOffice.State;
             this.doctor.country = postOffice.Country;
-
+            
             this.selectStateFromPostalCode(postOffice.State);
             this.selectCountryFromPostalCode(postOffice.Country);
           }else {
@@ -146,7 +146,7 @@ onDepartmentChange(event: any) {
       this.onCountryChange(matchedCountry); // Trigger state population when country changes
     }
   }
-
+  
   selectStateFromPostalCode(state: string): void {
     // Automatically select the state in the dropdown based on the API response
     const matchedState = this.states.find(s => s === state);
@@ -161,7 +161,7 @@ onDepartmentChange(event: any) {
       //console.log(this.departments);
     });
   }
-
+  
   loadCountryStates(): void {
     this.doctorService.getCountryStates().subscribe({
       next: (data: any) => {
@@ -190,11 +190,11 @@ onDepartmentChange(event: any) {
   /**
    * Handles file selection for profile picture upload.
    * @param event - The file input change event.
-   */
+  */
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
-
+  
   /**
    * Formats the date to ISO string format.
    * @param date - The date to format.
@@ -245,7 +245,7 @@ onDepartmentChange(event: any) {
     if (this.selectedFile) {
       formData.append('profilePicture', this.selectedFile, this.selectedFile.name);
     }
-
+    
     // Call the service to add a doctor and handle the response
     this.doctorService.addDoctor(formData).subscribe({
       next: (response) => {
@@ -258,4 +258,13 @@ onDepartmentChange(event: any) {
       }
     });
   } 
+
+  hasSpaces(value: string): boolean {
+    return /\s/.test(value);
+  } 
+
+  hasInvalidPhoneNumber(value: string): boolean {
+    const phonePattern = /^(\+91|91)?[6-9][0-9]{9}$/;
+    return !phonePattern.test(value);
+  }
 }
