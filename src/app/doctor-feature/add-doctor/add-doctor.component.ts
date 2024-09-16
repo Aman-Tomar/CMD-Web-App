@@ -130,7 +130,7 @@ onDepartmentChange(event: any) {
             this.errorMessage = 'Enter a valid pincode';
           }
         },
-        error: (err) => {
+        error: (err:any) => {
           console.error('Error fetching postal code details', err);
           this.errorMessage = 'Enter a valid pincode';
         }
