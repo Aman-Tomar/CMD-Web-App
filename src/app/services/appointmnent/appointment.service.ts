@@ -29,21 +29,21 @@ export class AppointmentService {
   }
 
    // Fetch active appointments
-   getActiveAppointments(pageNumber: number = 1, pageSize: number = 20): Observable<IAppointment[]> {
+   getActiveAppointments(pageNumber: number = 1, pageSize: number = 20): Observable<AppointmentResponse> {
     let params = new HttpParams()
       .set('pageNumber', pageNumber.toString())
       .set('pageSize', pageSize.toString());
 
-    return this.requestService.get<IAppointment[]>(`${this.apiUrl}/Appointment/Active`, params);
+    return this.requestService.get<AppointmentResponse>(`${this.apiUrl}/Appointment/Active`, params);
   }
 
 // Fetch inactive appointments
-   getInactiveAppointments(pageNumber: number = 1, pageSize: number = 20): Observable<IAppointment[]> {
+   getInactiveAppointments(pageNumber: number = 1, pageSize: number = 20): Observable<AppointmentResponse> {
     let params = new HttpParams()
       .set('pageNumber', pageNumber.toString())
       .set('pageSize', pageSize.toString());
 
-    return this.requestService.get<IAppointment[]>(`${this.apiUrl}/Appointment/Inactive`, params);
+    return this.requestService.get<AppointmentResponse>(`${this.apiUrl}/Appointment/Inactive`, params);
   }
 // Fetch an appointment by its ID
     getAppointmentById(appointmentId: number): Observable<IAppointment> {
