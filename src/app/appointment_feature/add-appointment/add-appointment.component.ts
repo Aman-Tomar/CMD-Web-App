@@ -65,7 +65,7 @@ export class AddAppointmentComponent implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', [Validators.required, Validators.pattern(/^(\+91|91)?[6-9][0-9]{9}$/)]),
     date: new FormControl('', [Validators.required, dateRangeValidator()]),
-    time: new FormControl('', [Validators.required,timeNotInPastValidator('date'),doctorAvailabilityValidator('doctor','date',this.appointmentService)]),
+    time: new FormControl('', [Validators.required,timeNotInPastValidator('date'),doctorAvailabilityValidator('','',this.appointmentService)]),
     message: new FormControl('', [Validators.required]),
   });
 
@@ -146,22 +146,22 @@ export class AddAppointmentComponent implements OnInit {
     this.mapFormToAppointment();
     console.log(this.appointment);
 
-    // if (this.reactiveForm.valid) {
-    //   this.appointmentService.createAppointment(this.appointment).subscribe({
-    //     next:(data) => {
-    //       console.log('Appointment created successfully', data);
-    //       this.successMessage=`Success! Appointment Made Successfully`;
-    //       this.reactiveForm.reset();  // Optionally reset the form after successful submission
-    //     },
-    //     error:(error)=> {
-    //       this.errorMessage="Error! Appointment Could not be Scheduled ";
-    //       console.error('Error creating appointment', error);
-    //     }
-    // });
-    // } 
-    // else {
-    //   console.log('Form is invalid');
-    // }
+    if (this.reactiveForm.valid) {
+      this.appointmentService.createAppointment(this.appointment).subscribe({
+        next:(data) => {
+          console.log('Appointment created successfully', data);
+          this.successMessage=`Success! Appointment Made Successfully`;
+          this.reactiveForm.reset();  // Optionally reset the form after successful submission
+        },
+        error:(error)=> {
+          this.errorMessage="Error! Appointment Could not be Scheduled ";
+          console.error('Error creating appointment', error);
+        }
+    });
+    } 
+    else {
+      console.log('Form is invalid');
+    }
     }
 
     private mapFormToAppointment() {
