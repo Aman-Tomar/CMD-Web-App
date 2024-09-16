@@ -116,6 +116,23 @@ export class AppointmentService {
   return this.http.put<IAppointment>(`${this.apiUrl}/appointment/${appointmentId}`, updatedAppointment);
 }
 
+getDoctorAvailabilty(doctorId: number, date: string, startTime: string, endTime: string):Observable<any> {
+  console.log("get doctor available method");
+  let params = new HttpParams()
+    .set('doctorId', doctorId.toString())
+    .set('date', date)
+    .set('startTime', startTime)
+    .set('endTime', endTime);
+
+  // Combine params and observe in the same object
+  return this.http.get<any[]>(`${this.doctorApiUrl}/DoctorSchedule/available`, {
+    params,
+    observe: 'response' // This ensures that the full HttpResponse is returned
+  }).pipe(
+    catchError(this.handleError)
+  );
+}
+
 
 // Handle errors
 private handleError(error: HttpErrorResponse) {
