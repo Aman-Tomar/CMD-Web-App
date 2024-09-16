@@ -1,9 +1,11 @@
 export const environment = {
 	production: false,
 	name: "DEV",
-	patientBaseUrl: "https://appointmentapiservice-fyc7d5afcrhabceb.southeastasia-01.azurewebsites.net/api",
+	patientBaseUrl:"https://cmdpatientnewwebapp-ckbwb7h0cjhrfehx.southeastasia-01.azurewebsites.net/api" ,
 	doctorBaseUrl: "https://cmd-doctor-api.azurewebsites.net/api",
-	appointmentBaseUrl: "https://cmdpatientnewwebapp-ckbwb7h0cjhrfehx.southeastasia-01.azurewebsites.net/api",
+	appointmentBaseUrl:"https://appointmentapiservice-fyc7d5afcrhabceb.southeastasia-01.azurewebsites.net/api" ,
 	clinicBaseUrl: "https://cmd-clinic-api.azurewebsites.net/api",
 	authBaseUrl: ""
 }
+
+"https://cmdpatientnewwebapp-ckbwb7h0cjhrfehx.southeastasia-01.azurewebsites.net/api"
