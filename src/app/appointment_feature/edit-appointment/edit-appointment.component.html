@@ -44,7 +44,7 @@
                                         </option>
                                     </select>
                                 </div>
-                                <small class="text-danger small" *ngIf="reactiveForm.controls.patient.errors?.['required']">
+                                <small class="text-danger small" *ngIf="reactiveForm.controls.patient.touched&&reactiveForm.controls.patient.errors?.['required']">
                                     *Patient is required
                                 </small>
                             </div>
@@ -65,7 +65,7 @@
                                         <option value="Follow Up">Follow Up</option>
                                     </select>
                                 </div>
-                                <small class="text-danger small" *ngIf="reactiveForm.controls.date.errors?.['required']">
+                                <small class="text-danger small" *ngIf="reactiveForm.controls.purposeOfVisit.touched&&reactiveForm.controls.date.errors?.['required']">
                                     *Purpose of visit is required
                                 </small>
                             </div>
@@ -79,7 +79,7 @@
                                         </option>
                                     </select>
                                 </div>
-                                <small class="text-danger small" *ngIf="reactiveForm.controls.doctor.errors?.['required']">
+                                <small class="text-danger small" *ngIf="reactiveForm.controls.doctor.touched&&reactiveForm.controls.doctor.errors?.['required']">
                                     *Doctor is required
                                 </small>
                             </div>                            
@@ -92,13 +92,13 @@
                                     <label for="appointmentDate" class="form-label">Date</label>
                                     <input [class.is-invalid]="reactiveForm.get('date')?.invalid && reactiveForm.get('date')?.touched" name="date" formControlName="date" type="date" class="form-control" id="appointmentDate" />
                                 </div>
-                                <small class="text-danger small" *ngIf="reactiveForm.controls.date.errors?.['required']">
+                                <small class="text-danger small" *ngIf="reactiveForm.controls.date.touched&&reactiveForm.controls.date.errors?.['required']">
                                     *Date is required
                                 </small>
-                                <small class="text-danger small" *ngIf="reactiveForm.controls.date.errors?.['pastDate']">
+                                <small class="text-danger small" *ngIf="reactiveForm.controls.date.touched&&reactiveForm.controls.date.errors?.['pastDate']">
                                     *Date can not be in past
                                 </small>
-                                  <small class="text-danger small" *ngIf="reactiveForm.controls.date.errors?.['futureDateExceeded']">
+                                  <small class="text-danger small" *ngIf="reactiveForm.controls.date.touched && reactiveForm.controls.date.errors?.['futureDateExceeded']">
                                     *Date can not exceed 30 days in future
                                   </small>
                             </div>
@@ -108,10 +108,10 @@
                                     <label for="appointmentTime" class="form-label">Time</label>
                                     <input [class.is-invalid]="reactiveForm.get('time')?.invalid && reactiveForm.get('time')?.touched" name="time" formControlName="time" type="time" class="form-control" id="appointmentTime" />
                                 </div>
-                                <small class="text-danger small" *ngIf="reactiveForm.controls.time.hasError('required') && reactiveForm.controls.time.touched">
+                                <small class="text-danger small" *ngIf="reactiveForm.controls.time.touched&&reactiveForm.controls.time.hasError('required') && reactiveForm.controls.time.touched">
                                     *Time is required
                                 </small>
-                                <small class="text-danger small" *ngIf="reactiveForm.controls.time.hasError('timeInPast') && reactiveForm.controls.time.touched">
+                                <small class="text-danger small" *ngIf="reactiveForm.controls.time.touched&&reactiveForm.controls.time.hasError('timeInPast') && reactiveForm.controls.time.touched">
                                     *Time can not be in Past
                                 </small>
                             </div>
@@ -123,10 +123,10 @@
                                     <label for="patientEmail" class="form-label">Patient Email</label>
                                     <input [class.is-invalid]="reactiveForm.get('email')?.invalid && reactiveForm.get('email')?.touched"  name="email" formControlName="email" type="email" class="form-control" id="patientEmail" placeholder="Enter email">
                                 </div>
-                                <small class="text-danger small" *ngIf="reactiveForm.controls.email.errors?.['required']">
+                                <small class="text-danger small" *ngIf="reactiveForm.controls.email.touched&&reactiveForm.controls.email.errors?.['required']">
                                     *Email is required
                                 </small>
-                                  <small class="text-danger small" *ngIf="reactiveForm.controls.email.errors?.['email']">
+                                  <small class="text-danger small" *ngIf="reactiveForm.controls.email.touched&&reactiveForm.controls.email.errors?.['email']">
                                     *Enter valid email
                                   </small>
                             </div>
@@ -135,10 +135,10 @@
                                     <label for="patientPhone" class="form-label">Patient Phone Number</label>
                                     <input [class.is-invalid]="reactiveForm.get('phone')?.invalid && reactiveForm.get('phone')?.touched"  name="phone" formControlName="phone" type="text" class="form-control" id="patientPhone" placeholder="Enter phone number">
                                 </div>
-                                <small class="text-danger small" *ngIf="reactiveForm.controls.phone.errors?.['required']">
+                                <small class="text-danger small" *ngIf="reactiveForm.controls.phone.touched&&reactiveForm.controls.phone.errors?.['required']">
                                     *Phone number is required
                                 </small>
-                                  <small class="text-danger small" *ngIf="reactiveForm.controls.phone.errors?.['pattern']">
+                                  <small class="text-danger small" *ngIf="reactiveForm.controls.phone.touched&&reactiveForm.controls.phone.errors?.['pattern']">
                                     *Enter a valid phone number with +91
                                   </small>
                             </div>
@@ -147,7 +147,7 @@
                         <div class="form-group mb-3">
                             <label for="message" class="form-label">Message</label>
                             <textarea [class.is-invalid]="reactiveForm.get('date')?.invalid && reactiveForm.get('message')?.touched" name="message" formControlName="message" name="message" class="form-control" id="message" rows="4" placeholder="Enter any message"></textarea>
-                            <small class="text-danger small" *ngIf="reactiveForm.controls.message.errors?.['required']">
+                            <small class="text-danger small" *ngIf="reactiveForm.controls.message.touched&&reactiveForm.controls.message.errors?.['required']">
                                 *Message is required
                             </small>
                         </div>
