@@ -88,6 +88,17 @@ export class PatientService {
     );
   }
 
+  // getDoctorName(doctorId: number): void {
+  //   this.getDoctorById(doctorId).subscribe(
+  //     name => {
+  //       this.doctorName = name;
+  //     },
+  //     error => {
+  //       console.error('Error fetching doctor name:', error);
+  //     }
+  //   );
+  // }
+
   // Fetches a list of all clinics.
   getClinics(): Observable<any[]> {
     return this.http.get<any[]>(`${this.CLINIC_VIEW_URL}/clinic`);

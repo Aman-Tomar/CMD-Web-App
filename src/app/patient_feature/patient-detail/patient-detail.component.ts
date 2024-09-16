@@ -61,7 +61,6 @@ export class PatientDetailComponent
         }
       });
     }
-    
     // These methods are redundant as they're already called in forkJoin above
     // Consider removing these lines
     this.loadDoctors();
@@ -73,7 +72,7 @@ export class PatientDetailComponent
     this.patientService.getPatientById(id).subscribe({
       next: (patient) => {
         console.log('Fetched patient:', patient); // Log the patient data
-        
+
         // Process patient image if it exists
         if (patient?.hexImage) {
           patient.hexImage = this.commonService.detectMimeTypeAndPrepend(patient.hexImage);
@@ -86,7 +85,7 @@ export class PatientDetailComponent
         if (patient?.preferredEndTime) {
           patient.preferredEndTime = this.datePipe.transform(patient.preferredEndTime, 'HH:mm') || patient.preferredEndTime;
         }
-  
+
         // Map preferred clinic name
         if (patient?.preferredClinicId) {
           const preferredClinic = this.clinics.find(clinic => clinic.id === patient.preferredClinicId);
@@ -128,7 +127,6 @@ export class PatientDetailComponent
       }
     );
   }
-  
   // Method to load clinics data
   loadClinics(): void {
     this.patientService.getClinics().pipe(
@@ -183,3 +181,4 @@ export class PatientDetailComponent
   // }
 }
 
+ 

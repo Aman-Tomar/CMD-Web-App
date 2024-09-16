@@ -12,11 +12,11 @@ export interface Patient {
     createdBy: number;
     lastModifiedDate: string;
     lastModifiedBy: number;
-    preferredClinicId?: number ;
-    preferredClinicName? : string;
-    image?: string | null;
-    hexImage?: string;
-    patientAddressId: number;
+    preferredClinicId: number | null;
+    preferredClinicName : string | null;
+    image?: File | string | null;
+    hexImage?: string | null;
+    patientAddressId?: number;
     streetAddress: string;
     city: string;
     state: string;
