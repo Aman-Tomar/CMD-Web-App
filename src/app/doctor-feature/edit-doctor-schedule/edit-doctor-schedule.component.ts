@@ -4,14 +4,14 @@ import { IDoctor } from "../../models/Doctors/doctor.models";
 import { DoctorService } from "../../services/doctor/doctor.service";
 import { IDoctorSchedule } from "../../models/Doctors/doctorSchedule.models";
 import { CommonModule } from "@angular/common";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { DoctorScheduleService } from "../../services/doctor/doctor-schedule.service";
 
 
 @Component({
   selector: 'app-edit-doctor-schedule',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule,ReactiveFormsModule,RouterLink],
   templateUrl: './edit-doctor-schedule.component.html',
   styleUrl: './edit-doctor-schedule.component.css'
 })

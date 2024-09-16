@@ -4,13 +4,13 @@ import { IDoctorSchedule } from '../../models/Doctors/doctorSchedule.models';
 import { CommonModule } from '@angular/common';
 import { DoctorService } from '../../services/doctor/doctor.service';
 import { IDoctor } from '../../models/Doctors/doctor.models';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { DoctorScheduleService } from '../../services/doctor/doctor-schedule.service';
 
 @Component({
   selector: 'app-add-doctor-schedule',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule,ReactiveFormsModule,RouterLink],
   templateUrl: './add-doctor-schedule.component.html',
   styleUrls: ['./add-doctor-schedule.component.css'] // Fixed typo: 'styleUrl' to 'styleUrls'
 })

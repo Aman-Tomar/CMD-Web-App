@@ -1,0 +1,103 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="mb-0">Patients List</h2>
+      <button class="btn btn-primary" [routerLink]="['/patients/new']">
+        <i class="fas fa-plus mr-2"></i>Add New Patient
+      </button>
+    </div>
+  
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table #resizableTable class="table table-hover resizable-table">
+            <thead class="thead-light">
+              <tr>
+                <th (click)="sortBy('patientName')" class="resizable">
+                  <div class="th-content">
+                    Name 
+                    <i class="fas fa-sort ml-1" [ngClass]="{'fa-sort-up': sortColumn === 'patientName' && sortDirection === 'asc', 'fa-sort-down': sortColumn === 'patientName' && sortDirection === 'desc'}"></i>
+                  </div>
+                  <div class="resize-handle"></div>
+                </th>
+                <th (click)="sortBy('age')" class="resizable">
+                  <div class="th-content">
+                    Age 
+                    <i class="fas fa-sort ml-1" [ngClass]="{'fa-sort-up': sortColumn === 'age' && sortDirection === 'asc', 'fa-sort-down': sortColumn === 'age' && sortDirection === 'desc'}"></i>
+                  </div>
+                  <div class="resize-handle"></div>
+                </th>
+                <th (click)="sortBy('streetAddress')" class="resizable">
+                  <div class="th-content">
+                    Address 
+                    <i class="fas fa-sort ml-1" [ngClass]="{'fa-sort-up': sortColumn === 'streetAddress' && sortDirection === 'asc', 'fa-sort-down': sortColumn === 'streetAddress' && sortDirection === 'desc'}"></i>
+                  </div>
+                  <div class="resize-handle"></div>
+                </th>
+                <th (click)="sortBy('phone')" class="resizable">
+                  <div class="th-content">
+                    Phone 
+                    <i class="fas fa-sort ml-1" [ngClass]="{'fa-sort-up': sortColumn === 'phone' && sortDirection === 'asc', 'fa-sort-down': sortColumn === 'phone' && sortDirection === 'desc'}"></i>
+                  </div>
+                  <div class="resize-handle"></div>
+                </th>
+                <th (click)="sortBy('email')" class="resizable">
+                  <div class="th-content">
+                    Email 
+                    <i class="fas fa-sort ml-1" [ngClass]="{'fa-sort-up': sortColumn === 'email' && sortDirection === 'asc', 'fa-sort-down': sortColumn === 'email' && sortDirection === 'desc'}"></i>
+                  </div>
+                  <div class="resize-handle"></div>
+                </th>
+                <th class="resizable">
+                  Actions
+                  <div class="resize-handle"></div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let patient of patients" (click)="selectPatient(patient)" [class.table-active]="selectedPatient === patient">
+                <td>{{ patient.patientName }}</td>
+                <td>{{ patient.age }}</td>
+                <td>{{ patient.streetAddress }}, {{ patient.city }}, {{ patient.state }}, {{ patient.country }}</td>
+                <td>{{ patient.phone }}</td>
+                <td>{{ patient.email }}</td>
+                <td>
+                  <div class="btn-group" role="group">
+                    <button class="btn btn-sm btn-outline-primary" [routerLink]="['/patients', patient.patientId]">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-warning" [routerLink]="['/patients', patient.patientId!, 'edit']">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+    <div *ngIf="selectedPatient" @fadeInOut class="mt-4">
+      <app-patient-card [patient]="selectedPatient"></app-patient-card>
+    </div>
+    
+    <!-- Pagination -->
+    <nav aria-label="Page navigation" class="mt-4">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link" (click)="onPageChange(currentPage - 1)" tabindex="-1">
+            <i class="fas fa-chevron-left"></i>
+          </a>
+        </li>
+        <li class="page-item" *ngFor="let page of [].constructor(math.ceil(totalPatients / pageSize)); let i = index"
+            [class.active]="currentPage === i + 1">
+          <a class="page-link" (click)="onPageChange(i + 1)">{{ i + 1 }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === math.ceil(totalPatients / pageSize)">
+          <a class="page-link" (click)="onPageChange(currentPage + 1)">
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>

@@ -1,24 +1,25 @@
 <div id="sidebar" class="bg-light text-dark shadow sidebar">
     <ul class="nav flex-column">
-      <!-- <li class="nav-item">
-        <a class="nav-link  cursor-pointer" 
-           routerLink="/dashboard" 
+      <li class="nav-item">
+        <a class="nav-link p-3  cursor-pointer" 
+           routerLink="/" 
            routerLinkActive="active-link" 
            [routerLinkActiveOptions]="{ exact: true }">
-           Dashboard
+           <i class="fa fa-dashboard"></i>
+           <span class="ms-2 ">Dashboard</span>
+           
         </a>
-      </li> -->
+      </li>
       <li class="nav-item ">
         <a class="nav-link p-3 cursor-pointer d-flex justify-contents-start align-items-center" style="font-size: 17px;" 
-           [routerLink]="['/doctor']" 
-          >
+           [routerLink]="['/doctor']" routerLinkActive="active-link"  [routerLinkActiveOptions]="{ exact: true }">
           <i class="fa fa-user-md"></i>
            <span class="ms-2 ">Doctors</span>
         </a>
       </li>
       <li class="nav-item  ">
         <a class="nav-link p-3 cursor-pointer d-flex justify-contents-start align-items-center" style="font-size: 17px;"
-           [routerLink]="['/patients']"
+           [routerLink]="['/patients']" routerLinkActive="active-link"  [routerLinkActiveOptions]="{ exact: true }"
           >
           <i class="fa fa-wheelchair"></i>
            <span class="ms-2">Patients</span>
@@ -26,7 +27,7 @@
       </li>
       <li class="nav-item ">
         <a class="nav-link p-3 cursor-pointer d-flex justify-contents-start align-items-center" style="font-size:17px;"
-           [routerLink]="['/appointments']" 
+           [routerLink]="['/appointments']" routerLinkActive="active-link"  [routerLinkActiveOptions]="{ exact: true }"
            >
            <i class="fa fa-calendar-days"></i>
            <span class="ms-2">Appointments</span>
@@ -35,20 +36,20 @@
       </li>
       <li class="nav-item">
         <a class="nav-link p-3 cursor-pointer d-flex justify-contents-start align-items-center" style="font-size: 17px;"
-           [routerLink]="['/schedule']" 
+           [routerLink]="['/schedule']" routerLinkActive="active-link"  [routerLinkActiveOptions]="{ exact: true }"
            >
            <i class="fa fa-calendar-check"></i>
            <span class="ms-2">Schedule</span>
         </a>
       </li>
-      <li class="nav-item ">
+      <!-- <li class="nav-item ">
         <a class="nav-link p-3 cursor-pointer d-flex justify-contents-start align-items-center" style="font-size: 1em;"
            [routerLink]="['/profile']" 
           >
            <i class="fa fa-user"></i>
            <span class="ms-2">Profile</span>
         </a>
-      </li>
+      </li> -->
     </ul>
   </div>
   
