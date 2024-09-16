@@ -5,11 +5,12 @@ import { Patient } from '../../models/Patients/patient.model';
 import { PatientService } from '../../services/patient/patient.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { PatientCardComponent } from '../patient-card/patient-card.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-patient-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, PatientCardComponent ],
+  imports: [CommonModule, RouterModule, PatientCardComponent, FormsModule ],
   templateUrl: './patient-list.component.html',
   styleUrl: './patient-list.component.css',
   animations: [
@@ -37,7 +38,7 @@ export class PatientListComponent implements OnInit, AfterViewInit{
   // Variables for pagination
   totalPatients: number = 0;
   currentPage: number = 1;
-  pageSize: number = 20;
+  pageSize: number = 10;
 
   // Variable to hold the currently selected patient
   selectedPatient: Patient | null = null;
@@ -66,6 +67,13 @@ export class PatientListComponent implements OnInit, AfterViewInit{
           console.error('Error loading patients:', error);
         }
       });
+  }
+
+  onPageSizeChange(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    this.pageSize = +selectElement.value; // Update the page size based on user selection
+    this.currentPage = 1; // Reset to the first page whenever the page size changes
+    this.loadPatients(); // Reload the doctors with the new page size
   }
 
   // Method called when the page number is changed in the pagination control
@@ -160,5 +168,13 @@ export class PatientListComponent implements OnInit, AfterViewInit{
     };
 
     resizer.addEventListener('mousedown', mouseDownHandler);
-  } 
+  }
+
+
+  getDisplayRange(): string {
+    const start = (this.currentPage - 1) * this.pageSize + 1;
+    const end = Math.min(this.currentPage * this.pageSize, this.totalPatients);
+    return `Showing ${start} to ${end} of ${this.totalPatients} entries`;
+  }
+
 }

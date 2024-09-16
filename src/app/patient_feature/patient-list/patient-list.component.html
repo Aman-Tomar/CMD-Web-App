@@ -4,8 +4,23 @@
       <button class="btn btn-primary" [routerLink]="['/patients/new']">
         <i class="fas fa-plus mr-2"></i>Add New Patient
       </button>
-    </div>
-  
+    </div>    
+</div>
+      <!-- for pagination -->
+      <!-- Dropdown for selecting page size -->
+<div class="page-size-selector mb-3">
+  <label for="pageSize">Show: </label>
+      <!-- <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange($event)"> -->
+      <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange($event)" >
+        <option [value]="10">10</option>
+        <option [value]="25">25</option>
+        <option [value]="50">50</option>
+        <option [value]="100">100</option>
+      </select>
+  <label>Entries</label>
+</div>
+     <!-- end of dropdown pagination -->
+
     <div class="card shadow-sm">
       <div class="card-body">
         <div class="table-responsive">
@@ -77,11 +92,12 @@
       </div>
     </div>
   
-    <div *ngIf="selectedPatient" @fadeInOut class="mt-4">
+    <!-- <div *ngIf="selectedPatient" @fadeInOut class="mt-4">
       <app-patient-card [patient]="selectedPatient"></app-patient-card>
-    </div>
+    </div> -->
     
     <!-- Pagination -->
+<div>
     <nav aria-label="Page navigation" class="mt-4">
       <ul class="pagination justify-content-center">
         <li class="page-item" [class.disabled]="currentPage === 1">
@@ -100,4 +116,9 @@
         </li>
       </ul>
     </nav>
-  </div>
+</div>
+
+    
+<div class="pagination justify-content-center">
+  {{ getDisplayRange() }}
+</div>

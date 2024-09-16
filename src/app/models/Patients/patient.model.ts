@@ -30,6 +30,8 @@ export interface Patient {
     patientGuardianRelationship: string | null;
     clinicId: number;
     clinicName?: string;
+
+    [key:string]:any;
 }
 
 export interface PatientResponse {
