@@ -44,7 +44,7 @@ export class PatientService {
 
 
   getDoctors(): Observable<Doctor[]> {
-    return this.requestService.get<any>(this.DOCTOR_VIEW_URL).pipe(
+    return this.requestService.get<any>( `${this.DOCTOR_VIEW_URL}/doctor`).pipe(
       map(response => {
         if (response && response.data) {
           return response.data.map((doctor: any) => ({
