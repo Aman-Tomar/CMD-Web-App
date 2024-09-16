@@ -12,23 +12,24 @@ export interface Patient {
     createdBy: number;
     lastModifiedDate: string;
     lastModifiedBy: number;
-    preferredClinicId: number ;
-    //image?: File |string | null;
-    image?:string | null;
+    preferredClinicId?: number ;
+    preferredClinicName? : string;
+    image?: string | null;
+    hexImage?: string;
     patientAddressId: number;
     streetAddress: string;
     city: string;
     state: string;
     country: string;
     zipCode: string;
-    preferredDoctorId: number;
-    preferredDoctorName?: string;
-    patientGuardianId: number | null;
+    preferredDoctorId?: number;
+    preferredDoctorName?:string;
+    patientGuardianId?: number;
     patientGuardianName: string | null;
     patientGuardianPhoneNumber: string | null;
     patientGuardianRelationship: string | null;
     clinicId: number;
-  clinicName?: string;
+    clinicName?: string;
 }
 
 export interface PatientResponse {
