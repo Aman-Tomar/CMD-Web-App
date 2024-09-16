@@ -194,7 +194,6 @@
       <div class="row">
         <div class="col-md-4 mb-3">
           <label for="patientGuardianName" class="form-label">Guardian Name <span class="text-danger">*</span></label>
-
           <input id="patientGuardianName" type="text" formControlName="patientGuardianName" class="form-control" placeholder="Enter Guardian Name">
           
           <small class="text-danger" *ngIf="patientForm.get('patientGuardianName')?.invalid && patientForm.get('patientGuardianName')?.touched">
@@ -206,7 +205,6 @@
         </div>
         <div class="col-md-4 mb-3">
           <label for="patientGuardianPhoneNumber" class="form-label">Guardian Mobile Number <span class="text-danger">*</span></label>
-
           <input id="patientGuardianPhoneNumber" type="tel" formControlName="patientGuardianPhoneNumber" class="form-control" placeholder="Enter Guardian Phone Number">
 
           <small *ngIf="patientForm.get('patientGuardianPhoneNumber')?.invalid && patientForm.get('patientGuardianPhoneNumber')?.touched" class="text-danger">
@@ -218,6 +216,7 @@
         </div>
         <div class="col-md-4 mb-3">
           <label for="patientGuardianRelationship" class="form-label">Guardian Relationship <span class="text-danger">*</span></label>
+
 
           <input id="patientGuardianRelationship" type="text" formControlName="patientGuardianRelationship" class="form-control"
            placeholder="Enter Relationship"/>
