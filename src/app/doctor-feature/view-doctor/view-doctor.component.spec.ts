@@ -39,6 +39,7 @@ describe('ViewDoctorComponent', () => {
     httpTestingController.verify();
   });
 
+  // Verify that the component is created successfully
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -91,6 +92,7 @@ describe('ViewDoctorComponent', () => {
       spyOn(doctorService, 'getAllDoctors').and.returnValue(of(mockResponse));
     });
 
+    // Test loading of doctors on component initialization
     it('should load doctors on initialization', () => {
       component.loadDoctors();
 
@@ -100,6 +102,7 @@ describe('ViewDoctorComponent', () => {
       expect(component.totalDoctors).toBe(7);
     });
 
+    // Test handling of page size change
     it('should handle page size change', () => {
       component.changePage(2);
 
@@ -107,6 +110,7 @@ describe('ViewDoctorComponent', () => {
       expect(doctorService.getAllDoctors).toHaveBeenCalledWith(2, 10);
     });
 
+    // Test changing of page
     it('should change page', () => {
       component.changePage(2);
 
@@ -115,6 +119,7 @@ describe('ViewDoctorComponent', () => {
     });
   });
 
+  // Test correct display of range information
   it('should display correct range', () => {
     component.pageSize = 10;
     component.pageNumber = 1;
@@ -125,6 +130,7 @@ describe('ViewDoctorComponent', () => {
     expect(range).toBe('Showing 1 to 7 of 7 entries');
   });
 
+  // Test toggling of currentDoctorId
   it('should toggle the currentDoctorId correctly', () => {
     expect(component.currentDoctorId).toBeNull();
 
