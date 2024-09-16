@@ -8,7 +8,7 @@ import { PatientResponse } from '../../models/Appointment/PatientResponse';
 import { IDoctor } from '../../models/Appointment/Doctor';
 import { IAppointment } from '../../models/Appointment/Appointment';
 import { AppointmentStatus } from '../../models/Appointment/AppointmentStatus';
-import { dateRangeValidator, timeNotInPastValidator } from '../../Validators/AppointmentCustomValidator';
+import { dateRangeValidator, doctorAvailabilityValidator, timeNotInPastValidator } from '../../Validators/AppointmentCustomValidator';
 
 @Component({
   selector: 'app-add-appointment',
@@ -26,7 +26,8 @@ export class AddAppointmentComponent implements OnInit {
   successMessage: string = '';
   minDate: string = '';
   maxDate: string = '';
-  departments:{departmentId:number,departmentName:string}[]=[]
+  departments:{departmentId:number,departmentName:string}[]=[];
+  purposeOfVisit: any[] = [];
   appointment: IAppointment={
     id: 0,
     purposeOfVisit: '',
@@ -47,6 +48,7 @@ export class AddAppointmentComponent implements OnInit {
     this.loadPatients();
     this.loadDoctors();
     this.loadDepartments();
+    this.loadPurposeOfVisit();
     const today = new Date();
     this.minDate = today.toISOString().split('T')[0];
 
@@ -64,10 +66,9 @@ export class AddAppointmentComponent implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', [Validators.required, Validators.pattern(/^(\+91|91)?[6-9][0-9]{9}$/)]),
     date: new FormControl('', [Validators.required, dateRangeValidator()]),
-    time: new FormControl('', [Validators.required,timeNotInPastValidator('date')]),
+    time: new FormControl('', [Validators.required,timeNotInPastValidator('date'),doctorAvailabilityValidator('doctor','date',this.appointmentService)]),
     message: new FormControl('', [Validators.required]),
   });
-
 
   get Patient() { return this.reactiveForm.get("patient"); }
   get Doctor() { return this.reactiveForm.get("doctor"); }
@@ -106,6 +107,16 @@ export class AddAppointmentComponent implements OnInit {
       next: (data: any) => {
         this.departments = data;
         console.log("departments:"+data)
+      } ,
+      error: (err: string) => {this.errorMessage=err;console.log(this.errorMessage)}
+    });
+  }
+
+  loadPurposeOfVisit():void{
+    this.appointmentService.getPurposeOfVisit().subscribe({
+      next: (data: any) => {
+        this.purposeOfVisit = data;
+        console.log("purposeOfvisit:"+data)
       } ,
       error: (err: string) => {this.errorMessage=err;console.log(this.errorMessage)}
     });

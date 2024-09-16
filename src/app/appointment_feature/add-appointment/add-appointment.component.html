@@ -43,12 +43,9 @@
                                     <label for="visitPurpose" class="form-label">Purpose of Visit</label>
                                     <select name="purposeOfVisit" formControlName="purposeOfVisit" id="visitPurpose" class="form-select form-control">
                                         <option value='' selected>Select</option>
-                                        <option value="Fever">Fever</option>
-                                        <option value="Cold">Cold</option>
-                                        <option value="Malaria">Malaria</option>
-                                        <option value="Typhoid">Typhoid</option>
-                                        <option value="General Checkup">General Checkup</option>
-                                        <option value="Follow Up">Follow Up</option>
+                                        <option *ngFor="let option of purposeOfVisit" [value]="option.purpose">
+                                            {{ option.purpose }}
+                                          </option>
                                     </select>
                                 </div>
                                 <small class="text-danger small" *ngIf="reactiveForm.controls.purposeOfVisit.touched && reactiveForm.controls.purposeOfVisit.errors?.['required']">
@@ -114,6 +111,9 @@
                                     <small class="text-danger small" *ngIf="reactiveForm.get('time')?.touched && reactiveForm.controls.time.errors?.['timeInPast']">
                                         *Time cannot be in past
                                     </small>
+                                    <small class="text-danger small" *ngIf="reactiveForm.get('time')?.touched && reactiveForm.controls.time.errors?.['doctorUnavailable']">
+                                        *Doctor unavailable for this slot
+                                    </small>
                                 </div>
                             </div>
                         </div>
@@ -156,7 +156,7 @@
 
                         <!-- Submit Button -->
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block" [disabled]="!reactiveForm.valid">Submit Appointment</button>
+                            <button type="submit" class="btn btn-primary btn-block" >Submit Appointment</button>
                         </div>
                     </form>
                     <!-- Form Ends -->
