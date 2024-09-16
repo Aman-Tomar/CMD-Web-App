@@ -1,0 +1,42 @@
+{
+  "countries": [
+    {
+      "id": 1,
+      "name": "United States",
+      "states": [
+        { "id": 1, "name": "California" },
+        { "id": 2, "name": "New York" },
+        { "id": 3, "name": "Texas" }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Canada",
+      "states": [
+        { "id": 4, "name": "Ontario" },
+        { "id": 5, "name": "Quebec" },
+        { "id": 6, "name": "British Columbia" }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "United Kingdom",
+      "states": [
+        { "id": 7, "name": "England" },
+        { "id": 8, "name": "Scotland" },
+        { "id": 9, "name": "Wales" }
+      ]
+    }
+  ],
+  "specializations": [
+    { "id": 1, "name": "Cardiology" },
+    { "id": 2, "name": "Neurology" },
+    { "id": 3, "name": "Orthopedics" },
+    { "id": 4, "name": "Pediatrics" },
+    { "id": 5, "name": "Gastroenterology" },
+    { "id": 6, "name": "Dermatology" },
+    { "id": 7, "name": "Oncology" },
+    { "id": 8, "name": "Radiology" }
+  ]
+}
+

@@ -35,10 +35,10 @@
             <td>{{ schedule.startTime }} - {{ schedule.endTime }}</td>
             <td> <span [ngClass]="{
               'custom-badge': true,
-              'status-red': schedule.status !== schedule.status,
-              'status-green': schedule.status === schedule.status
+              'status-red': !schedule.status,
+              'status-green': schedule.status
             }">
-              {{ schedule.status === schedule.status ? 'Active' : 'Inactive' }}
+              {{ schedule.status ? 'Active' : 'Inactive' }}
             </span></td>
             <td>
               <button class="btn btn-sm btn-warning" [routerLink]="['/schedule/edit/',schedule.doctorScheduleId]">Edit</button>
@@ -70,7 +70,7 @@
     </nav>
 </div>
 
-<div *ngIf="!isLoading && !errorMessage"  class="d-flex justify-content-between mb-3">
+<div *ngIf="!isLoading && !errorMessage"  class="d-flex justify-content-between mb-3">  
   <!-- Display Range -->
   <div class="display-range">
       {{ getDisplayRange() }}

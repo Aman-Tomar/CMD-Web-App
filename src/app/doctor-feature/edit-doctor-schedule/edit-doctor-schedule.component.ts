@@ -154,7 +154,7 @@ export class EditDoctorScheduleComponent implements OnInit {
             setTimeout(() => {
               this.message = null;
               this.router.navigate(['/schedule']);
-            }, 2000);
+            }, 1500);
             // console.log('Schedule created successfully:', response);
           },
           error: (error) => {
