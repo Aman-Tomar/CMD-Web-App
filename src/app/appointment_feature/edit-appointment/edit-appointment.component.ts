@@ -171,7 +171,7 @@ export class EditAppointmentComponent implements OnInit {
       LastModifiedBy:"admin",
       PatientId:Number(formValues.patient),
       DoctorId:Number(formValues.doctor),
-      Status: formValues.status === 'Active' ? AppointmentStatus.Scheduled : AppointmentStatus.Cancelled
+      Status: formValues.status === 'active' ? AppointmentStatus.Scheduled : AppointmentStatus.Cancelled
     };
     console.log(this.updatedAppointment);
   }
