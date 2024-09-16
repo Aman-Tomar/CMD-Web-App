@@ -103,46 +103,7 @@ export class PatientFormComponent implements OnInit {
       }
     });
   }
- 
-  // loadDoctors(): void {
-  //   this.patientService.getDoctors().subscribe({
-  //     next: (response: any) => {
-  //       this.doctors = response.data.map((doctor: any) => ({
-  //         doctorId: doctor.doctorId,
-  //         firstName: doctor.firstName
-  //       }));
-  //     },
-  //     error: (error) => console.error('Error fetching doctors', error)
-  //   });
-  // }
- 
-  // loadClinics(): void {
-  //   this.patientService.getClinics().subscribe({
-  //     next: (response: any) => {
-  //       this.clinics = response.data.map((clinic: any) => ({
-  //         id: clinic.id,
-  //         name: clinic.name
-  //       }));
-  //     },
-  //     error: (error) => console.error('Error fetching clinics', error)
-  //   });
-  // }
- 
-  // loadStates(): void {
- 
-  //   this.patientService.getStates().subscribe(
-   
-  //     (data) => {
-  //       console.log(data);
-  //       this.states = data;
-  //     },
-  //     (error) => {
-  //       console.error('Error fetching states', error);
-  //     }
-  //   );
-  // }
- 
- 
+
   loadIndianStates(): void {
     this.states = [
       { code: 'AN', name: 'Andaman and Nicobar Islands' },
@@ -202,7 +163,7 @@ export class PatientFormComponent implements OnInit {
       state: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       country: ['', Validators.required],
       zipCode: ['', [Validators.required, this.zipCodeValidator.bind(this)]],
-      //zipCode: ['', [Validators.required, this.zipCodeValidator()]],
+      
       image: [''],
  
       preferredClinicId: [''],
@@ -210,7 +171,9 @@ export class PatientFormComponent implements OnInit {
  
      
       patientGuardianName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
+
       patientGuardianPhoneNumber:['', [Validators.required, Validators.pattern(/^(\+91|91)?[6-9][0-9]{9}$/), Validators.minLength(10), Validators.maxLength(13)] ],
+
       patientGuardianRelationship: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]]
     });
   }
@@ -237,28 +200,7 @@ export class PatientFormComponent implements OnInit {
       error: (error) => console.error('Error loading patient data', error)
     });
   }
-  // loadPatientData(id: number): void {
-  //   this.patientService.getPatientById(id).subscribe({
-  //     next: (patient) => {
-  //       if (patient) {
-  //         // Format date
-  //         patient.dob = this.datePipe.transform(patient.dob, 'yyyy-MM-dd') || '';
- 
-  //         // Format times
-  //         patient.preferredStartTime = this.datePipe.transform(patient.preferredStartTime, 'HH:mm') || '';
-  //         patient.preferredEndTime = this.datePipe.transform(patient.preferredEndTime, 'HH:mm') || '';
- 
-  //         this.patientForm.patchValue(patient);
- 
-  //         // Handle image
-  //         if (patient.hexImage) {
-  //           this.imagePreview = `data:image/jpeg;base64,${patient.hexImage}`;
-  //         }
-  //       }
-  //     },
-  //     error: (error) => console.error('Error loading patient data', error)
-  //   });
-  // }
+  
    
   onSubmit(): void {
     if (this.patientForm.valid) {
@@ -271,27 +213,7 @@ export class PatientFormComponent implements OnInit {
       });
     }
   }
-  // onSubmit(): void {
-  //   if (this.patientForm.valid) {
-  //     const patientData: Patient = this.patientForm.value;
-  //     if (this.patientForm.get('preferredDoctorId')) {
-  //       patientData.preferredDoctorId = +this.patientForm.get('preferredDoctorId')?.value;
-  //     }
-  //     this.convertImageToBase64(patientData.image || null)
-  //       .then(base64Image => {
-  //         patientData.image = base64Image as string | undefined;
-  //         this.submitPatientData(patientData);
-  //       })
-  //       .catch(error => {
-  //         console.error('Error converting image to base64:', error);
-  //       });
-  //   } else {
-  //     Object.keys(this.patientForm.controls).forEach(key => {
-  //       const control = this.patientForm.get(key);
-  //       control?.markAsTouched();
-  //     });
-  //   }
-  // }
+  
  
   preparePatientData(): Patient {
     const formData = this.patientForm.value;
@@ -368,26 +290,7 @@ export class PatientFormComponent implements OnInit {
   }
  
  
-  // submitPatientData(patientData: Patient): void {
-  //   const formData = new FormData();
-  //   Object.keys(patientData).forEach(key => {
-  //     if (patientData[key] !== null && patientData[key] !== undefined) {
-  //       formData.append(key, patientData[key]);
-  //     }
-  //   });
- 
-  //   if (this.isEditMode && this.patientId) {
-  //     this.patientService.updatePatient(this.patientId, formData).subscribe({
-  //       next: () => this.router.navigate(['/patients']),
-  //       error: (error) => this.handleError(error)
-  //     });
-  //   } else {
-  //     this.patientService.createPatient(formData).subscribe({
-  //       next: () => this.router.navigate(['/patients']),
-  //       error: (error) => this.handleError(error)
-  //     });
-  //   }
-  // }
+  
  
  
   formatDate(dateString: string): string {
@@ -410,51 +313,7 @@ export class PatientFormComponent implements OnInit {
     date.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
     return date.toISOString();
   }
-  // submitPatientData(patientData: Patient): void {
-  //   const formattedData: any = {
-  //     patientId: this.isEditMode ? this.patientId : 0,
-  //     patientName: patientData.patientName,
-  //     email: patientData.email,
-  //     phone: patientData.phone,
-  //     age: this.calculateAge(patientData.dob),
-  //     dob: new Date(patientData.dob).toISOString(),
-  //     gender: patientData.gender,
-  //     createdDate: new Date().toISOString(),
-  //     createdBy: this.currentUserId,
-  //     lastModifiedDate: new Date().toISOString(),
-  //     lastModifiedBy: this.currentUserId,
-  //     patientAddressId: this.isEditMode ? (patientData.patientAddressId) : 0,
-  //     streetAddress: patientData.streetAddress,
-  //     city: patientData.city,
-  //     state: patientData.state,
-  //     country: patientData.country,
-  //     zipCode: patientData.zipCode,
-  //   };
- 
-  //   if (patientData.preferredStartTime) formattedData.preferredStartTime = this.formatTime(patientData.preferredStartTime);
-  //   if (patientData.preferredEndTime) formattedData.preferredEndTime = this.formatTime(patientData.preferredEndTime);
-  //   if (patientData.preferredClinicId) formattedData.preferredClinicId = +patientData.preferredClinicId;
-  //   if (patientData.image) formattedData.image = patientData.image;
-  //   if (patientData.preferredDoctorId) formattedData.preferredDoctorId = +patientData.preferredDoctorId;
- 
-  //   if (patientData.patientGuardianName) formattedData.patientGuardianName = patientData.patientGuardianName;
-  //   if (patientData.patientGuardianPhoneNumber) formattedData.patientGuardianPhoneNumber = patientData.patientGuardianPhoneNumber;
-  //   if (patientData.patientGuardianRelationship) formattedData.patientGuardianRelationship = patientData.patientGuardianRelationship;
- 
-  //   Object.keys(formattedData).forEach(key => formattedData[key] === undefined && delete formattedData[key]);
- 
-  //   if (this.isEditMode && this.patientId) {
-  //     this.patientService.updatePatient(this.patientId, formattedData).subscribe({
-  //       next: () => this.router.navigate(['/patients']),
-  //       error: (error) => this.handleError(error)
-  //     });
-  //   } else {
-  //     this.patientService.createPatient(formattedData).subscribe({
-  //       next: () => this.router.navigate(['/patients']),
-  //       error: (error) => this.handleError(error)
-  //     });
-  //   }
-  // }
+  
  
   calculateAge(dob: string): number {
     if (dob) {
@@ -477,18 +336,6 @@ export class PatientFormComponent implements OnInit {
     return 0;
   }
  
-  // formatDate(dateString: string): string {
-  //   if (!dateString) return '';
-  //   return new Date(dateString).toISOString().split('T')[0];
-  // }
- 
-  // formatTime(timeString: string | null): string | null {
-  //   if (!timeString) return null;
-  //   const [hours, minutes] = timeString.split(':');
-  //   const date = new Date();
-  //   date.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
-  //   return date.toISOString();
-  // }
  
  
   handleError(error: any): void {
@@ -512,19 +359,7 @@ export class PatientFormComponent implements OnInit {
       reader.readAsDataURL(this.selectedFile);
     }
   }
-  // onFileSelected(event: Event): void {
-  //   const input = event.target as HTMLInputElement;
-  //   if (input.files && input.files.length > 0) {
-  //     const file = input.files[0];
-  //     this.selectedFile = file;
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       this.imagePreview = reader.result as string;
-  //     };
-  //     reader.readAsDataURL(file);
-  //     this.patientForm.patchValue({ image: file });
-  //   }
-  // }
+  
  
   removeAvatar(): void {
     this.selectedFile = null;
