@@ -66,7 +66,7 @@ export class AddAppointmentComponent implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', [Validators.required, Validators.pattern(/^(\+91|91)?[6-9][0-9]{9}$/)]),
     date: new FormControl('', [Validators.required, dateRangeValidator()]),
-    time: new FormControl('', [Validators.required,timeNotInPastValidator('date'),doctorAvailabilityValidator('','',this.appointmentService)]),
+    time: new FormControl('', [Validators.required,timeNotInPastValidator('date'),doctorAvailabilityValidator('doctor','date',this.appointmentService)]),
     message: new FormControl('', [Validators.required]),
   });
 
@@ -134,6 +134,22 @@ export class AddAppointmentComponent implements OnInit {
             email: patientData.email,
             phone: patientData.phone
           });
+        },
+        error: (error) => {
+          console.error('Error fetching patient details:', error);
+        }
+      });
+    }
+  }
+
+  onDepartmentSelect(event: any) {
+    const selectedDepartmentId = event.target.value;
+    console.log(selectedDepartmentId);
+    // Call the API to get doctor details by departemntID
+    if (selectedDepartmentId) {
+      this.appointmentService.getDoctorByDepartment(selectedDepartmentId).subscribe({
+        next: (DoctorData:any) => {
+          this.doctors=DoctorData;
         },
         error: (error) => {
           console.error('Error fetching patient details:', error);

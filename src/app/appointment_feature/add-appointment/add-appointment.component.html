@@ -58,7 +58,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="department" class="form-label">Department</label>
-                                    <select id="department" class="form-select form-control">
+                                    <select id="department" class="form-select form-control" (change)="onDepartmentSelect($event)">
                                         <option value='' selected>Select</option>
                                         <option *ngFor="let department of departments" [value]="department.departmentId">{{department.departmentName}}</option>   
                                     </select>
