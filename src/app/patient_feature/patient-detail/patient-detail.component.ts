@@ -3,8 +3,8 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Patient } from '../../models/Patients/patient.model';
 import { PatientService } from '../../services/patient/patient.service';
 import { CommonService } from '../../services/common.service';
-import { Doctor } from '../../models/Patients/doctor.model'
-import { Clinic } from '../../models/Patients/clinic.model';
+import { Doctor } from '../../models/Patients/doctor.model';
+import { Clinic } from '../../models/Patients/clinic.model'
 import { catchError, map, of, tap } from 'rxjs';
 import { CommonModule, DatePipe } from '@angular/common';
 import { forkJoin } from 'rxjs';
@@ -33,27 +33,17 @@ export class PatientDetailComponent
     private datePipe: DatePipe
   ) {}
 
+
   ngOnInit(): void {
-    // Get the patient ID from the route parameters
     const patientId = this.route.snapshot.paramMap.get('id');
     if (patientId) {
-      // Load doctors and clinics data before loading patient details
       forkJoin({
         doctors: this.patientService.getDoctors(),
         clinics: this.patientService.getClinics()
       }).subscribe({
         next: (result) => {
-          // Map doctor data to a simplified format
-          this.doctors = result.doctors.data.map((doctor: any) => ({
-            doctorId: doctor.doctorId,
-            firstName: doctor.firstName
-          }));
-          // Map clinic data to a simplified format
-          this.clinics = result.clinics.map((clinic: any) => ({
-            id: clinic.id,
-            name: clinic.name
-          }));
-          // Load patient details after doctors and clinics are loaded
+          this.doctors = result.doctors;
+          this.clinics = result.clinics;
           this.loadPatient(+patientId);
         },
         error: (error) => {
@@ -61,11 +51,43 @@ export class PatientDetailComponent
         }
       });
     }
-    // These methods are redundant as they're already called in forkJoin above
-    // Consider removing these lines
-    this.loadDoctors();
-    this.loadClinics();
   }
+
+
+  // ngOnInit(): void {
+  //   // Get the patient ID from the route parameters
+  //   const patientId = this.route.snapshot.paramMap.get('id');
+  //   if (patientId) {
+  //     // Load doctors and clinics data before loading patient details
+  //     forkJoin({
+  //       doctors: this.patientService.getDoctors(),
+  //       clinics: this.patientService.getClinics()
+  //     }).subscribe({
+  //       next: (result) => {
+  //         // Map doctor data to a simplified format
+  //         this.doctors = result.doctors.data.map((doctor: any) => ({
+  //           doctorId: doctor.doctorId,
+  //           firstName: doctor.firstName
+  //         }));
+  //         // Map clinic data to a simplified format
+  //         this.clinics = result.clinics.data.map((clinic: any) => ({
+  //           id: clinic.id,
+  //           name: clinic.name
+  //         }));
+  //         // Load patient details after doctors and clinics are loaded
+  //         this.loadPatient(+patientId);
+  //       },
+  //       error: (error) => {
+  //         console.error('Error loading doctors and clinics:', error);
+  //       }
+  //     });
+  //   }
+
+  //   // These methods are redundant as they're already called in forkJoin above
+  //   // Consider removing these lines
+  //   this.loadDoctors();
+  //   this.loadClinics();
+  // }
 
   // Method to load patient details by ID
   loadPatient(id: number): void {
@@ -127,39 +149,55 @@ export class PatientDetailComponent
       }
     );
   }
+
   // Method to load clinics data
   loadClinics(): void {
     this.patientService.getClinics().pipe(
-      tap(response => console.log('Raw response:', response)), // Log the raw response
-      map((response: any) => {
-        // Check if response is an array of clinics
-        if (Array.isArray(response)) {
-          return response.map((clinic: any) => ({
-            id: clinic.id,
-            name: clinic.name
-          }));
-        } else {
-          // Handle unexpected format
-          console.error('Unexpected data format:', response);
-          return []; // Return an empty array if data format is unexpected
-        }
-      }),
-      tap(clinics => {
-        if (clinics.length === 0) {
-          console.warn('No clinics found');
-        } else {
-          console.log('Mapped clinics:', clinics); // Log the mapped clinics
-        }
-      }),
+      tap(clinics => console.log('Raw response:', clinics)),
       catchError(error => {
         console.error('Error fetching clinics', error);
-        return of([]); // Return an empty array in case of an error
+        return of([]);
       })
-    ).subscribe(
-      clinics => this.clinics = clinics,
-      error => console.error('Error in subscription', error) // This should only be needed for unexpected errors
-    );
+    ).subscribe({
+      next: (clinics) => {
+        this.clinics = clinics;
+        console.log('Mapped clinics:', this.clinics);
+      },
+      error: (error) => console.error('Error in subscription', error)
+    });
   }
+  // loadClinics(): void {
+  //   this.patientService.getClinics().pipe(
+  //     tap(response => console.log('Raw response:', response)), // Log the raw response
+  //     map((response: any) => {
+  //       // Check if response is an array of clinics
+  //       if (Array.isArray(response)) {
+  //         return response.map((clinic: any) => ({
+  //           id: clinic.id,
+  //           name: clinic.name
+  //         }));
+  //       } else {
+  //         // Handle unexpected format
+  //         console.error('Unexpected data format:', response);
+  //         return []; // Return an empty array if data format is unexpected
+  //       }
+  //     }),
+  //     tap(clinics => {
+  //       if (clinics.length === 0) {
+  //         console.warn('No clinics found');
+  //       } else {
+  //         console.log('Mapped clinics:', clinics); // Log the mapped clinics
+  //       }
+  //     }),
+  //     catchError(error => {
+  //       console.error('Error fetching clinics', error);
+  //       return of([]); // Return an empty array in case of an error
+  //     })
+  //   ).subscribe(
+  //     clinics => this.clinics = clinics,
+  //     error => console.error('Error in subscription', error) // This should only be needed for unexpected errors
+  //   );
+  // }
 
   // Commented out old loadPatient method
   // loadPatient(id: number): void {
