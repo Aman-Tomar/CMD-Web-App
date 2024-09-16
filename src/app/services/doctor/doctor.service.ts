@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { IDoctor } from '../../models/Doctors/doctor.models';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { IDoctorSchedule } from '../../models/Doctors/doctorSchedule.models';
 import { IDepartment } from '../../models/Doctors/department.models';
 import { IClinic } from '../../models/Doctors/clinic.model';
@@ -13,10 +13,21 @@ import { RequestService } from '../request/request.service';
   providedIn: 'root'
 })
 export class DoctorService {
-  private apiUrl = environment.doctorBaseUrl; 
+ // private apiUrl = environment.doctorBaseUrl; 
+  private apiUrl = "https://localhost:44310/api"; 
   private clinicUrl = environment.clinicBaseUrl;
   requestService:RequestService = inject(RequestService);
 
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage = 'Unknown error!';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      errorMessage = `Error Code: ${error.status}\n Message: ${error.message}`;
+    }
+    return throwError(()=>{const error:any=new Error(errorMessage)});
+   } 
+   
   getAllDoctors(page: number, pageSize: number): Observable<any> {
     const params = new HttpParams()
       .set('page', page.toString())  // Adjust the key if necessary to match your API (e.g., 'pageNumber' or 'page')
@@ -53,6 +64,15 @@ export class DoctorService {
 
   getClinicById(clinicId: number): Observable<any> {
     return this.requestService.get<any>(`${this.clinicUrl}/Clinic/${clinicId}`);
+  }
+
+  getCountryStates(){
+      return this.client.get<any[]>('assets/db.json').pipe(catchError(this.handleError));
+  }
+
+  getPostalCodeDetails(postalCode: string) {
+    const apiUrl = `https://api.postalpincode.in/pincode/${postalCode}`;
+    return this.client.get(apiUrl);
   }
 
   private mapDoctorResponse(response: any): IDoctor {
