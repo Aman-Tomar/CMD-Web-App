@@ -1,4 +1,3 @@
-
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -45,6 +44,7 @@ export class AddDoctorComponent implements OnInit {
   selectedCountryName :string='';
   selectedStateName:string = '';
   errorMessage:string='';
+  maxDate: string = '';
 
 onDepartmentChange(event: any) {
   const departmentId  = Number(event?.target.value);
@@ -58,6 +58,10 @@ onDepartmentChange(event: any) {
     this.loadDepartments();
     this.loadClinics();
     this.loadCountryStates();
+
+    const today = new Date();
+    this.maxDate = today.toISOString().split('T')[0];
+    
   }
  
   // Model representing the doctor entity
@@ -111,9 +115,6 @@ onDepartmentChange(event: any) {
     }
   }
 
-  
-  
-  
   loadDepartments() {
     this.doctorService.getDepartments().subscribe((data: IDepartment[]) => {
       this.departments = data; // Storing the whole department object
@@ -213,7 +214,8 @@ onDepartmentChange(event: any) {
     // if (this.selectedFile) {
     //   formData.append('profilePicture', this.selectedFile, this.selectedFile.name);
     // }
-
+    console.log("formData:", formData);
+    debugger
     // Call the service to add a doctor and handle the response
     this.doctorService.addDoctor(formData).subscribe({
       next: (response) => {
