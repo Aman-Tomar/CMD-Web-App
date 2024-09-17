@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { IDoctor } from '../../models/Doctors/doctor.models';
 import { DoctorService } from '../../services/doctor/doctor.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { state } from '@angular/animations';
 import { DatePipe } from '@angular/common';
 import { IDepartment } from '../../models/Doctors/department.models';
@@ -10,7 +10,7 @@ import { IClinic } from '../../models/Doctors/clinic.model';
 @Component({
   selector: 'app-doctor-details',
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe,RouterLink],
   templateUrl: './doctor-details.component.html',
   styleUrls: ['./doctor-details.component.css'] // Note: Corrected 'styleUrl' to 'styleUrls'
 })
@@ -19,6 +19,7 @@ export class DoctorDetailsComponent implements OnInit {
     // Injecting necessary services like DoctorService and ActivatedRoute for data fetching and routing
     doctorService: DoctorService = inject(DoctorService);
     route: ActivatedRoute = inject(ActivatedRoute);
+    router:Router=inject(Router);
 
     // Property to hold the doctor ID from the route parameters
     doctorId: number = 0;
@@ -102,6 +103,10 @@ export class DoctorDetailsComponent implements OnInit {
 
     getProfilePicture(): string {
       return this.doctor?.profilePicture || this.fallbackimage;
+    }
+
+    goBack() {
+      this.router.navigate(['/doctor']);
     }
     
 }

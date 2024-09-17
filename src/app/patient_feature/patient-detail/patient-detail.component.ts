@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { Patient } from '../../models/Patients/patient.model';
 import { PatientService } from '../../services/patient/patient.service';
 import { CommonService } from '../../services/common.service';
@@ -12,7 +12,7 @@ import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-patient-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './patient-detail.component.html',
   styleUrl: './patient-detail.component.css',
   providers: [DatePipe]
