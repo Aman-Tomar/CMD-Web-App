@@ -31,9 +31,7 @@ export class RequestService {
 
 
   public post<T>(url: string, body: any): Observable<T> {
-    var headers = this.getHeaders();
-    console.log("inisde request service");
-    console.log(headers);
+    let headers = this.getHeaders();
     return this.http.post<T>(url, body, { headers }).pipe(
       catchError(this.handleError)
     );
@@ -42,7 +40,7 @@ export class RequestService {
   
   
   public put<T>(url: string, body: any): Observable<T> {
-    const headers = this.getHeaders();
+    let headers = this.getHeaders();
     return this.http.put<T>(url, body, { headers }).pipe(
       catchError(this.handleError)
     );

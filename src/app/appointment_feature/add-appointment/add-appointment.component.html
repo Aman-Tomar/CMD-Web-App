@@ -138,10 +138,10 @@
                                     <input [class.is-invalid]="reactiveForm.get('phone')?.touched && reactiveForm.get('phone')?.invalid" name="phone" formControlName="phone" type="text" class="form-control" id="patientPhone" placeholder="Enter phone number">
                                 </div>
                                 <small class="text-danger small" *ngIf="reactiveForm.controls.phone.touched && reactiveForm.controls.phone.errors?.['required']">
-                                    *Phone number is required
+                                    *Mobile number is required
                                 </small>
                                 <small class="text-danger small" *ngIf="reactiveForm.controls.phone.touched && reactiveForm.controls.phone.errors?.['pattern']">
-                                    *Enter a valid phone number with +91
+                                    *Enter a valid Mobile number with +91
                                 </small>
                             </div>
                         </div>

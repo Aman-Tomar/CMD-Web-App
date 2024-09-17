@@ -9,8 +9,8 @@
                             <i class="fas fa-stethoscope"></i>
                         </div>
                         <div class="dash-widget-info text-end">
-                            <h3>98</h3>
-                            <span class="widget-title1">Pending <i class="fas fa-check"></i></span>
+                            <h3>{{totalAppointments || 0}}</h3>
+                            <span class="widget-title1">Appointments <i class="fas fa-check"></i></span>
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                             <i class="fas fa-user"></i>
                         </div>
                         <div class="dash-widget-info text-end">
-                            <h3>1072</h3>
+                            <h3>{{totalScheduledAppointments}}</h3>
                             <span class="widget-title2">Scheduled <i class="fas fa-check"></i></span>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                             <i class="fas fa-user-md"></i>
                         </div>
                         <div class="dash-widget-info text-end">
-                            <h3>72</h3>
+                            <h3>{{totalCancelledAppointments}}</h3>
                             <span class="widget-title3">Cancelled <i class="fas fa-check"></i></span>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                             <i class="fas fa-heartbeat"></i>
                         </div>
                         <div class="dash-widget-info text-end">
-                            <h3>618</h3>
+                            <h3>{{totalClosedAppointments}}</h3>
                             <span class="widget-title4">Closed <i class="fas fa-check"></i></span>
                         </div>
                     </div>
@@ -72,9 +72,9 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <h4 class="card-title">Appointments</h4>
-                    <a [routerLink]="['/appointments']" class="btn btn-primary">View all</a>
+                    <a [routerLink]="['/appointments']" routerLinkActive="router-link-active"  class="btn btn-primary">View all</a>
                 </div>
-                <div class="card-body p-0">
+                <div class="card-body p-0" *ngIf="Appointments.length > 0; else noAppointments">
                     <div class="table-responsive">
                         <table class="table mb-0">
                             <thead class="d-none">
@@ -86,151 +86,40 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr *ngFor="let appointment of getLimitedAppointments()">
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar">B</div>
+                                            <div class="avatar">{{patientDetails[appointment.patientId].name.charAt(0)}}</div>
                                             <div class="ms-3">
-                                                <h6 class="mb-1"><a href="profile.html">Bernardo Galaviz</a></h6>
-                                                <small>New York, USA</small>
+                                                <h5 class="mb-1">
+                                                    <a href="#">{{ patientDetails[appointment.patientId].name }}</a>
+                                                </h5>
+                                                <small>{{ patientDetails[appointment.patientId].state }},{{patientDetails[appointment.patientId].country}}</small>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <p>Appointment With Dr. Cristina Groves</p>
+                                        <p>Appointment With Dr. {{ doctorDetails[appointment.doctorId].name }}</p>
                                     </td>
                                     <td>
-                                        <p>7.00 PM</p>
+                                        <p>{{ appointment.time }}</p>
                                     </td>
-                                    <td class="text-end">
-                                        <a href="appointments.html" class="btn btn-outline-primary">Take up</a>
-                                    </td>
+                                    <td>
+                                        <span [ngClass]="{
+                                            'custom-badge': true,
+                                            'status-red': appointment.status !== AppointmentStatus.Scheduled,
+                                            'status-green': appointment.status === AppointmentStatus.Scheduled
+                                          }">
+                                          {{ appointment.status === AppointmentStatus.Scheduled ? 'Active' : 'Inactive' }}
+                                        </span>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar">B</div>
-                                            <div class="ms-3">
-                                                <h6 class="mb-1"><a href="profile.html">Bernardo Galaviz</a></h6>
-                                                <small>New York, USA</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p>Appointment With Dr. Cristina Groves</p>
-                                    </td>
-                                    <td>
-                                        <p>7.00 PM</p>
-                                    </td>
-                                    <td class="text-end">
-                                        <a href="appointments.html" class="btn btn-outline-primary">Take up</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar">B</div>
-                                            <div class="ms-3">
-                                                <h6 class="mb-1"><a href="profile.html">Bernardo Galaviz</a></h6>
-                                                <small>New York, USA</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p>Appointment With Dr. Cristina Groves</p>
-                                    </td>
-                                    <td>
-                                        <p>7.00 PM</p>
-                                    </td>
-                                    <td class="text-end">
-                                        <a href="appointments.html" class="btn btn-outline-primary">Take up</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar">B</div>
-                                            <div class="ms-3">
-                                                <h6 class="mb-1"><a href="profile.html">Bernardo Galaviz</a></h6>
-                                                <small>New York, USA</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p>Appointment With Dr. Cristina Groves</p>
-                                    </td>
-                                    <td>
-                                        <p>7.00 PM</p>
-                                    </td>
-                                    <td class="text-end">
-                                        <a href="appointments.html" class="btn btn-outline-primary">Take up</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar">B</div>
-                                            <div class="ms-3">
-                                                <h6 class="mb-1"><a href="profile.html">Bernardo Galaviz</a></h6>
-                                                <small>New York, USA</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p>Appointment With Dr. Cristina Groves</p>
-                                    </td>
-                                    <td>
-                                        <p>7.00 PM</p>
-                                    </td>
-                                    <td class="text-end">
-                                        <a href="appointments.html" class="btn btn-outline-primary">Take up</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar">B</div>
-                                            <div class="ms-3">
-                                                <h6 class="mb-1"><a href="profile.html">Bernardo Galaviz</a></h6>
-                                                <small>New York, USA</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p>Appointment With Dr. Cristina Groves</p>
-                                    </td>
-                                    <td>
-                                        <p>7.00 PM</p>
-                                    </td>
-                                    <td class="text-end">
-                                        <a href="appointments.html" class="btn btn-outline-primary">Take up</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar">B</div>
-                                            <div class="ms-3">
-                                                <h6 class="mb-1"><a href="profile.html">Bernardo Galaviz</a></h6>
-                                                <small>New York, USA</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p>Appointment With Dr. Cristina Groves</p>
-                                    </td>
-                                    <td>
-                                        <p>7.00 PM</p>
-                                    </td>
-                                    <td class="text-end">
-                                        <a href="appointments.html" class="btn btn-outline-primary">Take up</a>
-                                    </td>
-                                </tr>
-                                <!-- More appointments can be added here -->
                             </tbody>
                         </table>
                     </div>
                 </div>
+                <ng-template #noAppointments>
+                    <p class="text-center">No upcoming appointments</p>
+                </ng-template>
             </div>
         </div>
 
@@ -243,35 +132,12 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush contact-list">
-                        <li class="list-group-item">
+                        <li class="list-group-item" *ngFor="let doctor of doctors">
                             <div class="d-flex align-items-center">
-                                <div class="avatar">B</div>                                <div>
-                                    <h6 class="mb-0">John Doe</h6>
-                                    <small>MBBS, MD</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar">B</div>                                <div>
-                                    <h6 class="mb-0">John Doe</h6>
-                                    <small>MBBS, MD</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar">B</div>                                <div>
-                                    <h6 class="mb-0">John Doe</h6>
-                                    <small>MBBS, MD</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar">B</div>                                <div>
-                                    <h6 class="mb-0">John Doe</h6>
-                                    <small>MBBS, MD</small>
+                                <div class="avatarDoctor me-3">{{doctor.firstName.charAt(0)}}</div>
+                                <div>
+                                    <h6 class="mb-0">Dr. {{doctor.firstName}} {{doctor.lastName}}</h6>
+                                    <small>{{doctor.qualification}},{{doctor.specialization}}</small>
                                 </div>
                             </div>
                         </li>
@@ -283,67 +149,28 @@
                 </div>
             </div>
 
-            <!-- Patients Section (Stacked below Doctors) -->
-            <div class="card">
-                <div class="card-header bg-white">
-                    <h4 class="card-title mb-0">Patients</h4>
+<!-- Patients Section (Stacked below Doctors) -->
+<div class="card">
+    <div class="card-header bg-white">
+        <h4 class="card-title mb-0">Patients</h4>
+    </div>
+    <div class="card-body">
+        <ul class="list-group list-group-flush contact-list">
+            <li class="list-group-item" *ngFor="let patient of patients">
+                <div class="d-flex align-items-center">
+                    <div class="avatarPatient me-3">{{patient.patientName.charAt(0)}}</div>
+                    <div>
+                        <h5 class="mb-0">{{patient.patientName}}</h5>
+                        <small>{{patient.state}}, {{patient.country}}</small>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush contact-list">
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar">B</div>                                <div>
-                                    <h5 class="mb-0">Jane Smith</h5>
-                                    <small>New York, USA</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar">B</div>                                <div>
-                                    <h5 class="mb-0">Jane Smith</h5>
-                                    <small>New York, USA</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar">B</div>                                <div>
-                                    <h5 class="mb-0">Jane Smith</h5>
-                                    <small>New York, USA</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar">B</div>                                <div>
-                                    <h5 class="mb-0">Jane Smith</h5>
-                                    <small>New York, USA</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar">B</div>                                <div>
-                                    <h5 class="mb-0">Jane Smith</h5>
-                                    <small>New York, USA</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar">B</div>                                <div>
-                                    <h5 class="mb-0">Jane Smith</h5>
-                                    <small>New York, USA</small>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- Additional patients can be added here -->
-                    </ul>
-                </div>
-                <div class="card-footer text-center bg-white">
-                    <a [routerLink]="['/patients']" routerLinkActive="router-link-active"  class="text-muted">View all Patients</a>
-                </div>
+            </li>
+            <!-- Additional patients can be added here -->
+        </ul>
+    </div>
+    <div class="card-footer text-center bg-white">
+        <a [routerLink]="['/patients']" class="text-muted">View all Patients</a>
+    </div>
             </div>
         </div>
 

@@ -16,15 +16,23 @@ import { IDepartment } from '../../models/Doctors/department.models';
 })
 export class EditDoctorComponent implements OnInit{
   // List of countries and states for the dropdowns in the form
-  countries: string[] = ['USA', 'Canada', 'UK', 'India']; 
-  states: string[] = [];
+  departmentName:string='';
   specializations: string[] = [];
   qualifications: string[] = [];
   departments: IDepartment[] = [];
   clinics: IClinic[] = [];
-  // Model representing the do
-  // Stores the ID of the doctor to be edited
-  doctorId: number = 0;
+  countryStates:any[] = []
+ 
+   // To hold the country and state data
+   countries: any[] = [];     // List of countries
+   states: any[] = [];        // List of states based on selected country
+   selectedCountry: string = ''; // To store selected country
+   selectedState: string = '';   // To store selected state
+   selectedCountryName :string='';
+   selectedStateName:string = '';
+   errorMessage:string='';
+   doctorId:number = 0;
+   formattedDateOfBirth: string = '';
 
   // Doctor model that holds the form data for the doctor being edited
   doctor: IDoctor = {
@@ -52,6 +60,7 @@ export class EditDoctorComponent implements OnInit{
 
   // Holds the selected file for profile picture upload
   selectedFile: File | null = null;
+  maxDate: string = '';
 
   constructor(
     private route: ActivatedRoute,  // Inject ActivatedRoute to access route parameters
@@ -68,21 +77,66 @@ export class EditDoctorComponent implements OnInit{
       this.getDoctorById(this.doctorId);
       this.loadDepartments();
       this.loadClinics();
+      this.loadStates();
+      this.loadCountries();
+      //this.loadCountryStates();
+
+      const today = new Date();
+      this.maxDate = today.toISOString().split('T')[0];
+    
     });
   }
 
+  loadCountryStates(): void {
+    this.doctorService.getCountryStates().subscribe({
+      next: (data: any) => {
+        this.countryStates = data;
+        this.countries = data.map((country: any) => ({
+          code: country.code2,
+          name: country.name
+        }));
+        console.log("Countries loaded: ", this.countries); // Debugging line
+      },
+      error: (err: string) => {
+        console.log("Error occurred", err);
+      }
+    });
+  }
+
+  loadStates(){
+    this.states = this.states = [
+      'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 
+      'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 
+      'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 
+      'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 
+      'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 
+      'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 
+      'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 
+      'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 
+      'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 
+      'Wyoming'
+    ];
+  }
+
+  loadCountries(){
+     this.countries = ['India','United States']
+  }
   // Method to fetch the doctor details by ID
   getDoctorById(doctorId: number): void {
     this.doctorService.getDoctorById(doctorId).subscribe({
-      next: (doctor) => {
+      next: (data) => {
         // Convert the received date of birth to Date object
        // doctor.dateOfBirth = this.convertDateForInput(doctor.dateOfBirth);// Convert to Date object
         //  doctor.dateOfBirth = doctor.dateOfBirth .toISOString().split('T')[0]; // Format as 'yyyy-MM-dd'
-        
         // Copy other properties
-        this.doctor = doctor;
-        // Trigger country change to load the correct list of states
-        this.onCountryChange();
+        if (data.dateOfBirth) {
+          this.doctor.dateOfBirth = new Date(data.dateOfBirth); // Store as Date object
+          this.formattedDateOfBirth = this.doctor.dateOfBirth.toISOString().split('T')[0]; // Store formatted 'yyyy-MM-dd' string for form
+        }
+
+        this.doctor = data;
+        this.doctor.status = ( data.status === true) ? true : false; 
+        // this.doctor.dateOfBirth = data.dateOfBirth;
       },
       error: (error) => {
         console.error('Error fetching doctor', error);
@@ -90,6 +144,14 @@ export class EditDoctorComponent implements OnInit{
     });
   }
 
+  
+  formatDate(dateString: string): string {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD
+  }
+ 
+  
   //Converts the date format to 'YYYY-MM-DD' for proper input display
   convertDateForInput(date: string): string {
     const parsedDate = new Date(date);
@@ -118,6 +180,8 @@ export class EditDoctorComponent implements OnInit{
       console.log(this.clinics);
     });
   }
+
+ 
   // Method triggered on form submission
   onSubmit() {
     const formData = new FormData();
@@ -169,26 +233,86 @@ export class EditDoctorComponent implements OnInit{
     });
   }
 
-  // Updates the list of states based on the selected country
-  onCountryChange() {
+  onDepartmentChange(event: any) {
+    const departmentId  = Number(event?.target.value);
+    const selectedDepartment = this.departments.find(dept => dept.departmentId === departmentId);
+    if (selectedDepartment) {
+      this.doctor.specialization = selectedDepartment.departmentName;
+    }
+  }
+
+  onDateChange(event: any): void {
+    const dateString = event.target.value;
+    this.doctor.dateOfBirth = dateString;
+  }
+
+  onCountryChange(event: any) {
+    const selectedCountryCode = event.target.value;
+   // console.log("Selected country code: ", selectedCountryCode);
+    console.log("Available country states data: ", this.countryStates);
+    const selectedCountry = this.countryStates.find(country => country.code2 === selectedCountryCode);
+    console.log("Selected country: ", selectedCountry);
+    this.selectedCountryName = selectedCountry.name;
+    if (selectedCountry) {
+      this.states = selectedCountry.states;
+      console.log("States for selected country: ", this.states);
+    }
+  }
+
+  onCountrychange() {
     if (this.doctor.country === 'India') {
       this.states = [
-        'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana',
-        'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra',
-        'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim',
-        'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal',
-        'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu',
-        'Lakshadweep', 'Delhi', 'Puducherry', 'Ladakh', 'Jammu and Kashmir'
+        'Arunachal Pradesh', 'Assam', 
+        'Bihar', 
+        'Chhattisgarh', 
+        'Goa', 
+        'Gujarat', 
+        'Haryana', 
+        'Himachal Pradesh', 
+        'Jharkhand', 
+        'Karnataka', 
+        'Kerala', 
+        'Madhya Pradesh', 
+        'Maharashtra', 
+        'Manipur', 
+        'Meghalaya', 
+        'Mizoram', 
+        'Nagaland', 
+        'Odisha', 
+        'Punjab', 
+        'Rajasthan', 
+        'Sikkim', 
+        'Tamil Nadu', 
+        'Telangana', 
+        'Tripura', 
+        'Uttar Pradesh', 
+        'Uttarakhand', 
+        'West Bengal',
+        'Andaman and Nicobar Islands',
+        'Chandigarh',
+        'Dadra and Nagar Haveli and Daman and Diu',
+        'Lakshadweep',
+        'Delhi',
+        'Puducherry',
+        'Ladakh',
+        'Jammu and Kashmir'
       ];
-    } else if (this.doctor.country === 'USA') {
-      this.states = ['California', 'New York', 'Texas']; 
-    } else if (this.doctor.country === 'Canada') {
-      this.states = ['Ontario', 'Quebec', 'British Columbia'];
-    } else if (this.doctor.country === 'UK') {
-      this.states = ['England', 'Scotland', 'Wales', 'Northern Ireland'];
+    } else if (this.doctor.country === 'United States') {
+      this.states = this.states = [
+        'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 
+        'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 
+        'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 
+        'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 
+        'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 
+        'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 
+        'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 
+        'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 
+        'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 
+        'Wyoming'
+      ];
     } else {
-      // Clear the states if the country is not recognized or not selected
       this.states = [];
     }
   }
+ 
 }

@@ -18,5 +18,5 @@ export interface IDoctor {
     qualification:string,
     departmentId:number,
     clinicId:number,
-    profilePicture:string
+    profilePicture?:string
 }

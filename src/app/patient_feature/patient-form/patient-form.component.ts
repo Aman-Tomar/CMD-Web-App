@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
  
  
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PatientService } from '../../services/patient/patient.service';
 import { Patient } from '../../models/Patients/patient.model';
 import { Doctor } from '../../models/Patients/doctor.model';
@@ -12,7 +12,7 @@ import { Clinic } from '../../models/Patients/clinic.model';
 @Component({
   selector: 'app-patient-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,RouterLink],
   templateUrl: './patient-form.component.html',
   styleUrls: ['./patient-form.component.css'],
   providers : [DatePipe]

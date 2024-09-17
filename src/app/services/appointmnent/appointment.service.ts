@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAppointment } from '../../models/Appointment/Appointment';
 import { IAppointmentDTO } from '../../models/Appointment/EditAppointmentDTO';
@@ -65,7 +65,6 @@ export class AppointmentService {
 //GetAllPatients  Api Call
   getPatients(pageNo: number = 1, pageLimit: number = 20):Observable<PatientResponse>{
     let params = new HttpParams().set('pageNo', pageNo.toString()).set('pageLimit', pageLimit.toString());
-
     return this.requestService.get<PatientResponse>(`${this.patientApiUrl}/Patients`, params)
   }
 

@@ -15,6 +15,36 @@ import { IClinic } from '../../models/Doctors/clinic.model';
   styleUrls: ['./add-doctor.component.css'] // Note: Corrected 'styleUrl' to 'styleUrls'
 })
 export class AddDoctorComponent implements OnInit {
+  // Service for handling doctor-related operations
+  doctorService = inject(DoctorService);
+  
+  // Router for navigating to other routes
+  router: Router = inject(Router);
+  
+  // Holds the selected file for profile picture upload
+  selectedFile: File | null = null;
+  
+  // List of countries for the country dropdown
+  //  countries: string[] = ['USA', 'Canada', 'UK', 'India'];
+
+//  // List of states for the state dropdown based on the selected country
+//  states: string[] = [];
+ departmentName:string='';
+ specializations: string[] = [];
+ qualifications: string[] = [];
+ departments: IDepartment[] = [];
+ clinics: IClinic[] = [];
+ countryStates:any[] = []
+
+  // To hold the country and state data
+  countries: any[] = [];     // List of countries
+  states: any[] = [];        // List of states based on selected country
+  selectedCountry: string = ''; // To store selected country
+  selectedState: string = '';   // To store selected state
+  selectedCountryName :string='';
+  selectedStateName:string = '';
+  errorMessage:string='';
+  maxDate: string = '';
 
 onDepartmentChange(event: any) {
   const departmentId  = Number(event?.target.value);
@@ -27,26 +57,13 @@ onDepartmentChange(event: any) {
   ngOnInit(): void {
     this.loadDepartments();
     this.loadClinics();
+    this.loadCountryStates();
+
+    const today = new Date();
+    this.maxDate = today.toISOString().split('T')[0];
+    
   }
-  // Service for handling doctor-related operations
-  doctorService = inject(DoctorService);
-
-  // Router for navigating to other routes
-  router: Router = inject(Router);
-
-  // Holds the selected file for profile picture upload
-  selectedFile: File | null = null;
-
-  // List of countries for the country dropdown
-  countries: string[] = ['USA', 'Canada', 'UK', 'India'];
-
-  // List of states for the state dropdown based on the selected country
-  states: string[] = [];
-  departmentName:string='';
-  specializations: string[] = [];
-  qualifications: string[] = [];
-  departments: IDepartment[] = [];
-  clinics: IClinic[] = [];
+ 
   // Model representing the doctor entity
   doctor: IDoctor = {
     doctorId: 0,
@@ -71,43 +88,53 @@ onDepartmentChange(event: any) {
     profilePicture: ''  
   };
 
-  /**
-   * Updates the list of states based on the selected country.
-   * This method is called when the country dropdown value changes.
-   */
-  onCountryChange() {
-    switch (this.doctor.country) {
-      case 'India':
-        this.states = [
-          'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 
-          'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 
-          'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 
-          'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 
-          'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 
-          'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh', 
-          'Dadra and Nagar Haveli and Daman and Diu', 'Lakshadweep', 'Delhi', 
-          'Puducherry', 'Ladakh', 'Jammu and Kashmir'
-        ];
-        break;
-      case 'USA':
-        this.states = ['California', 'New York', 'Texas'];
-        break;
-      case 'Canada':
-        this.states = ['Ontario', 'Quebec', 'British Columbia'];
-        break;
-      case 'UK':
-        this.states = ['England', 'Scotland', 'Wales', 'Northern Ireland'];
-        break;
-      default:
-        this.states = [];
-        break;
+ 
+
+  onCountryChange(event: any) {
+    const selectedCountryCode = event.target.value;
+    // console.log("Selected country code: ", selectedCountryCode);
+    console.log("Available country states data: ", this.countryStates);
+    const selectedCountry = this.countryStates.find(country => country.code2 === selectedCountryCode);
+    console.log("Selected country: ", selectedCountry);
+    this.selectedCountryName = selectedCountry.name;
+    if (selectedCountry) {
+      this.states = selectedCountry.states;
+      console.log("States for selected country: ", this.states);
+    }
+  }
+  
+  onStateChange(event: any) {
+    const selectedStateCode = event.target.value;
+    console.log("Selected state code: ", selectedStateCode);
+  
+    const selectedState = this.states.find(state => state.code === selectedStateCode);
+    console.log("Selected state: ", selectedState);
+  
+    if (selectedState) {
+      this.selectedStateName = selectedState.name; // Update the selected state name
     }
   }
 
   loadDepartments() {
     this.doctorService.getDepartments().subscribe((data: IDepartment[]) => {
       this.departments = data; // Storing the whole department object
-      console.log(this.departments);
+      //console.log(this.departments);
+    });
+  }
+  
+  loadCountryStates(): void {
+    this.doctorService.getCountryStates().subscribe({
+      next: (data: any) => {
+        this.countryStates = data;
+        this.countries = data.map((country: any) => ({
+          code: country.code2,
+          name: country.name
+        }));
+        console.log("Countries loaded: ", this.countries); // Debugging line
+      },
+      error: (err: string) => {
+        console.log("Error occurred", err);
+      }
     });
   }
 
@@ -123,11 +150,11 @@ onDepartmentChange(event: any) {
   /**
    * Handles file selection for profile picture upload.
    * @param event - The file input change event.
-   */
+  */
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
-
+  
   /**
    * Formats the date to ISO string format.
    * @param date - The date to format.
@@ -150,9 +177,13 @@ onDepartmentChange(event: any) {
    * Constructs FormData, appends doctor details and file, and submits it to the server.
    */
   onSubmit() {
+    const experienceInYears = this.doctor.experienceInYears.toString();
+    if (experienceInYears.startsWith('0') && experienceInYears.length > 1) {
+      this.errorMessage = 'Experience in years cannot have leading zeros.';
+      return;
+    }
     // Format the date of birth to ISO string format
     const formattedDate = this.formatDate(this.doctor.dateOfBirth);
-
     // Create a FormData object to handle file and form data submission
     const formData = new FormData();
     formData.append('doctorId', this.doctor.doctorId.toString());
@@ -169,7 +200,7 @@ onDepartmentChange(event: any) {
     formData.append('Biography', this.doctor.briefDescription); // Note: Ensure server-side accepts 'Biography'
     formData.append('PhoneNo', this.doctor.phoneNo);
     formData.append('status', this.doctor.status.toString());
-    formData.append('specialization', this.doctor.specialization);
+    formData.append('Specialization', this.doctor.specialization);
     formData.append('ExperienceInYears', this.doctor.experienceInYears.toString());
     formData.append('qualification', this.doctor.qualification);
     formData.append('departmentId', this.doctor.departmentId.toString());
@@ -179,7 +210,12 @@ onDepartmentChange(event: any) {
     if (this.selectedFile) {
       formData.append('profilePicture', this.selectedFile, this.selectedFile.name);
     }
-
+    
+    // if (this.selectedFile) {
+    //   formData.append('profilePicture', this.selectedFile, this.selectedFile.name);
+    // }
+    console.log("formData:", formData);
+    debugger
     // Call the service to add a doctor and handle the response
     this.doctorService.addDoctor(formData).subscribe({
       next: (response) => {
@@ -192,4 +228,71 @@ onDepartmentChange(event: any) {
       }
     });
   } 
+
+  onCountrychange() {
+    if (this.doctor.country === 'India') {
+      this.states = [
+        'Arunachal Pradesh', 'Assam', 
+        'Bihar', 
+        'Chhattisgarh', 
+        'Goa', 
+        'Gujarat', 
+        'Haryana', 
+        'Himachal Pradesh', 
+        'Jharkhand', 
+        'Karnataka', 
+        'Kerala', 
+        'Madhya Pradesh', 
+        'Maharashtra', 
+        'Manipur', 
+        'Meghalaya', 
+        'Mizoram', 
+        'Nagaland', 
+        'Odisha', 
+        'Punjab', 
+        'Rajasthan', 
+        'Sikkim', 
+        'Tamil Nadu', 
+        'Telangana', 
+        'Tripura', 
+        'Uttar Pradesh', 
+        'Uttarakhand', 
+        'West Bengal',
+        'Andaman and Nicobar Islands',
+        'Chandigarh',
+        'Dadra and Nagar Haveli and Daman and Diu',
+        'Lakshadweep',
+        'Delhi',
+        'Puducherry',
+        'Ladakh',
+        'Jammu and Kashmir'
+      ];
+    } else if (this.doctor.country === 'United States') {
+      this.states = this.states = [
+        'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 
+        'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 
+        'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 
+        'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 
+        'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 
+        'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 
+        'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 
+        'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 
+        'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 
+        'Wyoming'
+      ];;
+    } else {
+      this.states = [];
+    }
+  }
+  
+
+  hasValidName(value: string): boolean {
+    const namePattern = /^[^\s][a-zA-Z\s]*$/;
+    return !namePattern.test(value);
+  } 
+
+  hasInvalidPhoneNumber(value: string): boolean {
+    const phonePattern = /^(\+91|91)?[6-9][0-9]{9}$/;
+    return !phonePattern.test(value);
+  }
 }
