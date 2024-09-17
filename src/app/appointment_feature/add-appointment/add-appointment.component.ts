@@ -66,7 +66,7 @@ export class AddAppointmentComponent implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', [Validators.required, Validators.pattern(/^(\+91|91)?[6-9][0-9]{9}$/)]),
     date: new FormControl('', [Validators.required, dateRangeValidator()]),
-    time: new FormControl('', [Validators.required,timeNotInPastValidator('date'),doctorAvailabilityValidator('doctor','date',this.appointmentService)]),
+    time: new FormControl('', [Validators.required,timeNotInPastValidator('date')]),
     message: new FormControl('', [Validators.required,Validators.maxLength(150)]),
   });
 

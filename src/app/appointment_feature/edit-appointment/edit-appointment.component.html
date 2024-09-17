@@ -117,7 +117,7 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="patientEmail" class="form-label">Patient Email</label>
+                                    <label for="patientEmail" class="form-label">Email</label>
                                     <input [class.is-invalid]="reactiveForm.get('email')?.invalid && reactiveForm.get('email')?.touched"  name="email" formControlName="email" type="email" class="form-control" id="patientEmail" placeholder="Enter email">
                                 </div>
                                 <small class="text-danger small" *ngIf="reactiveForm.controls.email.touched&&reactiveForm.controls.email.errors?.['required']">
@@ -129,14 +129,14 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="patientPhone" class="form-label">Patient Phone Number</label>
+                                    <label for="patientPhone" class="form-label">Mobile Number</label>
                                     <input [class.is-invalid]="reactiveForm.get('phone')?.invalid && reactiveForm.get('phone')?.touched"  name="phone" formControlName="phone" type="text" class="form-control" id="patientPhone" placeholder="Enter phone number">
                                 </div>
                                 <small class="text-danger small" *ngIf="reactiveForm.controls.phone.touched&&reactiveForm.controls.phone.errors?.['required']">
-                                    *Phone number is required
+                                    *Mobile number is required
                                 </small>
                                   <small class="text-danger small" *ngIf="reactiveForm.controls.phone.touched&&reactiveForm.controls.phone.errors?.['pattern']">
-                                    *Enter a valid phone number with +91
+                                    *Enter a valid Mobile number with +91
                                   </small>
                             </div>
                         </div>
@@ -146,6 +146,9 @@
                             <textarea [class.is-invalid]="reactiveForm.get('date')?.invalid && reactiveForm.get('message')?.touched" name="message" formControlName="message" name="message" class="form-control" id="message" rows="4" placeholder="Enter any message"></textarea>
                             <small class="text-danger small" *ngIf="reactiveForm.controls.message.touched&&reactiveForm.controls.message.errors?.['required']">
                                 *Message is required
+                            </small>
+                            <small class="text-danger small" *ngIf="reactiveForm.controls.message.touched && reactiveForm.controls.message.errors?.['maxlength']">
+                                *Message cannot exceed 155 characters
                             </small>
                         </div>
                         
