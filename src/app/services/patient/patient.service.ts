@@ -33,10 +33,15 @@ export class PatientService {
     return this.requestService.get<Patient>(`${this.PATIENT_BASE_URL}/patients/${patientId}`);
   }
 
-
   createPatient(patientData: FormData): Observable<Patient> {
+    const headers=new HttpHeaders();
+    console.log(headers); // waste 
     return this.requestService.post<Patient>(`${this.PATIENT_BASE_URL}/patients`, patientData);
   }
+
+  // createPatient(patientData: FormData): Observable<Patient> {
+  //   return this.requestService.post<Patient>(`${this.PATIENT_BASE_URL}/patients`, patientData);
+  // }
 
   updatePatient(patientId: number, patientData: FormData): Observable<Patient> {
     return this.requestService.put<Patient>(`${this.PATIENT_BASE_URL}/patients/${patientId}`, patientData);

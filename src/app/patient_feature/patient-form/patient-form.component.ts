@@ -103,7 +103,9 @@ export class PatientFormComponent implements OnInit {
       }
     });
   }
-
+ 
+ 
+ 
   loadIndianStates(): void {
     this.states = [
       { code: 'AN', name: 'Andaman and Nicobar Islands' },
@@ -148,10 +150,9 @@ export class PatientFormComponent implements OnInit {
  
   initForm(): FormGroup {
     return this.fb.group({
-      patientName: ['', [Validators.required, Validators.pattern(/^[^\s][a-zA-Z\s]*$/)]],
+      patientName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
       email: ['', [Validators.required, Validators.email]],
-      
-      phone: ['', [Validators.required, Validators.pattern(/^(\+91|91)?[6-9][0-9]{9}$/), Validators.minLength(10), Validators.maxLength(13)] ],
+      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
       age: [{ value: '', disabled: true }, [Validators.required, Validators.min(0), Validators.max(150)]],
       dob: ['', [Validators.required]],
       gender: ['', Validators.required],
@@ -159,22 +160,21 @@ export class PatientFormComponent implements OnInit {
      
       preferredEndTime: ['',Validators.required],
       streetAddress: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50),  Validators.pattern(/^[a-zA-Z\s]*$/)]],
+      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       state: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       country: ['', Validators.required],
-      zipCode: ['', [Validators.required, this.zipCodeValidator.bind(this)]],
-      
-      image: [''],
- 
+      zipCode: ['', [Validators.required, this.zipCodeValidator.bind(this),Validators.minLength(6), Validators.maxLength(6), Validators.pattern(/^[1-9][0-9]{5}$/)]],
+      //zipCode: ['', [Validators.required, this.zipCodeValidator()]],
+      //image: [''],
+      image: [null],
+
       preferredClinicId: [''],
       preferredDoctorId: [''],
  
      
-      patientGuardianName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
-
-      patientGuardianPhoneNumber:['', [Validators.required, Validators.pattern(/^(\+91|91)?[6-9][0-9]{9}$/), Validators.minLength(10), Validators.maxLength(13)] ],
-
-      patientGuardianRelationship: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]]
+      patientGuardianName: [''],
+      patientGuardianPhoneNumber: [''],
+      patientGuardianRelationship: ['']
     });
   }
  
@@ -200,7 +200,28 @@ export class PatientFormComponent implements OnInit {
       error: (error) => console.error('Error loading patient data', error)
     });
   }
-  
+  // loadPatientData(id: number): void {
+  //   this.patientService.getPatientById(id).subscribe({
+  //     next: (patient) => {
+  //       if (patient) {
+  //         // Format date
+  //         patient.dob = this.datePipe.transform(patient.dob, 'yyyy-MM-dd') || '';
+ 
+  //         // Format times
+  //         patient.preferredStartTime = this.datePipe.transform(patient.preferredStartTime, 'HH:mm') || '';
+  //         patient.preferredEndTime = this.datePipe.transform(patient.preferredEndTime, 'HH:mm') || '';
+ 
+  //         this.patientForm.patchValue(patient);
+ 
+  //         // Handle image
+  //         if (patient.hexImage) {
+  //           this.imagePreview = `data:image/jpeg;base64,${patient.hexImage}`;
+  //         }
+  //       }
+  //     },
+  //     error: (error) => console.error('Error loading patient data', error)
+  //   });
+  // }
    
   onSubmit(): void {
     if (this.patientForm.valid) {
@@ -213,7 +234,7 @@ export class PatientFormComponent implements OnInit {
       });
     }
   }
-  
+ 
  
   preparePatientData(): Patient {
     const formData = this.patientForm.value;
@@ -232,7 +253,7 @@ export class PatientFormComponent implements OnInit {
       lastModifiedBy: this.currentUserId,
       //patientAddressId: this.isEditMode ? formData.patientAddressId : 0
     };
- 
+    
     if (this.selectedFile) {
       patientData.image = this.selectedFile;
     }
@@ -290,7 +311,6 @@ export class PatientFormComponent implements OnInit {
   }
  
  
-  
  
  
   formatDate(dateString: string): string {
@@ -313,7 +333,6 @@ export class PatientFormComponent implements OnInit {
     date.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
     return date.toISOString();
   }
-  
  
   calculateAge(dob: string): number {
     if (dob) {
@@ -336,6 +355,7 @@ export class PatientFormComponent implements OnInit {
     return 0;
   }
  
+
  
  
   handleError(error: any): void {
@@ -359,7 +379,19 @@ export class PatientFormComponent implements OnInit {
       reader.readAsDataURL(this.selectedFile);
     }
   }
-  
+  // onFileSelected(event: Event): void {
+  //   const input = event.target as HTMLInputElement;
+  //   if (input.files && input.files.length > 0) {
+  //     const file = input.files[0];
+  //     this.selectedFile = file;
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+  //       this.imagePreview = reader.result as string;
+  //     };
+  //     reader.readAsDataURL(file);
+  //     this.patientForm.patchValue({ image: file });
+  //   }
+  // }
  
   removeAvatar(): void {
     this.selectedFile = null;
