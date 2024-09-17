@@ -1,7 +1,16 @@
 <div class="container-fluid py-4" *ngIf="patient">
-  <h2 class="page-title mb-4">Patient Profile</h2>
+
 
   <div class="card shadow">
+    <div class="card-header">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item"><a class="text-decoration-none" [routerLink]="['/']">Home</a></li>
+          <li class="breadcrumb-item"><a class="text-decoration-none" [routerLink]="['/patients']">Patients</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{ patient.patientName }}</li>
+        </ol>
+      </nav>
+    </div>
     <div class="card-body">
       <div class="row">
         <!-- Patient Information -->

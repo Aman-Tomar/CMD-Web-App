@@ -1,237 +1,247 @@
-<form [formGroup]="patientForm" (ngSubmit)="onSubmit()" class="container mt-4">
-  <h1 class="mb-4">{{ isEditMode ? 'Edit Patient' : 'Add Patient' }}</h1>
+<div class="container mt-4">
 
-  <div class="card mb-4">
-    <div class="card-header">
-      <h2 class="mb-0">Personal Information</h2>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-4 mb-3">
-          <label for="patientName" class="form-label">Name  <span class="text-danger">*</span></label>
-          <input id="patientName" type="text" formControlName="patientName" class="form-control">
-          <small *ngIf="patientForm.get('patientName')?.invalid && patientForm.get('patientName')?.touched" class="text-danger">
-            Name is required and should only contain letters and spaces
-          </small>
-        </div>
-        <div class="col-md-4 mb-3">
-          <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-          <input id="email" type="email" formControlName="email" class="form-control">
-          <small *ngIf="patientForm.get('email')?.invalid && patientForm.get('email')?.touched" class="text-danger">
-            Valid email is required
-          </small>
-        </div>
-        <div class="col-md-4 mb-3">
-          <label for="phone" class="form-label">Mobile Number <span class="text-danger">*</span></label>
-          <input id="phone" type="tel" formControlName="phone" class="form-control" placeholder="Enter 10 digit mobile number">
 
-          <small *ngIf="patientForm.get('phone')?.invalid && patientForm.get('phone')?.touched" class="text-danger">
-            Valid 10-digit phone number is required
-          </small>
-        </div>
+  <form [formGroup]="patientForm" (ngSubmit)="onSubmit()" class="container mt-4">
+    <h4 class="mt-3" style="color: #565656;">{{ isEditMode ? 'Edit Patient' : 'Add Patient' }}</h4>
+  
+    <div class="card mb-4">
+      <div class="card-header">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a  class="text-decoration-none" [routerLink]="['/home']">Home</a></li>
+            <li class="breadcrumb-item"><a  class="text-decoration-none" routerLink="/patients">Patients</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ isEditMode ? 'Edit Patient' : 'Add Patient' }}</li>
+          </ol>
+        </nav>
       </div>
-      <div class="row">
-        <div class="col-md-4 mb-3">
-          <label for="age" class="form-label">Age </label>
-          <input id="age" type="number" formControlName="age" class="form-control" readonly>
-        </div>
-        <div class="col-md-4 mb-3">
-          <label for="dob" class="form-label">Date of Birth <span class="text-danger">*</span></label>
-          <input id="dob" type="date" formControlName="dob" [max]="maxDate" class="form-control">
-          <small *ngIf="patientForm.get('dob')?.invalid && patientForm.get('dob')?.touched" class="text-danger">
-            Valid date of birth is required
-          </small>
-        </div>
-        <div class="col-md-4 mb-3">
-          <label class="form-label">Gender <span class="text-danger">*</span></label>
-          <div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" formControlName="gender" value="Male" id="genderMale">
-              <label class="form-check-label" for="genderMale">Male</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" formControlName="gender" value="Female" id="genderFemale">
-              <label class="form-check-label" for="genderFemale">Female</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" formControlName="gender" value="Other" id="genderOther">
-              <label class="form-check-label" for="genderOther">Other</label>
-            </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="patientName" class="form-label">Name  <span class="text-danger">*</span></label>
+            <input id="patientName" type="text" formControlName="patientName" class="form-control">
+            <small *ngIf="patientForm.get('patientName')?.invalid && patientForm.get('patientName')?.touched" class="text-danger">
+              Name is required and should only contain letters and spaces
+            </small>
           </div>
-          <small *ngIf="patientForm.get('gender')?.invalid && patientForm.get('gender')?.touched" class="text-danger">
-            Gender is required
-          </small>
+          <div class="col-md-4 mb-3">
+            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+            <input id="email" type="email" formControlName="email" class="form-control">
+            <small *ngIf="patientForm.get('email')?.invalid && patientForm.get('email')?.touched" class="text-danger">
+              Valid email is required
+            </small>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="phone" class="form-label">Mobile Number <span class="text-danger">*</span></label>
+            <input id="phone" type="tel" formControlName="phone" class="form-control" placeholder="Enter 10 digit mobile number">
+  
+            <small *ngIf="patientForm.get('phone')?.invalid && patientForm.get('phone')?.touched" class="text-danger">
+              Valid 10-digit phone number is required
+            </small>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="age" class="form-label">Age </label>
+            <input id="age" type="number" formControlName="age" class="form-control" readonly>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="dob" class="form-label">Date of Birth <span class="text-danger">*</span></label>
+            <input id="dob" type="date" formControlName="dob" [max]="maxDate" class="form-control">
+            <small *ngIf="patientForm.get('dob')?.invalid && patientForm.get('dob')?.touched" class="text-danger">
+              Valid date of birth is required
+            </small>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Gender <span class="text-danger">*</span></label>
+            <div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" formControlName="gender" value="Male" id="genderMale">
+                <label class="form-check-label" for="genderMale">Male</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" formControlName="gender" value="Female" id="genderFemale">
+                <label class="form-check-label" for="genderFemale">Female</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" formControlName="gender" value="Other" id="genderOther">
+                <label class="form-check-label" for="genderOther">Other</label>
+              </div>
+            </div>
+            <small *ngIf="patientForm.get('gender')?.invalid && patientForm.get('gender')?.touched" class="text-danger">
+              Gender is required
+            </small>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="card mb-4">
-    <div class="card-header">
-      <h2 class="mb-0">Address Information</h2>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          <label for="streetAddress" class="form-label">Street Address <span class="text-danger">*</span></label>
-          <input id="streetAddress" type="text" formControlName="streetAddress" class="form-control">
-          <small class="text-danger" *ngIf="patientForm.get('streetAddress')?.invalid && patientForm.get('streetAddress')?.touched">
-            Street address is required (3-50 characters)
-          </small>
-        </div>
-        <div class="col-md-6 mb-3">
-          <label for="city" class="form-label">City <span class="text-danger">*</span></label>
-          <input id="city" type="text" formControlName="city" class="form-control">
-          <small class="text-danger" *ngIf="patientForm.get('city')?.invalid && patientForm.get('city')?.touched">
-            City is required (3-50 characters)
-          </small>
-        </div>
+  
+    <div class="card mb-4">
+      <div class="card-header">
+        <h4 class="mt-3" style="color: #565656;">Address Information</h4>
       </div>
-      <div class="row">
-        <div class="col-md-4 mb-3">
-          <label for="country" class="form-label">Country <span class="text-danger">*</span></label>
-          <select id="country" formControlName="country" (change)="onCountryChange()" class="form-select">
-            <option value="" disabled>Select Country</option>
-            <option *ngFor="let country of countries" [value]="country.code">{{ country.name }}</option>
-          </select>
-          <small class="text-danger" *ngIf="patientForm.get('country')?.invalid && patientForm.get('country')?.touched">
-            Please select a country
-          </small>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="streetAddress" class="form-label">Street Address <span class="text-danger">*</span></label>
+            <input id="streetAddress" type="text" formControlName="streetAddress" class="form-control">
+            <small class="text-danger" *ngIf="patientForm.get('streetAddress')?.invalid && patientForm.get('streetAddress')?.touched">
+              Street address is required (3-50 characters)
+            </small>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="city" class="form-label">City <span class="text-danger">*</span></label>
+            <input id="city" type="text" formControlName="city" class="form-control">
+            <small class="text-danger" *ngIf="patientForm.get('city')?.invalid && patientForm.get('city')?.touched">
+              City is required (3-50 characters)
+            </small>
+          </div>
         </div>
-        <div class="col-md-4 mb-3" >
-          <label for="state" class="form-label">State <span class="text-danger">*</span></label>
-          <select id="state" formControlName="state" class="form-select">
-            <option value="" disabled selected hidden>Select state</option>
-            @for (item of states; track $index) {
-              <option [value]="item.code">{{item.name}}</option>
-            }
-          </select>
-          <small class="text-danger" *ngIf="patientForm.get('state')?.invalid && patientForm.get('state')?.touched">
-            Please select a state
-          </small>
-
-        </div>
-
-        <div class="col-md-4 mb-3">
-          <label for="zipCode" class="form-label">Postal Code <span class="text-danger">*</span></label>
-          <input id="zipCode" type="text" formControlName="zipCode" class="form-control">
-          <small *ngIf="patientForm.get('zipCode')?.invalid && patientForm.get('zipCode')?.touched" class="text-danger">
-            Valid zip code is required
-          </small>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card mb-4">
-    <div class="card-header">
-      <h2 class="mb-0">Preferences</h2>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-3 mb-3">
-          <label for="preferredStartTime" class="form-label">PreferredStartTime <span class="text-danger">*</span></label>
-          <input id="preferredStartTime" type="time" formControlName="preferredStartTime" class="form-control">
-
-          <small *ngIf="patientForm.get('preferredStartTime')?.invalid && patientForm.get('preferredStartTime')?.touched" class="text-danger">
-            Preferred start time is required
-          </small>
-
-
-        </div>
-        <div class="col-md-3 mb-3">
-          <label for="preferredEndTime" class="form-label">PreferredEndTime <span class="text-danger">*</span></label>
-          <input id="preferredEndTime" type="time" formControlName="preferredEndTime" class="form-control">
-          <small *ngIf="patientForm.get('preferredEndTime')?.invalid && patientForm.get('preferredEndTime')?.touched" class="text-danger">
-            Preferred end time is required
-          </small>
-        </div>
-        <div class="col-md-3 mb-3">
-          <label for="preferredClinicId" class="form-label">Preferred Clinic</label>
-          <select id="preferredClinicId" formControlName="preferredClinicId" class="form-select">
-            <option value="" disabled>Select Clinic</option>
-            <option *ngFor="let clinic of clinics" [value]="clinic.id">
-              {{ clinic.name }} - {{ clinic.clinicAddress.city }}, {{ clinic.clinicAddress.state }}
-            </option>
-          </select>
-        </div>
-        <div class="col-md-3 mb-3">
-          <label for="preferredDoctorId" class="form-label">Preferred Doctor <span class="text-danger">*</span></label>
-          <select id="preferredDoctorId" formControlName="preferredDoctorId" class="form-select">
-            <option value="" disabled>Select Doctor</option>
-            <option *ngFor="let doctor of doctors" [value]="doctor.doctorId">{{ doctor.firstName }}</option>
-          </select>
-          <small *ngIf="patientForm.get('preferredDoctorId')?.invalid && patientForm.get('preferredDoctorId')?.touched" class="text-danger">
-            Preferred doctor is required
-          </small>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="country" class="form-label">Country <span class="text-danger">*</span></label>
+            <select id="country" formControlName="country" (change)="onCountryChange()" class="form-select">
+              <option value="" disabled>Select Country</option>
+              <option *ngFor="let country of countries" [value]="country.code">{{ country.name }}</option>
+            </select>
+            <small class="text-danger" *ngIf="patientForm.get('country')?.invalid && patientForm.get('country')?.touched">
+              Please select a country
+            </small>
+          </div>
+          <div class="col-md-4 mb-3" >
+            <label for="state" class="form-label">State <span class="text-danger">*</span></label>
+            <select id="state" formControlName="state" class="form-select">
+              <option value="" disabled selected hidden>Select state</option>
+              @for (item of states; track $index) {
+                <option [value]="item.code">{{item.name}}</option>
+              }
+            </select>
+            <small class="text-danger" *ngIf="patientForm.get('state')?.invalid && patientForm.get('state')?.touched">
+              Please select a state
+            </small>
+  
+          </div>
+  
+          <div class="col-md-4 mb-3">
+            <label for="zipCode" class="form-label">Postal Code <span class="text-danger">*</span></label>
+            <input id="zipCode" type="text" formControlName="zipCode" class="form-control">
+            <small *ngIf="patientForm.get('zipCode')?.invalid && patientForm.get('zipCode')?.touched" class="text-danger">
+              Valid zip code is required
+            </small>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="card mb-4">
-    <div class="card-header">
-      <h2 class="mb-0">Avatar</h2>
-    </div>
-    <div class="card-body">
-      <div class="mb-3">
-        <label for="image" class="form-label">Avatar Image</label>
-        <input type="file" id="image" (change)="onFileSelected($event)" accept="image/*" class="form-control">
-        <small class="form-text text-muted">Max file size: 5MB. Allowed formats: JPEG, PNG, GIF</small>
+  
+    <div class="card mb-4">
+      <div class="card-header">
+        <h4 class="mt-3" style="color: #565656;">Preferences</h4>
       </div>
-      <div *ngIf="imagePreview" class="mb-3">
-        <img [src]="imagePreview" alt="Profile Preview" class="img-thumbnail" style="max-width: 200px; max-height: 200px;">
-        <button type="button" (click)="removeAvatar()" class="btn btn-danger btn-sm ms-2">Remove Image</button>
-      </div>
-    </div>
-  </div>
-
-  <div *ngIf="showGuardianFields" class="card mb-4">
-    <div class="card-header">
-      <h2 class="mb-0">Guardian Information</h2>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-4 mb-3">
-          <label for="patientGuardianName" class="form-label">Guardian Name <span class="text-danger">*</span></label>
-          <input id="patientGuardianName" type="text" formControlName="patientGuardianName" class="form-control" placeholder="Enter Guardian Name">
-          
-          <small class="text-danger" *ngIf="patientForm.get('patientGuardianName')?.invalid && patientForm.get('patientGuardianName')?.touched">
-            <span *ngIf="patientForm.get('patientGuardianName')?.errors?.['required']">Guardian name is required</span>
-            <span *ngIf="patientForm.get('patientGuardianName')?.errors?.['pattern']">Guardian name should only contain letters and spaces</span>
-          </small>
-
-
-        </div>
-        <div class="col-md-4 mb-3">
-          <label for="patientGuardianPhoneNumber" class="form-label">Guardian Mobile Number <span class="text-danger">*</span></label>
-          <input id="patientGuardianPhoneNumber" type="tel" formControlName="patientGuardianPhoneNumber" class="form-control" placeholder="Enter Guardian Phone Number">
-
-          <small *ngIf="patientForm.get('patientGuardianPhoneNumber')?.invalid && patientForm.get('patientGuardianPhoneNumber')?.touched" class="text-danger">
-            Valid 10-digit phone number is required
-          </small>
-
-          
-
-        </div>
-        <div class="col-md-4 mb-3">
-          <label for="patientGuardianRelationship" class="form-label">Guardian Relationship <span class="text-danger">*</span></label>
-
-
-          <input id="patientGuardianRelationship" type="text" formControlName="patientGuardianRelationship" class="form-control"
-           placeholder="Enter Relationship"/>
-
-          <small *ngIf="patientForm.get('patientGuardianRelationship')?.invalid && patientForm.get('patientGuardianRelationship')?.touched" class="text-danger">
-            Patient Guardian Relationship is required and should only contain letters and spaces
-          </small>
-
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <label for="preferredStartTime" class="form-label">PreferredStartTime <span class="text-danger">*</span></label>
+            <input id="preferredStartTime" type="time" formControlName="preferredStartTime" class="form-control">
+  
+            <small *ngIf="patientForm.get('preferredStartTime')?.invalid && patientForm.get('preferredStartTime')?.touched" class="text-danger">
+              Preferred start time is required
+            </small>
+  
+  
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="preferredEndTime" class="form-label">PreferredEndTime <span class="text-danger">*</span></label>
+            <input id="preferredEndTime" type="time" formControlName="preferredEndTime" class="form-control">
+            <small *ngIf="patientForm.get('preferredEndTime')?.invalid && patientForm.get('preferredEndTime')?.touched" class="text-danger">
+              Preferred end time is required
+            </small>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="preferredClinicId" class="form-label">Preferred Clinic</label>
+            <select id="preferredClinicId" formControlName="preferredClinicId" class="form-select">
+              <option value="" disabled>Select Clinic</option>
+              <option *ngFor="let clinic of clinics" [value]="clinic.id">
+                {{ clinic.name }} - {{ clinic.clinicAddress.city }}, {{ clinic.clinicAddress.state }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="preferredDoctorId" class="form-label">Preferred Doctor <span class="text-danger">*</span></label>
+            <select id="preferredDoctorId" formControlName="preferredDoctorId" class="form-select">
+              <option value="" disabled>Select Doctor</option>
+              <option *ngFor="let doctor of doctors" [value]="doctor.doctorId">{{ doctor.firstName }}</option>
+            </select>
+            <small *ngIf="patientForm.get('preferredDoctorId')?.invalid && patientForm.get('preferredDoctorId')?.touched" class="text-danger">
+              Preferred doctor is required
+            </small>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="d-flex justify-content-between">
-    <button type="submit" class="btn btn-primary" [disabled]="patientForm.invalid">{{ isEditMode ? 'Update' : 'Create' }} Patient</button>
-    <button type="button" (click)="onReset()" class="btn btn-secondary">Reset</button>
-  </div>
-</form>
+  
+    <div class="card mb-4">
+      <div class="card-header">
+        <h4 class="mt-3" style="color: #565656;">Avatar</h4>
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label for="image" class="form-label">Avatar Image</label>
+          <input type="file" id="image" (change)="onFileSelected($event)" accept="image/*" class="form-control">
+          <small class="form-text text-muted">Max file size: 5MB. Allowed formats: JPEG, PNG, GIF</small>
+        </div>
+        <div *ngIf="imagePreview" class="mb-3">
+          <img [src]="imagePreview" alt="Profile Preview" class="img-thumbnail" style="max-width: 200px; max-height: 200px;">
+          <button type="button" (click)="removeAvatar()" class="btn btn-danger btn-sm ms-2">Remove Image</button>
+        </div>
+      </div>
+    </div>
+  
+    <div *ngIf="showGuardianFields" class="card mb-4">
+      <div class="card-header">
+        <h2 class="mb-0">Guardian Information</h2>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="patientGuardianName" class="form-label">Guardian Name <span class="text-danger">*</span></label>
+            <input id="patientGuardianName" type="text" formControlName="patientGuardianName" class="form-control" placeholder="Enter Guardian Name">
+            
+            <small class="text-danger" *ngIf="patientForm.get('patientGuardianName')?.invalid && patientForm.get('patientGuardianName')?.touched">
+              <span *ngIf="patientForm.get('patientGuardianName')?.errors?.['required']">Guardian name is required</span>
+              <span *ngIf="patientForm.get('patientGuardianName')?.errors?.['pattern']">Guardian name should only contain letters and spaces</span>
+            </small>
+  
+  
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="patientGuardianPhoneNumber" class="form-label">Guardian Mobile Number <span class="text-danger">*</span></label>
+            <input id="patientGuardianPhoneNumber" type="tel" formControlName="patientGuardianPhoneNumber" class="form-control" placeholder="Enter Guardian Phone Number">
+  
+            <small *ngIf="patientForm.get('patientGuardianPhoneNumber')?.invalid && patientForm.get('patientGuardianPhoneNumber')?.touched" class="text-danger">
+              Valid 10-digit phone number is required
+            </small>
+  
+            
+  
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="patientGuardianRelationship" class="form-label">Guardian Relationship <span class="text-danger">*</span></label>
+  
+  
+            <input id="patientGuardianRelationship" type="text" formControlName="patientGuardianRelationship" class="form-control"
+             placeholder="Enter Relationship"/>
+  
+            <small *ngIf="patientForm.get('patientGuardianRelationship')?.invalid && patientForm.get('patientGuardianRelationship')?.touched" class="text-danger">
+              Patient Guardian Relationship is required and should only contain letters and spaces
+            </small>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="d-flex justify-content-between">
+      <button type="submit" class="btn btn-primary" [disabled]="patientForm.invalid">{{ isEditMode ? 'Update' : 'Create' }} Patient</button>
+      <button type="button" (click)="onReset()" class="btn btn-secondary">Reset</button>
+    </div>
+  </form>
+</div>
