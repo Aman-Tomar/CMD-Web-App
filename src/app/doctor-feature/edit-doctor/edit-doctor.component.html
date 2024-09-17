@@ -49,13 +49,13 @@
 
           <div class="col-md-6">
             <label for="dateOfBirth" class="form-label">Date of Birth<span class="required-star">*</span></label>
-            <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" [(ngModel)]="doctor.dateOfBirth" (change)="onDateChange($event)" required #dateOfBirth="ngModel">
+            <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" [(ngModel)]="formattedDateOfBirth" (change)="onDateChange($event)" required #dateOfBirth="ngModel" [attr.max]="maxDate">
             <div *ngIf="dateOfBirth.invalid && (dateOfBirth.dirty || dateOfBirth.touched)" class="text-danger">
               Date of Birth is required.
             </div>
           </div>
         </div>
-
+        
         <!-- Gender Radio Buttons with Validation -->
         <div class="row mb-3">
           <div class="col-md-12">
@@ -223,7 +223,7 @@
         <!-- Create Doctor Button -->
         <div class="row">
           <div class="col-md-12 text-end">
-            <button type="submit" class="btn btn-primary" [disabled]="doctorForm.invalid">Update Doctor</button>
+            <button type="submit" class="btn btn-primary">Update Doctor</button>
           </div>
         </div>
       </form>

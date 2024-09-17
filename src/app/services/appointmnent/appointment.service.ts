@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAppointment } from '../../models/Appointment/Appointment';
 import { IAppointmentDTO } from '../../models/Appointment/EditAppointmentDTO';

@@ -32,6 +32,7 @@ export class EditDoctorComponent implements OnInit{
    selectedStateName:string = '';
    errorMessage:string='';
    doctorId:number = 0;
+   formattedDateOfBirth: string = '';
 
   // Doctor model that holds the form data for the doctor being edited
   doctor: IDoctor = {
@@ -59,6 +60,7 @@ export class EditDoctorComponent implements OnInit{
 
   // Holds the selected file for profile picture upload
   selectedFile: File | null = null;
+  maxDate: string = '';
 
   constructor(
     private route: ActivatedRoute,  // Inject ActivatedRoute to access route parameters
@@ -78,6 +80,10 @@ export class EditDoctorComponent implements OnInit{
       this.loadStates();
       this.loadCountries();
       //this.loadCountryStates();
+
+      const today = new Date();
+      this.maxDate = today.toISOString().split('T')[0];
+    
     });
   }
 
@@ -123,9 +129,14 @@ export class EditDoctorComponent implements OnInit{
        // doctor.dateOfBirth = this.convertDateForInput(doctor.dateOfBirth);// Convert to Date object
         //  doctor.dateOfBirth = doctor.dateOfBirth .toISOString().split('T')[0]; // Format as 'yyyy-MM-dd'
         // Copy other properties
+        if (data.dateOfBirth) {
+          this.doctor.dateOfBirth = new Date(data.dateOfBirth); // Store as Date object
+          this.formattedDateOfBirth = this.doctor.dateOfBirth.toISOString().split('T')[0]; // Store formatted 'yyyy-MM-dd' string for form
+        }
+
         this.doctor = data;
         this.doctor.status = ( data.status === true) ? true : false; 
-        this.doctor.dateOfBirth = new Date(this.formatDate(data.dateOfBirth.toString()));
+        // this.doctor.dateOfBirth = data.dateOfBirth;
       },
       error: (error) => {
         console.error('Error fetching doctor', error);
@@ -232,7 +243,7 @@ export class EditDoctorComponent implements OnInit{
 
   onDateChange(event: any): void {
     const dateString = event.target.value;
-    this.doctor.dateOfBirth = new Date(dateString);
+    this.doctor.dateOfBirth = dateString;
   }
 
   onCountryChange(event: any) {
