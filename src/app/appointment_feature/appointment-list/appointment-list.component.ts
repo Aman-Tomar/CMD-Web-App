@@ -95,63 +95,19 @@ fetchDoctorDetails(doctorId: number): void {
   }
 }
 
-// Method to filter all appointments (both active and inactive)
-showAllRecords(): void {
-  this.getAppointments(this.currentPage, this.pageSize);
+ // Filter to show only active appointments
+ filterActive(): void {
+  this.filteredAppointments = this.Appointments.filter(appointment => appointment.status === AppointmentStatus.Scheduled);
 }
 
-// Method to filter active appointments
-filterActive(): void {
-  this.loading = true; // Show loading spinner
-  this.appointmentService.getActiveAppointments(this.currentPage, this.pageSize).subscribe({
-    next: (response: AppointmentResponse) => {
-      this.Appointments = response.items;  // Assign response.items to Appointments
-      this.filteredAppointments = this.Appointments;
-      this.AppointmentResponse = response;
-
-      // Fetch related data for patients and doctors
-      this.Appointments.forEach(appointment => {
-        this.fetchPatientDetails(appointment.patientId);
-        this.fetchDoctorDetails(appointment.doctorId);
-      });
-
-      this.updateTotalPages(this.AppointmentResponse);
-      this.checkLastPage(this.Appointments);
-      this.loading = false;  // Stop loading spinner
-    },
-    error: (err: any) => {
-      this.errorMessage = err;
-      this.loading = false;  // Stop loading in case of error
-      console.error('Error:', this.errorMessage);  // Improved error logging
-    }
-  });
-}
-
-// Method to filter inactive appointments
+// Filter to show only inactive appointments
 filterInactive(): void {
-  this.loading = true; // Show loading spinner
-  this.appointmentService.getInactiveAppointments(this.currentPage, this.pageSize).subscribe({
-    next: (response: AppointmentResponse) => {
-      this.Appointments = response.items;  // Assign response.items to Appointments
-      this.filteredAppointments = this.Appointments;
-      this.AppointmentResponse = response;
+  this.filteredAppointments = this.Appointments.filter(appointment => appointment.status !== AppointmentStatus.Scheduled);
+}
 
-      // Fetch related data for patients and doctors
-      this.Appointments.forEach(appointment => {
-        this.fetchPatientDetails(appointment.patientId);
-        this.fetchDoctorDetails(appointment.doctorId);
-      });
-
-      this.updateTotalPages(this.AppointmentResponse);
-      this.checkLastPage(this.Appointments);
-      this.loading = false;  // Stop loading spinner
-    },
-    error: (err: any) => {
-      this.errorMessage = err;
-      this.loading = false;  // Stop loading in case of error
-      console.error('Error:', this.errorMessage);  // Improved error logging
-    }
-  });
+// Show all records (reset the filter)
+showAllRecords(): void {
+  this.filteredAppointments = this.Appointments; // Reset filtered appointments to all
 }
 
  //Toggle sorting by date
