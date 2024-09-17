@@ -31,8 +31,9 @@ export class RequestService {
   }
 
   // POST request
-  public post<T>(url: string, body: any): Observable<T> {
-    const headers = this.getHeaders();
+  public post<T>(url: string, body: any, options: { headers? : HttpHeaders }  = {}): Observable<T> {
+    var headers = this.getHeaders();
+    headers = options.headers || headers;
     return this.http.post<T>(url, body, { headers }).pipe(
       catchError(this.handleError)
     );

@@ -16,16 +16,22 @@ import { IDepartment } from '../../models/Doctors/department.models';
 })
 export class EditDoctorComponent implements OnInit{
   // List of countries and states for the dropdowns in the form
-  countries: string[] = ['USA', 'Canada', 'UK', 'India']; 
-  states: string[] = [];
+  departmentName:string='';
   specializations: string[] = [];
   qualifications: string[] = [];
   departments: IDepartment[] = [];
   clinics: IClinic[] = [];
-  errorMessage:string='';
-  // Model representing the do
-  // Stores the ID of the doctor to be edited
-  doctorId: number = 0;
+  countryStates:any[] = []
+ 
+   // To hold the country and state data
+   countries: any[] = [];     // List of countries
+   states: any[] = [];        // List of states based on selected country
+   selectedCountry: string = ''; // To store selected country
+   selectedState: string = '';   // To store selected state
+   selectedCountryName :string='';
+   selectedStateName:string = '';
+   errorMessage:string='';
+   doctorId:number = 0;
 
   // Doctor model that holds the form data for the doctor being edited
   doctor: IDoctor = {
@@ -69,21 +75,57 @@ export class EditDoctorComponent implements OnInit{
       this.getDoctorById(this.doctorId);
       this.loadDepartments();
       this.loadClinics();
+      this.loadStates();
+      this.loadCountries();
+      //this.loadCountryStates();
     });
   }
 
+  loadCountryStates(): void {
+    this.doctorService.getCountryStates().subscribe({
+      next: (data: any) => {
+        this.countryStates = data;
+        this.countries = data.map((country: any) => ({
+          code: country.code2,
+          name: country.name
+        }));
+        console.log("Countries loaded: ", this.countries); // Debugging line
+      },
+      error: (err: string) => {
+        console.log("Error occurred", err);
+      }
+    });
+  }
+
+  loadStates(){
+    this.states = this.states = [
+      'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 
+      'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 
+      'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 
+      'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 
+      'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 
+      'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 
+      'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 
+      'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 
+      'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 
+      'Wyoming'
+    ];
+  }
+
+  loadCountries(){
+     this.countries = ['India','United States']
+  }
   // Method to fetch the doctor details by ID
   getDoctorById(doctorId: number): void {
     this.doctorService.getDoctorById(doctorId).subscribe({
-      next: (doctor) => {
+      next: (data) => {
         // Convert the received date of birth to Date object
        // doctor.dateOfBirth = this.convertDateForInput(doctor.dateOfBirth);// Convert to Date object
         //  doctor.dateOfBirth = doctor.dateOfBirth .toISOString().split('T')[0]; // Format as 'yyyy-MM-dd'
-        
         // Copy other properties
-        this.doctor = doctor;
-        
-       
+        this.doctor = data;
+        this.doctor.status = ( data.status === true) ? true : false; 
+        this.doctor.dateOfBirth = new Date(this.formatDate(data.dateOfBirth.toString()));
       },
       error: (error) => {
         console.error('Error fetching doctor', error);
@@ -91,6 +133,14 @@ export class EditDoctorComponent implements OnInit{
     });
   }
 
+  
+  formatDate(dateString: string): string {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD
+  }
+ 
+  
   //Converts the date format to 'YYYY-MM-DD' for proper input display
   convertDateForInput(date: string): string {
     const parsedDate = new Date(date);
@@ -120,30 +170,7 @@ export class EditDoctorComponent implements OnInit{
     });
   }
 
-  onPostalCodeChange(postalCode: string): void {
-    if (postalCode) {
-      // Call the API to get the details for the given postal code
-      this.doctorService.getPostalCodeDetails(postalCode).subscribe({
-        next: (response:any) => {
-          if (response && response[0].PostOffice.length > 0) {
-            const postOffice = response[0].PostOffice[0];  // Take the first matching Post Office 
-            // Update the form fields with the retrieved data
-            this.doctor.city = postOffice.Block;
-            this.doctor.state = postOffice.State;
-            this.doctor.country = postOffice.Country;
-
-          }else {
-            // No Post Offices found for the given postal code
-            this.errorMessage = 'Enter a valid pincode';
-          }
-        },
-        error: (err) => {
-          console.error('Error fetching postal code details', err);
-          this.errorMessage = 'Enter a valid pincode';
-        }
-      });
-    }
-  }
+ 
   // Method triggered on form submission
   onSubmit() {
     const formData = new FormData();
@@ -203,12 +230,78 @@ export class EditDoctorComponent implements OnInit{
     }
   }
 
-  hasSpaces(value: string): boolean {
-    return /\s/.test(value);
-  } 
-
-  hasInvalidPhoneNumber(value: string): boolean {
-    const phonePattern = /^(\+91|91)?[6-9][0-9]{9}$/;
-    return !phonePattern.test(value);
+  onDateChange(event: any): void {
+    const dateString = event.target.value;
+    this.doctor.dateOfBirth = new Date(dateString);
   }
+
+  onCountryChange(event: any) {
+    const selectedCountryCode = event.target.value;
+   // console.log("Selected country code: ", selectedCountryCode);
+    console.log("Available country states data: ", this.countryStates);
+    const selectedCountry = this.countryStates.find(country => country.code2 === selectedCountryCode);
+    console.log("Selected country: ", selectedCountry);
+    this.selectedCountryName = selectedCountry.name;
+    if (selectedCountry) {
+      this.states = selectedCountry.states;
+      console.log("States for selected country: ", this.states);
+    }
+  }
+
+  onCountrychange() {
+    if (this.doctor.country === 'India') {
+      this.states = [
+        'Arunachal Pradesh', 'Assam', 
+        'Bihar', 
+        'Chhattisgarh', 
+        'Goa', 
+        'Gujarat', 
+        'Haryana', 
+        'Himachal Pradesh', 
+        'Jharkhand', 
+        'Karnataka', 
+        'Kerala', 
+        'Madhya Pradesh', 
+        'Maharashtra', 
+        'Manipur', 
+        'Meghalaya', 
+        'Mizoram', 
+        'Nagaland', 
+        'Odisha', 
+        'Punjab', 
+        'Rajasthan', 
+        'Sikkim', 
+        'Tamil Nadu', 
+        'Telangana', 
+        'Tripura', 
+        'Uttar Pradesh', 
+        'Uttarakhand', 
+        'West Bengal',
+        'Andaman and Nicobar Islands',
+        'Chandigarh',
+        'Dadra and Nagar Haveli and Daman and Diu',
+        'Lakshadweep',
+        'Delhi',
+        'Puducherry',
+        'Ladakh',
+        'Jammu and Kashmir'
+      ];
+    } else if (this.doctor.country === 'United States') {
+      this.states = this.states = [
+        'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 
+        'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 
+        'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 
+        'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 
+        'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 
+        'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 
+        'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 
+        'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 
+        'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 
+        'Wyoming'
+      ];
+    } else {
+      this.states = [];
+    }
+  }
+ 
 }

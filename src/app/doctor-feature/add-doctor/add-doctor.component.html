@@ -10,9 +10,7 @@
     </nav>
 
     <div class="card-body">
-
       <form (ngSubmit)="onSubmit()" #doctorForm="ngForm">
-        
         <!-- First Name and Last Name Fields with Validation -->
         <div class="row mb-3">
           <div class="col-md-6">
@@ -20,19 +18,16 @@
             <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="doctor.firstName" required minlength="3" maxlength="50" #firstName="ngModel">
             <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="text-danger">
               <div *ngIf="firstName.errors?.['required']">First Name is required.</div>
-              <!-- <div *ngIf="firstName.errors?.['minlength']">First Name must be at least 3 characters long.</div> -->
+              <div class="text-danger" *ngIf="firstName.touched && (firstName !== null) && hasValidName(doctor.firstName)">First Name should only contain letters.</div>
             </div>
-            <div class="text-danger" *ngIf="hasSpaces(doctor.firstName)">First Name cannot contain spaces.</div>
           </div>
-          
           <div class="col-md-6">
             <label for="lastName" class="form-label">Last Name<span class="required-star">*</span></label>
             <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="doctor.lastName" required minlength="3" maxlength="50" #lastName="ngModel">
             <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="text-danger">
               <div *ngIf="lastName.errors?.['required']">Last Name is required.</div>
-              <div *ngIf="lastName.errors?.['minlength']">Last Name must be at least 3 characters long.</div>
+              <div class="text-danger" *ngIf="lastName.touched && (firstName !== null) && hasValidName(doctor.lastName)">Last Name should only contain letters.</div>
             </div>
-            <div class="text-danger" *ngIf="hasSpaces(doctor.lastName)">Last Name cannot contain spaces.</div>
           </div>
         </div>
 
@@ -87,40 +82,46 @@
           </div>
         </div>
 
-        <!-- Postal Code, Country, City, State -->
         <div class="row mb-3">
           <div class="col-md-3">
             <label for="zipCode" class="form-label">Postal Code<span class="required-star">*</span></label>
-            <input type="text" class="form-control" id="zipCode" name="zipCode" [(ngModel)]="doctor.zipCode" (ngModelChange)="onPostalCodeChange($event)" required pattern="[0-9]{6}" #zipCode="ngModel">
+            <input type="text" class="form-control" id="zipCode" name="zipCode" [(ngModel)]="doctor.zipCode"  required #zipCode="ngModel">
             <div *ngIf="zipCode.invalid && (zipCode.dirty || zipCode.touched)" class="text-danger">
-             Enter valid zipCode
+              Postal Code is required.
             </div>
           </div>
-
+        
           <div class="col-md-3">
             <label for="country" class="form-label">Country<span class="required-star">*</span></label>
-            <input type="text" class="form-control" id="country" name="country" [(ngModel)]="doctor.country" required readonly #country="ngModel">
+            <select class="form-select" id="country" name="country" [(ngModel)]="doctor.country" (change)="onCountrychange()" required #country="ngModel">
+              <option value="">Select Country</option>
+              <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
+            </select>
             <div *ngIf="country.invalid && (country.dirty || country.touched)" class="text-danger">
               {{errorMessage}}
             </div>
-          </div>
-
+          </div> 
+        
           <div class="col-md-3">
             <label for="city" class="form-label">City<span class="required-star">*</span></label>
-            <input type="text" class="form-control" id="city" name="city" [(ngModel)]="doctor.city" required readonly #city="ngModel">
+            <input type="text" class="form-control" id="city" name="city" [(ngModel)]="doctor.city" required #city="ngModel">
             <div *ngIf="city.invalid && (city.dirty || city.touched)" class="text-danger">
               City is required.
             </div>
           </div>
-
+        
           <div class="col-md-3">
             <label for="state" class="form-label">State<span class="required-star">*</span></label>
-            <input type="text" class="form-control" id="state" name="state" [(ngModel)]="doctor.state" required readonly #state="ngModel">
+            <select class="form-select" id="state" name="state" [(ngModel)]="doctor.state" required #state="ngModel">
+              <option value="">Select State</option>
+              <option *ngFor="let state of states" [value]="state">{{state}}</option>
+            </select>
             <div *ngIf="state.invalid && (state.dirty || state.touched)" class="text-danger">
               State is required.
             </div>
           </div>
         </div>
+        
 
         <!-- Qualification Field with Validation -->
         <div class="row mb-3">
@@ -149,7 +150,7 @@
             <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" [(ngModel)]="doctor.phoneNo" required pattern="[0-9]{10}" #phoneNumber="ngModel">
             <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)" class="text-danger">
               <div *ngIf="phoneNumber.errors?.['required']">Mobile Number is required.</div>
-              <div *ngIf="hasInvalidPhoneNumber(doctor.phoneNo)">Phone Number is invalid. It should be a valid 10-digit number or include the +91/91 prefix.</div>
+              <!-- <div *ngIf="hasInvalidPhoneNumber(doctor.phoneNo)">Phone Number is invalid. It should be a valid 10-digit number or include the +91/91 prefix.</div> -->
             </div>
           </div>
         </div>
