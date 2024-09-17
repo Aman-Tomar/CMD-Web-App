@@ -42,7 +42,8 @@ export class DoctorService {
   }
 
   addDoctor(formData:FormData): Observable<any> {
-    return this.requestService.post<any>(`${this.apiUrl}/Doctor`, formData);
+    const headers = new HttpHeaders();
+    return this.requestService.post<any>(`${this.apiUrl}/Doctor`, formData, { headers });
   }
 
   editDoctor(doctorId: number, formData: FormData): Observable<any> {

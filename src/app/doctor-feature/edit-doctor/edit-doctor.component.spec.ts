@@ -86,7 +86,7 @@ describe('EditDoctorComponent', () => {
 
   it('should call onCountryChange() and populate states for the selected country', () => {
     component.doctor.country = 'India';
-    component.onCountryChange();
+    component.onCountrychange();
     
     expect(component.states.length).toBeGreaterThan(0); // Ensure states are populated
     expect(component.states).toContain('Karnataka'); // Example state

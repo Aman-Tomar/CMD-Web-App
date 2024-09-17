@@ -110,51 +110,10 @@ onDepartmentChange(event: any) {
       this.selectedStateName = selectedState.name; // Update the selected state name
     }
   }
-  
-  onPostalCodeChange(postalCode: string): void {
-    if (postalCode) {
-      // Call the API to get the details for the given postal code
-      this.doctorService.getPostalCodeDetails(postalCode).subscribe({
-        next: (response:any) => {
-          if (response && response[0].PostOffice.length > 0) {
-            const postOffice = response[0].PostOffice[0];  // Take the first matching Post Office 
-            // Update the form fields with the retrieved data
-            this.doctor.city = postOffice.Block;
-            this.doctor.state = postOffice.State;
-            this.doctor.country = postOffice.Country;
-            
-            this.selectStateFromPostalCode(postOffice.State);
-            this.selectCountryFromPostalCode(postOffice.Country);
-          }else {
-            // No Post Offices found for the given postal code
-            this.errorMessage = 'Enter a valid pincode';
-          }
-        },
-        error: (err:any) => {
-          console.error('Error fetching postal code details', err);
-          this.errorMessage = 'Enter a valid pincode';
-        }
-      });
-    }
-  }
-  
-  selectCountryFromPostalCode(country: string): void {
-    // Automatically select the country in the dropdown based on the API response
-    const matchedCountry = this.countries.find(c => c === country);
-    if (matchedCountry) {
-      this.doctor.country = matchedCountry;
-      this.onCountryChange(matchedCountry); // Trigger state population when country changes
-    }
-  }
-  
-  selectStateFromPostalCode(state: string): void {
-    // Automatically select the state in the dropdown based on the API response
-    const matchedState = this.states.find(s => s === state);
-    if (matchedState) {
-      this.doctor.state = matchedState;
-    }
-  }
 
+  
+  
+  
   loadDepartments() {
     this.doctorService.getDepartments().subscribe((data: IDepartment[]) => {
       this.departments = data; // Storing the whole department object
@@ -217,6 +176,11 @@ onDepartmentChange(event: any) {
    * Constructs FormData, appends doctor details and file, and submits it to the server.
    */
   onSubmit() {
+    const experienceInYears = this.doctor.experienceInYears.toString();
+    if (experienceInYears.startsWith('0') && experienceInYears.length > 1) {
+      this.errorMessage = 'Experience in years cannot have leading zeros.';
+      return;
+    }
     // Format the date of birth to ISO string format
     const formattedDate = this.formatDate(this.doctor.dateOfBirth);
     // Create a FormData object to handle file and form data submission
@@ -233,7 +197,7 @@ onDepartmentChange(event: any) {
     formData.append('city', this.doctor.city);
     formData.append('zipCode', this.doctor.zipCode);
     formData.append('Biography', this.doctor.briefDescription); // Note: Ensure server-side accepts 'Biography'
-    formData.append('Phone', this.doctor.phoneNo);
+    formData.append('PhoneNo', this.doctor.phoneNo);
     formData.append('status', this.doctor.status.toString());
     formData.append('Specialization', this.doctor.specialization);
     formData.append('ExperienceInYears', this.doctor.experienceInYears.toString());
@@ -246,6 +210,10 @@ onDepartmentChange(event: any) {
       formData.append('profilePicture', this.selectedFile, this.selectedFile.name);
     }
     
+    // if (this.selectedFile) {
+    //   formData.append('profilePicture', this.selectedFile, this.selectedFile.name);
+    // }
+
     // Call the service to add a doctor and handle the response
     this.doctorService.addDoctor(formData).subscribe({
       next: (response) => {
@@ -259,12 +227,61 @@ onDepartmentChange(event: any) {
     });
   } 
 
-  hasSpaces(value: string): boolean {
-    return /\s/.test(value);
-  } 
-
-  hasInvalidPhoneNumber(value: string): boolean {
-    const phonePattern = /^(\+91|91)?[6-9][0-9]{9}$/;
-    return !phonePattern.test(value);
+  onCountrychange() {
+    if (this.doctor.country === 'India') {
+      this.states = [
+        'Arunachal Pradesh', 'Assam', 
+        'Bihar', 
+        'Chhattisgarh', 
+        'Goa', 
+        'Gujarat', 
+        'Haryana', 
+        'Himachal Pradesh', 
+        'Jharkhand', 
+        'Karnataka', 
+        'Kerala', 
+        'Madhya Pradesh', 
+        'Maharashtra', 
+        'Manipur', 
+        'Meghalaya', 
+        'Mizoram', 
+        'Nagaland', 
+        'Odisha', 
+        'Punjab', 
+        'Rajasthan', 
+        'Sikkim', 
+        'Tamil Nadu', 
+        'Telangana', 
+        'Tripura', 
+        'Uttar Pradesh', 
+        'Uttarakhand', 
+        'West Bengal',
+        'Andaman and Nicobar Islands',
+        'Chandigarh',
+        'Dadra and Nagar Haveli and Daman and Diu',
+        'Lakshadweep',
+        'Delhi',
+        'Puducherry',
+        'Ladakh',
+        'Jammu and Kashmir'
+      ];
+    } else if (this.doctor.country === 'United States') {
+      this.states = this.states = [
+        'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 
+        'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 
+        'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 
+        'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 
+        'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 
+        'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 
+        'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 
+        'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 
+        'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 
+        'Wyoming'
+      ];;
+    } else {
+      this.states = [];
+    }
   }
+  
+
 }

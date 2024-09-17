@@ -87,40 +87,46 @@
           </div>
         </div>
 
-        <!-- Postal Code, Country, City, State -->
         <div class="row mb-3">
           <div class="col-md-3">
             <label for="zipCode" class="form-label">Postal Code<span class="required-star">*</span></label>
-            <input type="text" class="form-control" id="zipCode" name="zipCode" [(ngModel)]="doctor.zipCode" (ngModelChange)="onPostalCodeChange($event)" required pattern="[0-9]{6}" #zipCode="ngModel">
+            <input type="text" class="form-control" id="zipCode" name="zipCode" [(ngModel)]="doctor.zipCode"  required #zipCode="ngModel">
             <div *ngIf="zipCode.invalid && (zipCode.dirty || zipCode.touched)" class="text-danger">
-             Enter valid zipCode
+              Postal Code is required.
             </div>
           </div>
-
+        
           <div class="col-md-3">
             <label for="country" class="form-label">Country<span class="required-star">*</span></label>
-            <input type="text" class="form-control" id="country" name="country" [(ngModel)]="doctor.country" required readonly #country="ngModel">
+            <select class="form-select" id="country" name="country" [(ngModel)]="doctor.country" (change)="onCountrychange()" required #country="ngModel">
+              <option value="">Select Country</option>
+              <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
+            </select>
             <div *ngIf="country.invalid && (country.dirty || country.touched)" class="text-danger">
               {{errorMessage}}
             </div>
-          </div>
-
+          </div> 
+        
           <div class="col-md-3">
             <label for="city" class="form-label">City<span class="required-star">*</span></label>
-            <input type="text" class="form-control" id="city" name="city" [(ngModel)]="doctor.city" required readonly #city="ngModel">
+            <input type="text" class="form-control" id="city" name="city" [(ngModel)]="doctor.city" required #city="ngModel">
             <div *ngIf="city.invalid && (city.dirty || city.touched)" class="text-danger">
               City is required.
             </div>
           </div>
-
+        
           <div class="col-md-3">
             <label for="state" class="form-label">State<span class="required-star">*</span></label>
-            <input type="text" class="form-control" id="state" name="state" [(ngModel)]="doctor.state" required readonly #state="ngModel">
+            <select class="form-select" id="state" name="state" [(ngModel)]="doctor.state" required #state="ngModel">
+              <option value="">Select State</option>
+              <option *ngFor="let state of states" [value]="state">{{state}}</option>
+            </select>
             <div *ngIf="state.invalid && (state.dirty || state.touched)" class="text-danger">
               State is required.
             </div>
           </div>
         </div>
+        
 
         <!-- Qualification Field with Validation -->
         <div class="row mb-3">
