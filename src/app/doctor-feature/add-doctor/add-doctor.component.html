@@ -22,7 +22,7 @@
               <div *ngIf="firstName.errors?.['required']">First Name is required.</div>
               <!-- <div *ngIf="firstName.errors?.['minlength']">First Name must be at least 3 characters long.</div> -->
             </div>
-            <div class="text-danger" *ngIf="hasSpaces(doctor.firstName)">First Name cannot contain spaces.</div>
+            <!-- <div class="text-danger" *ngIf="hasSpaces(doctor.firstName)">First Name cannot contain spaces.</div> -->
           </div>
           
           <div class="col-md-6">
@@ -32,7 +32,7 @@
               <div *ngIf="lastName.errors?.['required']">Last Name is required.</div>
               <div *ngIf="lastName.errors?.['minlength']">Last Name must be at least 3 characters long.</div>
             </div>
-            <div class="text-danger" *ngIf="hasSpaces(doctor.lastName)">Last Name cannot contain spaces.</div>
+            <!-- <div class="text-danger" *ngIf="hasSpaces(doctor.lastName)">Last Name cannot contain spaces.</div> -->
           </div>
         </div>
 
@@ -155,7 +155,7 @@
             <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" [(ngModel)]="doctor.phoneNo" required pattern="[0-9]{10}" #phoneNumber="ngModel">
             <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)" class="text-danger">
               <div *ngIf="phoneNumber.errors?.['required']">Mobile Number is required.</div>
-              <div *ngIf="hasInvalidPhoneNumber(doctor.phoneNo)">Phone Number is invalid. It should be a valid 10-digit number or include the +91/91 prefix.</div>
+              <!-- <div *ngIf="hasInvalidPhoneNumber(doctor.phoneNo)">Phone Number is invalid. It should be a valid 10-digit number or include the +91/91 prefix.</div> -->
             </div>
           </div>
         </div>
