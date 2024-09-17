@@ -16,6 +16,7 @@ export class DoctorService {
   private apiUrl = environment.doctorBaseUrl; 
   private clinicUrl = environment.clinicBaseUrl;
   requestService:RequestService = inject(RequestService);
+  httpClient:RequestService = inject(RequestService);
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
@@ -72,7 +73,7 @@ export class DoctorService {
 
   getPostalCodeDetails(postalCode: string) {
     const apiUrl = `https://api.postalpincode.in/pincode/${postalCode}`;
-    return this.requestService.get(apiUrl);
+    return this.httpClient.get(apiUrl);
   }
 
   private mapDoctorResponse(response: any): IDoctor {

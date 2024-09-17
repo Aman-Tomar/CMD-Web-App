@@ -284,4 +284,13 @@ onDepartmentChange(event: any) {
   }
   
 
+  hasValidName(value: string): boolean {
+    const namePattern = /^[^\s][a-zA-Z\s]*$/;
+    return !namePattern.test(value);
+  } 
+
+  hasInvalidPhoneNumber(value: string): boolean {
+    const phonePattern = /^(\+91|91)?[6-9][0-9]{9}$/;
+    return !phonePattern.test(value);
+  }
 }
